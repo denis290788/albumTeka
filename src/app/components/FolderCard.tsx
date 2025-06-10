@@ -1,33 +1,23 @@
-"use client";
-
 import { Card } from "@/components/ui/card";
+import { useGetAlbumsQuery } from "@/services/albumsApi";
+import { useDeleteFolderMutation } from "@/services/foldersApi";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { db } from "@/lib/firebase";
-import { deleteDoc, doc, collection, getDocs, query, where, updateDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
 
-export function FolderCard({ name, id }: { name: string; id: string }) {
-    const router = useRouter();
+interface FolderCardProps {
+    id: string;
+    name: string;
+}
+
+export function FolderCard({ name, id }: FolderCardProps) {
+    const [deleteFolder] = useDeleteFolderMutation();
+    const { refetch: refetchAlbums } = useGetAlbumsQuery();
 
     const handleDelete = async (e: React.MouseEvent) => {
         e.preventDefault();
-
         try {
-            // Найти все альбомы с этой папкой
-            const albumsQuery = query(collection(db, "albums"), where("folderId", "==", id));
-            const snapshot = await getDocs(albumsQuery);
-
-            // Обновить их folderId на null
-            const updates = snapshot.docs.map((docSnap) =>
-                updateDoc(docSnap.ref, { folderId: null })
-            );
-            await Promise.all(updates);
-
-            // Удалить саму папку
-            await deleteDoc(doc(db, "folders", id));
-            router.push("/");
-            router.refresh(); // Обновить страницу
+            await deleteFolder({ id }).unwrap();
+            refetchAlbums();
         } catch (err) {
             console.error("Ошибка при удалении папки:", err);
         }

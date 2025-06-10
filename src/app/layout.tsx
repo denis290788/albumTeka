@@ -1,23 +1,19 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import { FoldersProvider } from "./context/FoldersContext";
+import { ReactNode } from "react";
+import { AppStore } from "./_providers/store/AppStore";
 
-export const metadata: Metadata = {
+export const metadata = {
     title: "AlbumTeka",
     description: "Your audioteka",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="en">
             <body>
-                <FoldersProvider>
+                <AppStore>
                     <div className="bg-amber-300 min-h-screen">{children}</div>
-                </FoldersProvider>
+                </AppStore>
             </body>
         </html>
     );
