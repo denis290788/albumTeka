@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-// import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { AddFolderModal } from "./AddFolderModal";
+import { AddFolderForm } from "./addFolderForm";
 
 export function Header() {
     const [open, setOpen] = useState(false);
@@ -24,7 +23,7 @@ export function Header() {
                 </Link>
             </div>
 
-            <AddFolderModal open={open} onOpenChange={setOpen} />
+            <AddFolderForm open={open} onOpenChange={setOpen} />
         </header>
     );
 }

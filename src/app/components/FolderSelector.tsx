@@ -1,5 +1,3 @@
-import { updateDoc, doc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import {
     Select,
     SelectTrigger,
@@ -7,35 +5,40 @@ import {
     SelectItem,
     SelectValue,
 } from "@/components/ui/select";
-import { Album } from "./albumCard";
-import { useFolders } from "../context/FoldersContext";
+import { useGetFoldersQuery } from "@/services/foldersApi";
+import { Album, useUpdateAlbumMutation } from "@/services/albumsApi";
 
-export function FolderSelector({
-    album,
-    onChange,
-}: {
+interface FolderSelectorProps {
     album: Album;
-    onChange?: (newFolderId: string | null) => void;
-}) {
-    const { folders } = useFolders();
+}
 
-    const handleChange = async (folderId: string) => {
-        const value = folderId === "none" ? null : folderId;
-        const albumRef = doc(db, "albums", album.id);
-        await updateDoc(albumRef, { folderId: value });
-        onChange?.(value);
+export function FolderSelector({ album }: FolderSelectorProps) {
+    const { data: folders } = useGetFoldersQuery();
+    const [updateAlbum] = useUpdateAlbumMutation();
+
+    const selectedValue = album.folderId === null ? "null" : album.folderId;
+
+    const handleChange = async (value: string) => {
+        const newFolderId = value === "null" ? null : value;
+
+        try {
+            await updateAlbum({ ...album, folderId: newFolderId }).unwrap();
+        } catch (error) {
+            console.error("Ошибка при обновлении альбома:", error);
+        }
     };
 
-    const currentFolder = folders.find((f) => f.id === album.folderId);
+    const currentFolderName =
+        album.folderId === null ? "Без папки" : folders!.find((f) => f.id === album.folderId)?.name;
 
     return (
-        <Select onValueChange={handleChange}>
+        <Select onValueChange={handleChange} value={selectedValue}>
             <SelectTrigger className="w-full max-w-xs">
-                <SelectValue placeholder={currentFolder?.name || "Добавить в папку"} />
+                <SelectValue placeholder={currentFolderName || "Добавить в папку"} />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="none">Без папки</SelectItem>
-                {folders.map((folder) => (
+                <SelectItem value="null">Без папки</SelectItem>
+                {folders!.map((folder) => (
                     <SelectItem key={folder.id} value={folder.id}>
                         {folder.name}
                     </SelectItem>

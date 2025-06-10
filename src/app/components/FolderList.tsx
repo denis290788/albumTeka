@@ -1,10 +1,14 @@
-import { getFolders } from "@/lib/queries/get-folders";
+"use client";
+
+import { useGetFoldersQuery } from "@/services/foldersApi";
 import { FolderCard } from "./FolderCard";
 
-export async function FolderList() {
-    const folders = await getFolders();
+export function FolderList() {
+    const { data: folders = [], isLoading, isError } = useGetFoldersQuery();
 
-    if (folders.length === 0) return null;
+    if (isLoading) return <p className="text-muted-foreground">Загрузка...</p>;
+    if (isError) return <p className="text-red-500">Ошибка загрузки папок.</p>;
+    if (!folders.length) return null;
 
     return (
         <div className="mb-8">
