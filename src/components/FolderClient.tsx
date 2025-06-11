@@ -2,7 +2,7 @@
 
 import { useGetFoldersQuery } from "@/services/foldersApi";
 import { useGetAlbumsQuery } from "@/services/albumsApi";
-import { AlbumCard } from "@/app/components/albumCard";
+import { AlbumCard } from "@/components/albumCard";
 
 interface FolderClientProps {
     folderId: string;

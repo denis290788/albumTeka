@@ -1,6 +1,6 @@
-import { AlbumList } from "./components/AlbumList";
-import { FolderList } from "./components/FolderList";
-import { Header } from "./components/Header";
+import { AlbumList } from "../components/AlbumList";
+import { FolderList } from "../components/FolderList";
+import { Header } from "../components/Header";
 
 export default function HomePage() {
     return (

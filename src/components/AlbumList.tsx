@@ -2,9 +2,11 @@
 
 import { useGetAlbumsQuery } from "@/services/albumsApi";
 import { AlbumCard } from "./albumCard";
+import { useAuth } from "@/features/auth";
 
 export function AlbumList() {
-    const { data: albums = [], isLoading, isError } = useGetAlbumsQuery();
+    const { user } = useAuth();
+    const { data: albums = [], isLoading, isError } = useGetAlbumsQuery(user?.uid);
 
     if (isLoading) return <p className="text-muted-foreground">Загрузка...</p>;
     if (isError) return <p className="text-red-500">Ошибка загрузки альбомов</p>;

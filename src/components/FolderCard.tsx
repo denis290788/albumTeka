@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { useAuth } from "@/features/auth";
 import { useGetAlbumsQuery } from "@/services/albumsApi";
 import { useDeleteFolderMutation } from "@/services/foldersApi";
 import { X } from "lucide-react";
@@ -10,8 +11,10 @@ interface FolderCardProps {
 }
 
 export function FolderCard({ name, id }: FolderCardProps) {
+    const { user } = useAuth();
+
     const [deleteFolder] = useDeleteFolderMutation();
-    const { refetch: refetchAlbums } = useGetAlbumsQuery();
+    const { refetch: refetchAlbums } = useGetAlbumsQuery(user?.uid);
 
     const handleDelete = async (e: React.MouseEvent) => {
         e.preventDefault();

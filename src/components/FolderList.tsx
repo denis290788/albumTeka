@@ -2,9 +2,11 @@
 
 import { useGetFoldersQuery } from "@/services/foldersApi";
 import { FolderCard } from "./FolderCard";
+import { useAuth } from "@/features/auth";
 
 export function FolderList() {
-    const { data: folders = [], isLoading, isError } = useGetFoldersQuery();
+    const { user } = useAuth();
+    const { data: folders = [], isLoading, isError } = useGetFoldersQuery(user?.uid);
 
     if (isLoading) return <p className="text-muted-foreground">Загрузка...</p>;
     if (isError) return <p className="text-red-500">Ошибка загрузки папок.</p>;
