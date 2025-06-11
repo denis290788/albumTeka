@@ -7,13 +7,15 @@ import {
     where,
     addDoc,
     writeBatch,
+    getDoc,
 } from "firebase/firestore";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
-import { db } from "@/lib/firebase";
+import { db, auth } from "@/lib/firebase";
 
 export type Folder = {
     id: string;
     name: string;
+    userId: string;
 };
 
 export const foldersApi = createApi({
@@ -21,34 +23,57 @@ export const foldersApi = createApi({
     baseQuery: fakeBaseQuery(),
     tagTypes: ["Folder", "Album"],
     endpoints: (builder) => ({
-        getFolders: builder.query<Folder[], void>({
-            async queryFn() {
+        getFolders: builder.query<Folder[], string | undefined>({
+            async queryFn(userId) {
                 try {
-                    const snapshot = await getDocs(collection(db, "folders"));
+                    if (!userId) {
+                        console.warn("User ID is missing. Cannot fetch albums.");
+                        return { data: [] }; // Возвращаем пустой массив, если userId не предоставлен
+                    }
+
+                    // ✅ Создаем запрос с фильтром по userId
+                    const q = query(collection(db, "folders"), where("userId", "==", userId));
+                    const snapshot = await getDocs(q);
                     const folders: Folder[] = snapshot.docs.map((doc) => ({
                         id: doc.id,
+                        // Преобразование данных: убедитесь, что userId присутствует
                         ...(doc.data() as Omit<Folder, "id">),
                     }));
                     return { data: folders };
                 } catch (error) {
+                    console.error("Error fetching folders:", error);
                     return { error: error as Error };
                 }
             },
-            providesTags: (result) =>
+            providesTags: (result, userId) =>
                 result
                     ? [
                           ...result.map((f) => ({ type: "Folder" as const, id: f.id })),
-                          { type: "Folder", id: "LIST" }, // Важно: Тег LIST
+                          { type: "Folder", id: "LIST" },
+                          { type: "Folder", id: `LIST-${userId}` },
                       ]
-                    : [{ type: "Folder", id: "LIST" }],
+                    : [
+                          { type: "Folder", id: "LIST" },
+                          { type: "Folder", id: `LIST-${userId}` },
+                      ],
         }),
 
         addFolder: builder.mutation<Folder, { name: string }>({
             async queryFn({ name }) {
                 try {
-                    const docRef = await addDoc(collection(db, "folders"), { name });
-                    return { data: { id: docRef.id, name } };
+                    const userId = auth.currentUser?.uid; // Получаем UID текущего пользователя
+                    if (!userId) {
+                        throw new Error("No user logged in. Cannot add folder.");
+                    }
+
+                    // ✅ Добавляем userId при создании документа
+                    const docRef = await addDoc(collection(db, "folders"), {
+                        name,
+                        userId, // Сохраняем ID пользователя, который создал папку
+                    });
+                    return { data: { id: docRef.id, name, userId } }; // Возвращаем полный объект
                 } catch (error) {
+                    console.error("Error adding folder:", error);
                     return { error: error as Error };
                 }
             },
@@ -58,8 +83,27 @@ export const foldersApi = createApi({
         deleteFolder: builder.mutation<true, { id: string }>({
             async queryFn({ id }) {
                 try {
+                    const userId = auth.currentUser?.uid;
+                    if (!userId) {
+                        throw new Error("No user logged in. Cannot delete folder.");
+                    }
+
+                    // ✅ Добавим проверку userId и в запрос на удаление
+                    const folderDocRef = doc(db, "folders", id);
+                    // Получаем документ, чтобы проверить, что он принадлежит текущему пользователю
+                    const folderDoc = await getDoc(folderDocRef);
+
+                    if (!folderDoc.exists() || folderDoc.data()?.userId !== userId) {
+                        throw new Error("Folder not found or not authorized to delete.");
+                    }
+
+                    // ✅ Фильтруем альбомы для удаления по userId
                     const albumsRef = collection(db, "albums");
-                    const q = query(albumsRef, where("folderId", "==", id));
+                    const q = query(
+                        albumsRef,
+                        where("folderId", "==", id),
+                        where("userId", "==", userId) // ✅ Убедитесь, что альбомы тоже принадлежат этому пользователю
+                    );
                     const snapshot = await getDocs(q);
 
                     const batch = writeBatch(db);
@@ -67,17 +111,19 @@ export const foldersApi = createApi({
                         batch.update(docSnap.ref, { folderId: null });
                     });
                     await batch.commit();
-                    await deleteDoc(doc(db, "folders", id));
+
+                    await deleteDoc(folderDocRef); // Удаляем саму папку
 
                     return { data: true };
                 } catch (error) {
+                    console.error("Error deleting folder:", error);
                     return { error: error as Error };
                 }
             },
             invalidatesTags: (result, error, { id }) => [
                 { type: "Folder", id },
                 { type: "Folder", id: "LIST" },
-                { type: "Album", id: "LIST" },
+                { type: "Album", id: "LIST" }, // Возможно, вам также нужно обновить список альбомов
             ],
         }),
     }),

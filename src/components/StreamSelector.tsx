@@ -10,7 +10,7 @@ import {
 import { Check, Trash } from "lucide-react";
 import { Album, Stream, StreamType, useUpdateAlbumMutation } from "@/services/albumsApi";
 import { useState } from "react";
-import { AddStreamModal } from "./addStreamModal";
+import { AddStreamModal } from "../features/addStreamModal";
 
 interface StreamSelectorProps {
     album: Album;

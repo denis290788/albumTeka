@@ -1,4 +1,4 @@
-import { AlbumForm } from "../components/addAlbumForm";
+import { AlbumForm } from "../../features/addAlbumForm";
 
 export default function AddAlbumPage() {
     return (
