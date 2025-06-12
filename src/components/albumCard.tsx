@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { FolderSelector } from "./FolderSelector";
 import { Album, StreamType } from "@/services/albumsApi";
@@ -8,15 +8,45 @@ import { StreamSelector } from "./StreamSelector";
 import { AlbumCardMenu } from "./AlbumCardMenu";
 import { StreamingPlayer } from "./StreamingPlayer";
 
+import { Button } from "@/components/ui/button";
+import { PlayIcon, Square } from "lucide-react";
+import { cn } from "@/lib/utils";
+
 interface AlbumCardProps {
     album: Album;
+    activeAlbumId: string | null;
+    setActiveAlbumId: (id: string | null) => void;
 }
 
-export function AlbumCard({ album }: AlbumCardProps) {
+export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardProps) {
     const [activeStream, setActiveStream] = useState<StreamType>(album.defaultStream);
+    const isPlaying = activeAlbumId === album.id;
+
+    const gradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
+
+    const handlePlayClick = () => {
+        if (isPlaying) {
+            setActiveAlbumId(null);
+        } else {
+            setActiveAlbumId(album.id);
+        }
+    };
 
     return (
-        <Card className="p-4 relative">
+        <Card
+            className={cn(
+                "p-4 relative",
+                "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
+                // "transition-all duration-200 ease-in-out",
+                "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]"
+                // "hover:bg-[linear-gradient(calc(var(--angle)+45deg),#4ac77c,#dfe6e9)]"
+            )}
+            style={
+                {
+                    "--angle": `${gradientAngle}deg`,
+                } as React.CSSProperties
+            }
+        >
             <div className="absolute top-2 right-2">
                 <AlbumCardMenu albumId={album.id} />
             </div>
@@ -28,6 +58,7 @@ export function AlbumCard({ album }: AlbumCardProps) {
                             src={album.coverUrl}
                             alt={album.title}
                             className="object-cover rounded"
+                            loading="lazy"
                         />
                     </div>
                 )}
@@ -37,19 +68,27 @@ export function AlbumCard({ album }: AlbumCardProps) {
                     {album.year && <p className="text-sm text-muted-foreground">{album.year}</p>}
                 </div>
             </div>
-
-            <div className="mt-4 space-y-2">
-                <StreamingPlayer album={album} activeStream={activeStream} />
-
-                <div className="flex gap-2 items-center">
-                    <StreamSelector
-                        album={album}
-                        activeStream={activeStream}
-                        setActiveStream={setActiveStream}
-                    />
-                    <FolderSelector album={album} />
-                </div>
+            <div className="flex gap-2 items-center">
+                <StreamSelector
+                    album={album}
+                    activeStream={activeStream}
+                    setActiveStream={setActiveStream}
+                />
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handlePlayClick}
+                    className="shrink-0 bg-[#c8d3d6]"
+                >
+                    {isPlaying ? (
+                        <Square className="h-5 w-5 text-red-500" />
+                    ) : (
+                        <PlayIcon className="h-5 w-5 text-[#4ac77c]" />
+                    )}
+                </Button>
+                <FolderSelector album={album} />
             </div>
+            {isPlaying && <StreamingPlayer album={album} activeStream={activeStream} />}
         </Card>
     );
 }

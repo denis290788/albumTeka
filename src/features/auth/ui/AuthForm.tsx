@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { useAuth } from "../hooks/useAuth";
 
-// Схема валидации для формы
 const formSchema = z.object({
     email: z.string().email({ message: "Неверный формат почты." }),
     password: z.string().min(6, { message: "Пароль должен быть не менее 6 символов." }),
@@ -26,11 +25,10 @@ const formSchema = z.object({
 
 export function AuthForm() {
     const { register: authRegister, login: authLogin, loading, user } = useAuth();
-    const router = useRouter(); // Хук для навигации в Next.js
+    const router = useRouter();
 
     const [isRegistering, setIsRegistering] = useState(true);
 
-    // Если пользователь уже вошел, перенаправляем на главную
     React.useEffect(() => {
         if (!loading && user) {
             router.push("/");
@@ -46,18 +44,15 @@ export function AuthForm() {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        form.clearErrors("root.serverError"); // Очищаем предыдущие ошибки сервера
+        form.clearErrors("root.serverError");
         try {
             if (isRegistering) {
                 await authRegister(values.email, values.password);
             } else {
                 await authLogin(values.email, values.password);
             }
-            // После успешной регистрации/входа useAuth хук обновит состояние user,
-            // и useEffect выше перенаправит пользователя.
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-            // Устанавливаем ошибку, чтобы отобразить ее пользователю
             form.setError("root.serverError", {
                 type: "manual",
                 message: error.message || "Произошла неизвестная ошибка. Попробуйте еще раз.",
@@ -103,7 +98,6 @@ export function AuthForm() {
                             </FormItem>
                         )}
                     />
-                    {/* Отображение ошибок от сервера (Firebase) */}
                     {form.formState.errors.root?.serverError && (
                         <p className="text-red-500 text-sm">
                             {form.formState.errors.root.serverError.message}

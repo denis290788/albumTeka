@@ -61,75 +61,33 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                 }}
                 value={activeStream}
             >
-                <SelectTrigger className="w-full max-w-xs">
+                <SelectTrigger className="w-full max-w-xs bg-[#c8d3d6]">
                     <SelectValue placeholder="Выберите стриминг" />
                 </SelectTrigger>
 
-                <SelectContent>
+                <SelectContent className="bg-[#dfe6e9]">
                     {[...album.streams]
                         .sort((a) => (a.type === album.defaultStream ? -1 : 1))
                         .map((stream) => {
                             const isDefault = stream.type === album.defaultStream;
 
                             return (
-                                // <div
-                                //     key={stream.type}
-                                //     className="flex items-center justify-between px-2 py-1 hover:bg-accent rounded"
-                                // >
-                                //     <div className="flex items-center gap-2 w-full">
-                                //         {isDefault ? (
-                                //             <Check className="text-blue-500 w-4 h-4" />
-                                //         ) : (
-                                //             <button
-                                //                 onClick={(e) => {
-                                //                     e.stopPropagation();
-                                //                     setDefaultStream(stream.type);
-                                //                 }}
-                                //                 aria-label={`Сделать ${stream.type} стримом по умолчанию`}
-                                //                 className="focus:outline-none"
-                                //             >
-                                //                 <Check className="text-gray-400 hover:text-blue-500 w-4 h-4" />
-                                //             </button>
-                                //         )}
-                                //         <SelectItem
-                                //             value={stream.type}
-                                //             className="flex-1 cursor-pointer"
-                                //         >
-                                //             {stream.type}
-                                //         </SelectItem>
-                                //     </div>
-
-                                //     {!isDefault && (
-                                //         <button
-                                //             onClick={(e) => {
-                                //                 e.stopPropagation();
-                                //                 removeStream(stream.type);
-                                //             }}
-                                //             aria-label={`Удалить ${stream.type} стрим`}
-                                //             className="focus:outline-none"
-                                //         >
-                                //             <Trash className="text-red-400 hover:text-red-600 w-4 h-4" />
-                                //         </button>
-                                //     )}
-                                // </div>
-
                                 <div
                                     key={stream.type}
                                     className="flex items-center justify-between px-2 py-1 hover:bg-accent rounded"
                                 >
                                     <div className="flex items-center gap-2 w-full">
                                         {isDefault ? (
-                                            <Check className="text-blue-500 w-4 h-4" />
+                                            <Check className="text-[#4ac77c] w-4 h-4" />
                                         ) : (
                                             <button
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setDefaultStream(stream.type);
                                                 }}
-                                                aria-label={`Сделать ${stream.type} стримом по умолчанию`}
                                                 className="focus:outline-none cursor-pointer"
                                             >
-                                                <Check className="text-gray-400 hover:text-blue-500 w-4 h-4" />
+                                                <Check className="text-gray-400 hover:text-[#4ac77c] w-4 h-4" />
                                             </button>
                                         )}
                                         <SelectItem
@@ -147,7 +105,6 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                                                 e.stopPropagation();
                                                 removeStream(stream.type);
                                             }}
-                                            aria-label={`Удалить ${stream.type} стрим`}
                                             className="focus:outline-none cursor-pointer"
                                         >
                                             <Trash className="text-red-400 hover:text-red-600 w-4 h-4" />
@@ -157,7 +114,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                             );
                         })}
 
-                    <SelectItem value="add" className="text-muted-foreground italic">
+                    <SelectItem value="add" className="text-muted-foreground cursor-pointer">
                         + Добавить стриминг
                     </SelectItem>
                 </SelectContent>
