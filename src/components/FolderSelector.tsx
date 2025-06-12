@@ -7,13 +7,17 @@ import {
 } from "@/components/ui/select";
 import { useGetFoldersQuery } from "@/services/foldersApi";
 import { Album, useUpdateAlbumMutation } from "@/services/albumsApi";
+import { useAuth } from "@/features/auth";
+import { Folder } from "lucide-react";
 
 interface FolderSelectorProps {
     album: Album;
 }
 
 export function FolderSelector({ album }: FolderSelectorProps) {
-    const { data: folders } = useGetFoldersQuery();
+    const { user } = useAuth();
+
+    const { data: folders } = useGetFoldersQuery(user?.uid);
     const [updateAlbum] = useUpdateAlbumMutation();
 
     const selectedValue = album.folderId === null ? "null" : album.folderId;
@@ -28,15 +32,14 @@ export function FolderSelector({ album }: FolderSelectorProps) {
         }
     };
 
-    const currentFolderName =
-        album.folderId === null ? "Без папки" : folders!.find((f) => f.id === album.folderId)?.name;
-
     return (
         <Select onValueChange={handleChange} value={selectedValue}>
-            <SelectTrigger className="w-full max-w-xs">
-                <SelectValue placeholder={currentFolderName || "Добавить в папку"} />
+            <SelectTrigger className="max-w-xs bg-[#c8d3d6]">
+                <SelectValue asChild>
+                    <Folder className="h-4 w-4 text-muted-foreground" />
+                </SelectValue>
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-[#dfe6e9]">
                 <SelectItem value="null">Без папки</SelectItem>
                 {folders!.map((folder) => (
                     <SelectItem key={folder.id} value={folder.id}>

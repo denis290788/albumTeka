@@ -20,8 +20,8 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
         case "bandcamp":
             return (
                 <iframe
-                    style={{ border: 0, width: "100%", height: 120 }}
-                    src={`${stream.url}/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=none/transparent=true/`}
+                    style={{ border: 0, width: "100%", height: 402.4 }}
+                    src={`${stream.url}/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=true/artwork=small/transparent=true/`}
                     seamless
                     title={`Bandcamp player for ${album.title}`}
                 />
@@ -37,7 +37,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
                     style={{ borderRadius: "12px" }}
                     src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`}
                     width="100%"
-                    height="152"
+                    height="402.4"
                     frameBorder="0"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"
@@ -49,7 +49,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
             return (
                 <iframe
                     width="100%"
-                    height="300"
+                    height="402.4"
                     scrolling="no"
                     frameBorder="no"
                     allow="autoplay"

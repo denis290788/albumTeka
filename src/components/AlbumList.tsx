@@ -1,12 +1,21 @@
 "use client";
 
 import { useGetAlbumsQuery } from "@/services/albumsApi";
-import { AlbumCard } from "./albumCard";
 import { useAuth } from "@/features/auth";
+import { AlbumCard } from "./AlbumCard";
+import { useEffect, useState } from "react";
 
 export function AlbumList() {
     const { user } = useAuth();
     const { data: albums = [], isLoading, isError } = useGetAlbumsQuery(user?.uid);
+
+    const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!user) {
+            setActiveAlbumId(null);
+        }
+    }, [user]);
 
     if (isLoading) return <p className="text-muted-foreground">Загрузка...</p>;
     if (isError) return <p className="text-red-500">Ошибка загрузки альбомов</p>;
@@ -18,9 +27,16 @@ export function AlbumList() {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="albums-masonry">
             {albumsWithoutFolder.map((album) => (
-                <AlbumCard key={album.id} album={album} />
+                <div key={album.id} className="inline-block w-full pb-6">
+                    <AlbumCard
+                        key={album.id}
+                        album={album}
+                        activeAlbumId={activeAlbumId}
+                        setActiveAlbumId={setActiveAlbumId}
+                    />
+                </div>
             ))}
         </div>
     );

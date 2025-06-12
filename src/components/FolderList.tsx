@@ -3,23 +3,25 @@
 import { useGetFoldersQuery } from "@/services/foldersApi";
 import { FolderCard } from "./FolderCard";
 import { useAuth } from "@/features/auth";
+import { cn } from "@/lib/utils";
 
-export function FolderList() {
+interface FolderListProps {
+    className?: string;
+}
+
+export function FolderList({ className }: FolderListProps) {
     const { user } = useAuth();
-    const { data: folders = [], isLoading, isError } = useGetFoldersQuery(user?.uid);
+    const { data: folders = [], isError } = useGetFoldersQuery(user?.uid);
 
-    if (isLoading) return <p className="text-muted-foreground">Загрузка...</p>;
     if (isError) return <p className="text-red-500">Ошибка загрузки папок.</p>;
     if (!folders.length) return null;
 
     return (
-        <div className="mb-8">
-            <h2 className="text-xl font-bold mb-4">Мои папки</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {folders.map((folder) => (
-                    <FolderCard key={folder.id} id={folder.id} name={folder.name} />
-                ))}
-            </div>
+        <div className={cn("mb-8 flex gap-2 lg:gap-4 items-center flex-wrap", className)}>
+            <h2 className="text-[18px] lg:text-xl">Мои папки</h2>
+            {folders.map((folder) => (
+                <FolderCard key={folder.id} id={folder.id} name={folder.name} />
+            ))}
         </div>
     );
 }

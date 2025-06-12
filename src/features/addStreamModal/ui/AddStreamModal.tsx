@@ -1,12 +1,6 @@
 "use client";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -52,45 +46,44 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent
-                className={cn(className)}
-                // aria-describedby={undefined} если не нужен DialogDescription
-            >
+            <DialogContent className={cn(className)} aria-describedby={undefined}>
                 <DialogHeader>
                     <DialogTitle>Добавить стриминг</DialogTitle>
-                    <DialogDescription>Добавьте новый стримминговый плеер</DialogDescription>
                 </DialogHeader>
 
-                <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-                    <div>
-                        <Label htmlFor="streamUrl">Ссылка на стриминг</Label>
-                        <Input id="streamUrl" {...register("streamUrl")} />
-                        {errors.streamUrl && (
-                            <p className="text-sm text-red-500">{errors.streamUrl.message}</p>
-                        )}
-                    </div>
-
-                    <div>
-                        <Label>Тип стриминга</Label>
-                        <Select
-                            onValueChange={(val) =>
-                                setValue("streamType", val as StreamFormData["streamType"])
-                            }
-                            defaultValue="bandcamp"
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Выберите сервис" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="bandcamp">Bandcamp</SelectItem>
-                                <SelectItem value="spotify">Spotify</SelectItem>
-                                <SelectItem value="soundcloud">SoundCloud</SelectItem>
-                                <SelectItem value="vk">VK</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        {errors.streamType && (
-                            <p className="text-sm text-red-500">{errors.streamType.message}</p>
-                        )}
+                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                    <div className="flex flex-col md:flex-row gap-4 mb-4">
+                        <div>
+                            <Label className="mb-2">Стримминг</Label>
+                            <Select
+                                onValueChange={(val) =>
+                                    setValue("streamType", val as StreamFormData["streamType"])
+                                }
+                                defaultValue="bandcamp"
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Выберите сервис" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="bandcamp">Bandcamp</SelectItem>
+                                    <SelectItem value="spotify">Spotify</SelectItem>
+                                    <SelectItem value="soundcloud">SoundCloud</SelectItem>
+                                    <SelectItem value="vk">VK</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            {errors.streamType && (
+                                <p className="text-sm text-red-500">{errors.streamType.message}</p>
+                            )}
+                        </div>
+                        <div className="flex-1">
+                            <Label htmlFor="streamUrl" className="mb-2">
+                                Ссылка
+                            </Label>
+                            <Input id="streamUrl" {...register("streamUrl")} />
+                            {errors.streamUrl && (
+                                <p className="text-sm text-red-500">{errors.streamUrl.message}</p>
+                            )}
+                        </div>
                     </div>
 
                     <Button type="submit" disabled={isSubmitting}>
