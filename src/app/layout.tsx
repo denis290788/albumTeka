@@ -2,13 +2,13 @@ import "./globals.css";
 import { ReactNode } from "react";
 import { AppStore } from "./_providers/store/AppStore";
 import { AuthProvider } from "@/features/auth/hooks/useAuth";
-import { Gruppo, Open_Sans } from "next/font/google";
+import { Syncopate, Open_Sans } from "next/font/google";
 
-const gruppo = Gruppo({
+const syncopate = Syncopate({
     subsets: ["latin"],
+    weight: ["400", "700"],
     display: "swap",
-    variable: "--font-gruppo",
-    weight: "400",
+    variable: "--font-syncopate",
 });
 
 const openSans = Open_Sans({
@@ -24,8 +24,8 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang="en" className={`${gruppo.variable} ${openSans.variable} h-full`}>
-            <body className="antialiased h-full font-sans bg-[#dfe6e9]">
+        <html lang="en" className={`${syncopate.variable} ${openSans.variable} h-full`}>
+            <body className="antialiased h-full font-sans bg-background text-foreground">
                 <AppStore>
                     <AuthProvider>{children}</AuthProvider>
                 </AppStore>

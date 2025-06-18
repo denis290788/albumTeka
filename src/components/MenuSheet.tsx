@@ -41,12 +41,12 @@ export function MobileMenuSheet({
                     <span className="sr-only">Открыть меню</span>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="flex flex-col bg-[#dfe6e9] p-4">
+            <SheetContent side="right" className="flex flex-col bg-background p-2">
                 <SheetHeader className="sr-only">
                     <SheetTitle>Навигация</SheetTitle>
                     <SheetDescription>Навигация по сайту</SheetDescription>
                 </SheetHeader>
-                <div className="flex flex-col gap-4 pt-8 flex-1 overflow-y-auto">
+                <div className="flex flex-col gap-4 pt-8">
                     {user && (
                         <div>
                             <div className="flex gap-4 mb-4">
@@ -58,19 +58,20 @@ export function MobileMenuSheet({
                                     }}
                                     className="flex-1"
                                 >
-                                    <Folder className="h-4 w-4 text-[#7f8c8d] mr-2" />
+                                    <Folder className="h-4 w-4 text-accent-foreground mr-2" />
                                 </Button>
                                 <Button
+                                    variant="outline"
                                     className="flex-1"
                                     onClick={() => {
                                         setIsMobileMenuOpen(false);
                                         router.push("/add");
                                     }}
                                 >
-                                    <Disc3 className="h-4 w-4 text-[#7f8c8d] mr-2" />
+                                    <Disc3 className="h-4 w-4 text-accent-foreground mr-2" />
                                 </Button>
                             </div>
-                            <div className="flex flex-col gap-2">
+                            <div className="flex flex-col gap-2 flex-1 overflow-y-auto max-h-[calc(100vh-150px)] px-[6px]">
                                 <FolderList />
                             </div>
                         </div>

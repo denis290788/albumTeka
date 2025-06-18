@@ -25,9 +25,13 @@ export function Header() {
     };
 
     return (
-        <header className="fixed top-0 left-0 w-full z-50 h-[75px] lg:h-[100px] flex items-center justify-between px-4 bg-[linear-gradient(180deg,#4ac77c,#dfe6e9)] overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.15)]">
-            <Link href="/" className="text-4xl" style={{ fontFamily: "Gruppo, sans-serif" }}>
-                album<span className="text-primary font-bold">TEKA</span>
+        <header className="fixed top-0 left-0 w-full z-50 h-[65px] lg:h-[90px] flex items-center justify-between px-4 bg-[linear-gradient(180deg,#4ac77c,#dfe6e9)] overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.15)]">
+            <Link
+                href="/"
+                className="text-2xl lg:text-4xl"
+                style={{ fontFamily: "Syncopate, sans-serif" }}
+            >
+                album<span className="font-bold">TEKA</span>
             </Link>
 
             <div className="hidden lg:flex gap-2 items-center">
@@ -37,7 +41,7 @@ export function Header() {
                             Добавить папку
                         </Button>
                         <Link href="/add">
-                            <Button>Добавить альбом</Button>
+                            <Button variant="outline">Добавить альбом</Button>
                         </Link>
                     </>
                 )}

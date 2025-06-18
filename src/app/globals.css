@@ -5,8 +5,8 @@
 
 :root {
     --radius: 0.625rem;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    /* --background: oklch(1 0 0); */
+    /* --foreground: oklch(0.145 0 0); */
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -16,10 +16,10 @@
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
+    /* --muted-foreground: oklch(0.556 0 0); */
+    /* --accent: oklch(0.97 0 0); */
+    /* --accent-foreground: oklch(0.205 0 0); */
+    /* --destructive: oklch(0.577 0.245 27.325); */
     --border: oklch(0.922 0 0);
     --input: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
@@ -36,6 +36,13 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+
+    --background: #dfe6e9;
+    --foreground: #34495e;
+    --muted-foreground: #7f8c8d;
+    --accent: #d5f5e3;
+    --accent-foreground: #4ac77c;
+    --destructive: #e74c3c;
 }
 
 body {
@@ -120,27 +127,24 @@ body {
         @apply border-border outline-ring/50;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-[#34495e];
+    }
+    .dark body {
+        @apply text-foreground;
     }
 }
 
-.font-gruppo {
-    font-family: "Gruppo", sans-serif;
+.masonry-grid {
+    display: flex;
+    margin-left: -1.5rem;
+    width: auto;
 }
 
-.albums-masonry {
-    column-count: 1;
-    column-gap: 1.5rem;
+.masonry-grid-column {
+    padding-left: 1.5rem;
+    background-clip: padding-box;
 }
 
-@media (min-width: 768px) {
-    .albums-masonry {
-        column-count: 2;
-    }
-}
-
-@media (min-width: 1024px) {
-    .albums-masonry {
-        column-count: 3;
-    }
+.masonry-grid-column > div {
+    margin-bottom: 1.5rem;
 }

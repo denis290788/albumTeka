@@ -39,13 +39,14 @@ export function FolderSelector({ album }: FolderSelectorProps) {
                     <Folder className="h-4 w-4 text-muted-foreground" />
                 </SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-[#dfe6e9]">
+            <SelectContent className="bg-background">
                 <SelectItem value="null">Без папки</SelectItem>
-                {folders!.map((folder) => (
-                    <SelectItem key={folder.id} value={folder.id}>
-                        {folder.name}
-                    </SelectItem>
-                ))}
+                {folders &&
+                    folders.map((folder) => (
+                        <SelectItem key={folder.id} value={folder.id}>
+                            {folder.name}
+                        </SelectItem>
+                    ))}
             </SelectContent>
         </Select>
     );

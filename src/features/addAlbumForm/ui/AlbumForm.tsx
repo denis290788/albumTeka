@@ -25,69 +25,75 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
         register,
         handleSubmit,
         setValue,
-        formState: { errors },
+        formState: { errors, isValid },
     } = form;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={cn("space-y-4", className)}>
             <div>
-                <Label htmlFor="title">Название альбома</Label>
+                <Label htmlFor="title">
+                    Название альбома<span className="text-destructive">*</span>
+                </Label>
                 <Input id="title" {...register("title")} />
-                {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+                {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
             </div>
 
             <div>
-                <Label htmlFor="artist">Исполнитель</Label>
+                <Label htmlFor="artist">
+                    Исполнитель<span className="text-destructive">*</span>
+                </Label>
                 <Input id="artist" {...register("artist")} />
-                {errors.artist && <p className="text-sm text-red-500">{errors.artist.message}</p>}
+                {errors.artist && (
+                    <p className="text-sm text-destructive">{errors.artist.message}</p>
+                )}
             </div>
 
             <div>
-                <Label htmlFor="year">Год выпуска (необязательно)</Label>
-                <Input id="year" type="number" {...register("year")} />
-                {errors.year && <p className="text-sm text-red-500">{errors.year.message}</p>}
+                <Label htmlFor="year">Год выпуска</Label>
+                <Input id="year" {...register("year")} />
+                {errors.year && <p className="text-sm text-destructive">{errors.year.message}</p>}
             </div>
 
             <div>
-                <Label htmlFor="coverUrl">Ссылка на обложку (необязательно)</Label>
+                <Label htmlFor="coverUrl">Ссылка на обложку</Label>
                 <Input id="coverUrl" {...register("coverUrl")} />
                 {errors.coverUrl && (
-                    <p className="text-sm text-red-500">{errors.coverUrl.message}</p>
+                    <p className="text-sm text-destructive">{errors.coverUrl.message}</p>
                 )}
             </div>
-
-            <div>
-                <Label htmlFor="streamUrl">Ссылка на стриминг</Label>
-                <Input id="streamUrl" {...register("streamUrl")} />
-                {errors.streamUrl && (
-                    <p className="text-sm text-red-500">{errors.streamUrl.message}</p>
-                )}
+            <div className="flex gap-2">
+                <div>
+                    <Label>Cтриминг</Label>
+                    <Select
+                        onValueChange={(val) =>
+                            setValue("streamType", val as AlbumFormData["streamType"])
+                        }
+                        defaultValue="bandcamp"
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Выберите сервис" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="bandcamp">Bandcamp</SelectItem>
+                            <SelectItem value="spotify">Spotify</SelectItem>
+                            <SelectItem value="soundcloud">SoundCloud</SelectItem>
+                            <SelectItem value="vk">VK</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    {errors.streamType && (
+                        <p className="text-sm text-destructive">{errors.streamType.message}</p>
+                    )}
+                </div>
+                <div className="flex-1">
+                    <Label htmlFor="streamUrl">Ссылка</Label>
+                    <Input id="streamUrl" {...register("streamUrl")} />
+                    {errors.streamUrl && (
+                        <p className="text-sm text-destructive">{errors.streamUrl.message}</p>
+                    )}
+                </div>
             </div>
 
-            <div>
-                <Label>Тип стриминга</Label>
-                <Select
-                    onValueChange={(val) =>
-                        setValue("streamType", val as AlbumFormData["streamType"])
-                    }
-                    defaultValue="bandcamp"
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder="Выберите сервис" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="bandcamp">Bandcamp</SelectItem>
-                        <SelectItem value="spotify">Spotify</SelectItem>
-                        <SelectItem value="soundcloud">SoundCloud</SelectItem>
-                        <SelectItem value="vk">VK</SelectItem>
-                    </SelectContent>
-                </Select>
-                {errors.streamType && (
-                    <p className="text-sm text-red-500">{errors.streamType.message}</p>
-                )}
-            </div>
-
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading || !isValid}>
                 {loading ? "Сохраняем..." : "Добавить альбом"}
             </Button>
         </form>

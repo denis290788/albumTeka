@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useAddStreamForm } from "../hooks/useAddStreamForm";
 import { StreamFormData } from "../model/addStreamTypes";
 import { Album } from "@/services/albumsApi";
+import { useMemo } from "react";
 
 interface AddStreamModalProps {
     album: Album;
@@ -44,9 +45,23 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
         }
     };
 
+    const gradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className={cn(className)} aria-describedby={undefined}>
+            <DialogContent
+                className={cn(
+                    className,
+                    "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
+                    "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]"
+                )}
+                style={
+                    {
+                        "--angle": `${gradientAngle}deg`,
+                    } as React.CSSProperties
+                }
+                aria-describedby={undefined}
+            >
                 <DialogHeader>
                     <DialogTitle>Добавить стриминг</DialogTitle>
                 </DialogHeader>
@@ -61,7 +76,7 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                                 }
                                 defaultValue="bandcamp"
                             >
-                                <SelectTrigger>
+                                <SelectTrigger className="bg-background">
                                     <SelectValue placeholder="Выберите сервис" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -72,7 +87,9 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                                 </SelectContent>
                             </Select>
                             {errors.streamType && (
-                                <p className="text-sm text-red-500">{errors.streamType.message}</p>
+                                <p className="text-sm text-destructive">
+                                    {errors.streamType.message}
+                                </p>
                             )}
                         </div>
                         <div className="flex-1">
@@ -81,7 +98,9 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                             </Label>
                             <Input id="streamUrl" {...register("streamUrl")} />
                             {errors.streamUrl && (
-                                <p className="text-sm text-red-500">{errors.streamUrl.message}</p>
+                                <p className="text-sm text-destructive">
+                                    {errors.streamUrl.message}
+                                </p>
                             )}
                         </div>
                     </div>

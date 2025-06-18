@@ -9,8 +9,20 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                gruppo: ['"Gruppo"', "sans-serif"],
+                syncopate: "var(--font-syncopate)",
                 sans: ['"Open Sans"', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                background: "var(--background)",
+                foreground: "var(--foreground)",
+                muted: {
+                    foreground: "var(--muted-foreground)",
+                },
+                accent: {
+                    DEFAULT: "var(--accent)",
+                    foreground: "var(--accent-foreground)",
+                },
+                destructive: "var(--destructive)",
             },
         },
         screens: {

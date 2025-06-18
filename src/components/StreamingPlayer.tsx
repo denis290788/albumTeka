@@ -30,7 +30,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
         case "spotify": {
             const cleanUrl = stream.url.split("?")[0];
             const albumId = cleanUrl.split("/").pop();
-            if (!albumId) return <p className="text-red-500">Неверный URL Spotify.</p>;
+            if (!albumId) return <p className="text-destructive">Неверный URL Spotify.</p>;
 
             return (
                 <iframe
@@ -66,7 +66,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
             const parts = playlistWithKey.split("_");
             if (parts.length < 3) {
                 console.error("Неверный формат URL VK:", stream.url);
-                return <p className="text-red-500">Неверный URL VK.</p>;
+                return <p className="text-destructive">Неверный URL VK.</p>;
             }
             const playlistId = `${parts[0]}_${parts[1]}`;
             const accessKey = parts[2];

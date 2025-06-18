@@ -11,6 +11,7 @@ import { StreamingPlayer } from "./StreamingPlayer";
 import { Button } from "@/components/ui/button";
 import { PlayIcon, Square } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface AlbumCardProps {
     album: Album;
@@ -63,7 +64,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                     </div>
                 )}
                 <div>
-                    <h3 className="font-semibold text-lg">{album.title}</h3>
+                    <h3 className="font-semibold text-lg text-foreground">{album.title}</h3>
                     <p className="text-sm text-muted-foreground">{album.artist}</p>
                     {album.year && <p className="text-sm text-muted-foreground">{album.year}</p>}
                 </div>
@@ -75,20 +76,34 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                     setActiveStream={setActiveStream}
                 />
                 <Button
-                    variant="ghost"
+                    variant="outline"
                     size="icon"
                     onClick={handlePlayClick}
                     className="shrink-0 bg-[#c8d3d6]"
                 >
                     {isPlaying ? (
-                        <Square className="h-5 w-5 text-red-500" />
+                        <Square className="h-5 w-5 text-destructive" />
                     ) : (
-                        <PlayIcon className="h-5 w-5 text-[#4ac77c]" />
+                        <PlayIcon className="h-5 w-5 text-accent-foreground" />
                     )}
                 </Button>
                 <FolderSelector album={album} />
             </div>
-            {isPlaying && <StreamingPlayer album={album} activeStream={activeStream} />}
+            {/* {isPlaying && <StreamingPlayer album={album} activeStream={activeStream} />} */}
+
+            <AnimatePresence initial={false}>
+                {isPlaying && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        style={{ overflow: "hidden" }}
+                    >
+                        <StreamingPlayer album={album} activeStream={activeStream} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </Card>
     );
 }

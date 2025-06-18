@@ -69,6 +69,41 @@ export const albumsApi = createApi({
                       ],
         }),
 
+        getAlbumsByFolder: builder.query<Album[], { userId: string; folderId: string }>({
+            async queryFn({ userId, folderId }) {
+                try {
+                    if (!userId || !folderId) {
+                        console.warn(
+                            "User ID or Folder ID is missing. Cannot fetch albums for folder."
+                        );
+                        return { data: [] };
+                    }
+
+                    const q = query(
+                        collection(db, "albums"),
+                        where("userId", "==", userId),
+                        where("folderId", "==", folderId)
+                    );
+                    const snapshot = await getDocs(q);
+                    const albums: Album[] = snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...(doc.data() as Omit<Album, "id">),
+                    }));
+                    return { data: albums };
+                } catch (error) {
+                    console.error("Ошибка при получении альбомов для папки:", error);
+                    return { error: error as Error };
+                }
+            },
+            providesTags: (result, error, { folderId }) =>
+                result
+                    ? [
+                          ...result.map((a) => ({ type: "Album" as const, id: a.id })),
+                          { type: "Album", id: `LIST-FOLDER-${folderId}` },
+                      ]
+                    : [{ type: "Album", id: `LIST-FOLDER-${folderId}` }],
+        }),
+
         addAlbum: builder.mutation<Album, Omit<Album, "id" | "userId">>({
             async queryFn(newAlbumData) {
                 try {
@@ -121,31 +156,48 @@ export const albumsApi = createApi({
                     }
 
                     const albumRef = doc(db, "albums", album.id);
-                    const albumDoc = await getDoc(albumRef); // Получаем документ, чтобы проверить владение
+                    const albumDoc = await getDoc(albumRef);
 
                     if (!albumDoc.exists() || albumDoc.data()?.userId !== userId) {
                         throw new Error("Альбом не найден или нет прав на обновление.");
                     }
 
+                    const oldFolderId = albumDoc.data()?.folderId;
+
                     const { ...albumDataToUpdate } = album;
 
                     await updateDoc(albumRef, albumDataToUpdate);
-                    return { data: album };
+                    return {
+                        data: album,
+                        meta: { oldFolderId },
+                    };
                 } catch (error) {
                     console.error("Ошибка при обновлении альбома:", error);
                     return { error: error as Error };
                 }
             },
-            invalidatesTags: (album) => [
-                { type: "Album", id: album!.id },
-                { type: "Album", id: "LIST" },
-            ],
+            invalidatesTags: (result, error, album, meta: { oldFolderId?: string } | undefined) => {
+                const tags: Array<{ type: "Album"; id: string }> = [
+                    { type: "Album", id: album.id },
+                    { type: "Album", id: "LIST" },
+                ];
+
+                if (meta?.oldFolderId) {
+                    tags.push({ type: "Album", id: `LIST-FOLDER-${meta.oldFolderId}` });
+                }
+                if (album.folderId) {
+                    tags.push({ type: "Album", id: `LIST-FOLDER-${album.folderId}` });
+                }
+
+                return tags;
+            },
         }),
     }),
 });
 
 export const {
     useGetAlbumsQuery,
+    useGetAlbumsByFolderQuery,
     useAddAlbumMutation,
     useDeleteAlbumMutation,
     useUpdateAlbumMutation,

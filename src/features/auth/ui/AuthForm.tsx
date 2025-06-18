@@ -37,6 +37,7 @@ export function AuthForm() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        mode: "onChange",
         defaultValues: {
             email: "",
             password: "",
@@ -99,14 +100,14 @@ export function AuthForm() {
                         )}
                     />
                     {form.formState.errors.root?.serverError && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-destructive text-sm">
                             {form.formState.errors.root.serverError.message}
                         </p>
                     )}
                     <Button
                         type="submit"
                         className="w-full"
-                        disabled={form.formState.isSubmitting || loading}
+                        disabled={!form.formState.isValid || form.formState.isSubmitting || loading}
                     >
                         {form.formState.isSubmitting
                             ? "Загрузка..."

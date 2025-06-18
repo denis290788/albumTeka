@@ -9,6 +9,7 @@ export const useAddAlbumForm = () => {
 
     const form = useForm<AlbumFormData>({
         resolver: zodResolver(albumSchema),
+        mode: "onChange",
         defaultValues: {
             streamType: "bandcamp",
         },

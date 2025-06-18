@@ -65,7 +65,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                     <SelectValue placeholder="Выберите стриминг" />
                 </SelectTrigger>
 
-                <SelectContent className="bg-[#dfe6e9]">
+                <SelectContent className="bg-background">
                     {[...album.streams]
                         .sort((a) => (a.type === album.defaultStream ? -1 : 1))
                         .map((stream) => {
@@ -74,11 +74,11 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                             return (
                                 <div
                                     key={stream.type}
-                                    className="flex items-center justify-between px-2 py-1 hover:bg-accent rounded"
+                                    className="flex items-center justify-between px-2 py-1 rounded"
                                 >
                                     <div className="flex items-center gap-2 w-full">
                                         {isDefault ? (
-                                            <Check className="text-[#4ac77c] w-4 h-4" />
+                                            <Check className="text-accent-foreground w-4 h-4" />
                                         ) : (
                                             <button
                                                 onClick={(e) => {
@@ -87,7 +87,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                                                 }}
                                                 className="focus:outline-none cursor-pointer"
                                             >
-                                                <Check className="text-gray-400 hover:text-[#4ac77c] w-4 h-4" />
+                                                <Check className="text-gray-400 hover:text-accent-foreground w-4 h-4" />
                                             </button>
                                         )}
                                         <SelectItem
@@ -105,7 +105,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                                                 e.stopPropagation();
                                                 removeStream(stream.type);
                                             }}
-                                            className="focus:outline-none cursor-pointer"
+                                            className="focus:outline-none cursor-pointer pl-2"
                                         >
                                             <Trash className="text-red-400 hover:text-red-600 w-4 h-4" />
                                         </button>
