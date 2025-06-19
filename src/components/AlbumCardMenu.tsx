@@ -19,7 +19,6 @@ export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
 
     const handleDeleteAlbum = async (e: React.MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
 
         try {
             await deleteAlbum(albumId).unwrap();
@@ -31,7 +30,7 @@ export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="outline">
+                <Button size="icon" variant="outline" className="text-foreground">
                     <MoreHorizontal className="w-5 h-5" />
                 </Button>
             </DropdownMenuTrigger>

@@ -1,10 +1,4 @@
-import {
-    Select,
-    SelectTrigger,
-    SelectContent,
-    SelectItem,
-    SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { useGetFoldersQuery } from "@/services/foldersApi";
 import { Album, useUpdateAlbumMutation } from "@/services/albumsApi";
 import { useAuth } from "@/features/auth";
@@ -34,10 +28,8 @@ export function FolderSelector({ album }: FolderSelectorProps) {
 
     return (
         <Select onValueChange={handleChange} value={selectedValue}>
-            <SelectTrigger className="max-w-xs bg-[#c8d3d6]">
-                <SelectValue asChild>
-                    <Folder className="h-4 w-4 text-muted-foreground" />
-                </SelectValue>
+            <SelectTrigger className="max-w-xs group transition-all">
+                <Folder className="h-4 w-4 text-foreground transition-colors group-hover:text-accent-foreground" />
             </SelectTrigger>
             <SelectContent className="bg-background">
                 <SelectItem value="null">Без папки</SelectItem>

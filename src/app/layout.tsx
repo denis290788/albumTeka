@@ -19,13 +19,19 @@ const openSans = Open_Sans({
 
 export const metadata = {
     title: "AlbumTeka",
-    description: "Your audioteka",
+    description: "Твоя коллекция альбомов",
+    icons: {
+        icon: "/favicon.ico",
+    },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="en" className={`${syncopate.variable} ${openSans.variable} h-full`}>
-            <body className="antialiased h-full font-sans bg-background text-foreground">
+            <body
+                className="antialiased h-full font-open-sans bg-background text-foreground"
+                style={{ fontFamily: "var(--font-open-sans), sans-serif" }}
+            >
                 <AppStore>
                     <AuthProvider>{children}</AuthProvider>
                 </AppStore>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetFoldersQuery, useUpdateFolderOrderMutation } from "@/services/foldersApi";
+import { Folder, useGetFoldersQuery, useUpdateFoldersOrderMutation } from "@/services/foldersApi";
 import { FolderCard } from "./FolderCard";
 import { useAuth } from "@/features/auth";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,8 @@ import {
     PointerSensor,
     DragEndEvent,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, arrayMove, horizontalListSortingStrategy } from "@dnd-kit/sortable";
+import { restrictToFirstScrollableAncestor, restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { useEffect, useState } from "react";
 
 interface FolderListProps {
@@ -23,20 +24,19 @@ interface FolderListProps {
 export function FolderList({ className }: FolderListProps) {
     const { user } = useAuth();
     const { data: folders = [], isError } = useGetFoldersQuery(user?.uid);
-    const [updateOrder] = useUpdateFolderOrderMutation();
+    const [updateFoldersOrder] = useUpdateFoldersOrderMutation();
 
-    const [localFolders, setLocalFolders] = useState(folders);
+    const [localFolders, setLocalFolders] = useState<Folder[]>([]);
+
     const sensors = useSensors(useSensor(PointerSensor));
 
-    // import isEqual from "lodash.isequal"; // npm install lodash.isequal
-    // useEffect(() => {
-    //   if (!isEqual(folders, localFolders)) {
-    //     setLocalFolders(folders);
-    //   }
-    // }, [folders, localFolders]);
-
     useEffect(() => {
-        if (JSON.stringify(folders) !== JSON.stringify(localFolders)) {
+        if (
+            folders.length !== localFolders.length ||
+            folders.some(
+                (f, i) => f.id !== localFolders[i]?.id || f.order !== localFolders[i]?.order
+            )
+        ) {
             setLocalFolders(folders);
         }
     }, [folders, localFolders]);
@@ -47,18 +47,19 @@ export function FolderList({ className }: FolderListProps) {
             const oldIndex = localFolders.findIndex((f) => f.id === active.id);
             const newIndex = localFolders.findIndex((f) => f.id === over?.id);
 
-            const newOrder = arrayMove(localFolders, oldIndex, newIndex);
-            setLocalFolders(newOrder);
+            const newOrderedFolders = arrayMove(localFolders, oldIndex, newIndex);
+            setLocalFolders(newOrderedFolders);
 
-            // Обновляем порядок на сервере
-            for (let i = 0; i < newOrder.length; i++) {
-                await updateOrder({ folderId: newOrder[i].id, order: i });
-            }
+            const foldersToUpdate = newOrderedFolders.map((folder, index) => ({
+                ...folder,
+                order: index,
+            }));
+            await updateFoldersOrder({ folders: foldersToUpdate });
         }
     };
 
     if (isError) return <p className="text-destructive">Ошибка загрузки папок.</p>;
-    if (!folders.length) return null;
+    if (!localFolders.length && !folders.length) return null;
 
     return (
         <div className={cn("mb-8 flex flex-col gap-4", className)}>
@@ -68,14 +69,15 @@ export function FolderList({ className }: FolderListProps) {
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
+                modifiers={[restrictToFirstScrollableAncestor, restrictToWindowEdges]}
             >
                 <SortableContext
                     items={localFolders.map((f) => f.id)}
-                    strategy={verticalListSortingStrategy}
+                    strategy={horizontalListSortingStrategy}
                 >
-                    <div className="flex gap-2 lg:gap-4 items-center flex-wrap">
+                    <div className="flex gap-2 lg:gap-4 flex-wrap">
                         {localFolders.map((folder) => (
-                            <FolderCard key={folder.id} id={folder.id} name={folder.name} />
+                            <FolderCard key={folder.id} {...folder} />
                         ))}
                     </div>
                 </SortableContext>

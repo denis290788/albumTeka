@@ -20,9 +20,7 @@ export function AlbumList({ folderId }: AlbumListProps) {
         data: allUserAlbums = [],
         isLoading: isLoadingAllAlbums,
         isError: isErrorAllAlbums,
-    } = useGetAlbumsQuery(user?.uid, {
-        skip: !!folderId,
-    });
+    } = useGetAlbumsQuery(user?.uid, { skip: !!folderId });
 
     const {
         data: folderAlbums = [],
@@ -30,9 +28,7 @@ export function AlbumList({ folderId }: AlbumListProps) {
         isError: isErrorFolderAlbums,
     } = useGetAlbumsByFolderQuery(
         { userId: userId, folderId: folderId as string },
-        {
-            skip: !folderId,
-        }
+        { skip: !folderId }
     );
 
     const {
@@ -41,9 +37,7 @@ export function AlbumList({ folderId }: AlbumListProps) {
         isError: isErrorFolder,
     } = useGetFolderByIdQuery(
         { userId: userId, folderId: folderId as string },
-        {
-            skip: !folderId,
-        }
+        { skip: !folderId }
     );
 
     const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
@@ -66,9 +60,10 @@ export function AlbumList({ folderId }: AlbumListProps) {
     }
 
     if (isLoading) return <Loader />;
-    if (isError) return <p className="text-destructive text-2xl">Ошибка загрузки альбомов</p>;
+    if (isError)
+        return <p className="text-destructive text-2xl">Упс... ошибка загрузки альбомов:/</p>;
     if (albumsToDisplay.length === 0) {
-        return <p className="text-muted-foreground text-2xl">Нет добавленных альбомов</p>;
+        return <p className="text-muted-foreground text-2xl">Ты пока не добавил альбомы:/</p>;
     }
 
     const breakpointColumnsObj = {

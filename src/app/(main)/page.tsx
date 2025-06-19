@@ -3,7 +3,7 @@ import { FolderList } from "../../components/FolderList";
 
 export default function HomePage() {
     return (
-        <div className="max-w-7xl mx-auto pt-[90px] lg:pt-[115px]">
+        <div className="max-w-7xl mx-auto pt-[90px] lg:pt-[115px] pb-10">
             <FolderList className="hidden lg:flex" />
             <AlbumList />
         </div>

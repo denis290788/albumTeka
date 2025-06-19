@@ -12,8 +12,7 @@ export const albumSchema = z
                 message: "Введите корректный год (4 цифры)",
             }),
         coverUrl: z.string().url("Неверная ссылка на обложку").optional().or(z.literal("")),
-        streamType: z.enum(["bandcamp", "spotify", "soundcloud", "vk"]),
-        // streamUrl: z.string().min(1, "Введите ссылку"),
+        streamType: z.enum(["Bandcamp", "Spotify", "Soundcloud", "VK"]),
     })
     .and(streamSchema);
 

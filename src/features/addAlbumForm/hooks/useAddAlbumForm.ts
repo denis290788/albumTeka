@@ -11,7 +11,7 @@ export const useAddAlbumForm = () => {
         resolver: zodResolver(albumSchema),
         mode: "onChange",
         defaultValues: {
-            streamType: "bandcamp",
+            streamType: "Bandcamp",
         },
     });
 
@@ -20,10 +20,20 @@ export const useAddAlbumForm = () => {
     const onSubmit = async (data: AlbumFormData) => {
         let processedUrl = data.streamUrl;
 
-        if (data.streamType === "bandcamp") {
-            const match = data.streamUrl.match(/album=(\d+)/);
-            if (match) {
-                processedUrl = `https://bandcamp.com/EmbeddedPlayer/album=${match[1]}`;
+        if (data.streamType === "Bandcamp") {
+            const albumMatch = data.streamUrl.match(/album=(\d+)/);
+            const trackMatch = data.streamUrl.match(/track=(\d+)/);
+
+            if (albumMatch) {
+                processedUrl = `https://bandcamp.com/EmbeddedPlayer/album=${albumMatch[1]}`;
+            } else if (trackMatch) {
+                processedUrl = `https://bandcamp.com/EmbeddedPlayer/track=${trackMatch[1]}`;
+            } else {
+                form.setError("streamUrl", {
+                    type: "manual",
+                    message: "Для Bandcamp необходимо добавить Embed-ссылку",
+                });
+                return false;
             }
         }
 

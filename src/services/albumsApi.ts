@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "@/lib/firebase";
 
-export type StreamType = "bandcamp" | "spotify" | "soundcloud" | "vk";
+export type StreamType = "Bandcamp" | "Spotify" | "Soundcloud" | "VK";
 
 export interface Stream {
     type: StreamType;
@@ -40,7 +40,7 @@ export const albumsApi = createApi({
             async queryFn(userId) {
                 try {
                     if (!userId) {
-                        console.warn("User ID is missing. Cannot fetch albums.");
+                        console.warn("Отсутствует User ID. Невозможно загрузить альбомы.");
                         return { data: [] };
                     }
 
@@ -74,7 +74,7 @@ export const albumsApi = createApi({
                 try {
                     if (!userId || !folderId) {
                         console.warn(
-                            "User ID or Folder ID is missing. Cannot fetch albums for folder."
+                            "Отсутствует User ID или Folder ID. Невозможно загрузить альбомы."
                         );
                         return { data: [] };
                     }
@@ -109,7 +109,7 @@ export const albumsApi = createApi({
                 try {
                     const userId = auth.currentUser?.uid;
                     if (!userId) {
-                        throw new Error("Пользователь не авторизован. Невозможно добавить альбом.");
+                        throw new Error("Отсутствует User ID. Невозможно добавить альбом.");
                     }
                     const albumToSave = { ...newAlbumData, userId };
                     const docRef = await addDoc(collection(db, "albums"), albumToSave);
@@ -128,7 +128,7 @@ export const albumsApi = createApi({
                 try {
                     const userId = auth.currentUser?.uid;
                     if (!userId) {
-                        throw new Error("Пользователь не авторизован. Невозможно удалить альбом.");
+                        throw new Error("Отсутствует User ID. Невозможно удалить альбом.");
                     }
 
                     const albumRef = doc(db, "albums", albumId);
@@ -152,7 +152,7 @@ export const albumsApi = createApi({
                 try {
                     const userId = auth.currentUser?.uid;
                     if (!userId) {
-                        throw new Error("Пользователь не авторизован. Невозможно обновить альбом.");
+                        throw new Error("Отсутствует User ID. Невозможно обновить альбом.");
                     }
 
                     const albumRef = doc(db, "albums", album.id);

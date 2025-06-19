@@ -38,13 +38,12 @@ export function MobileMenuSheet({
             <SheetTrigger asChild className="lg:hidden">
                 <Button variant="outline" size="icon">
                     <MenuIcon className="h-6 w-6" />
-                    <span className="sr-only">Открыть меню</span>
                 </Button>
             </SheetTrigger>
             <SheetContent side="right" className="flex flex-col bg-background p-2">
                 <SheetHeader className="sr-only">
                     <SheetTitle>Навигация</SheetTitle>
-                    <SheetDescription>Навигация по сайту</SheetDescription>
+                    <SheetDescription>Навигация по сайту / Раздел с папками</SheetDescription>
                 </SheetHeader>
                 <div className="flex flex-col gap-4 pt-8">
                     {user && (
@@ -56,22 +55,22 @@ export function MobileMenuSheet({
                                         setIsAddFolderModalOpen(true);
                                         setIsMobileMenuOpen(false);
                                     }}
-                                    className="flex-1"
+                                    className="flex-1 text-foreground"
                                 >
-                                    <Folder className="h-4 w-4 text-accent-foreground mr-2" />
+                                    <Folder className="h-4 w-4 mr-2" />
                                 </Button>
                                 <Button
                                     variant="outline"
-                                    className="flex-1"
+                                    className="flex-1  text-foreground"
                                     onClick={() => {
                                         setIsMobileMenuOpen(false);
                                         router.push("/add");
                                     }}
                                 >
-                                    <Disc3 className="h-4 w-4 text-accent-foreground mr-2" />
+                                    <Disc3 className="h-4 w-4 mr-2" />
                                 </Button>
                             </div>
-                            <div className="flex flex-col gap-2 flex-1 overflow-y-auto max-h-[calc(100vh-150px)] px-[6px]">
+                            <div className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden max-h-[calc(100vh-150px)] px-[6px]">
                                 <FolderList />
                             </div>
                         </div>

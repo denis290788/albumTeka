@@ -16,7 +16,7 @@ export function Footer() {
             {"\u00A0"}— by{"\u00A0"}
             <Link
                 href={"https://github.com/denis290788"}
-                className="underline decoration-[1.5px] underline-offset-2"
+                className="underline decoration-[1px] underline-offset-2"
                 target="_blank"
                 rel="noopener noreferrer"
             >

@@ -1,4 +1,3 @@
-// components/StreamingPlayer.tsx
 "use client";
 
 import { Album, StreamType } from "@/services/albumsApi";
@@ -17,7 +16,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
     }
 
     switch (stream.type) {
-        case "bandcamp":
+        case "Bandcamp":
             return (
                 <iframe
                     style={{ border: 0, width: "100%", height: 402.4 }}
@@ -27,7 +26,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
                 />
             );
 
-        case "spotify": {
+        case "Spotify": {
             const cleanUrl = stream.url.split("?")[0];
             const albumId = cleanUrl.split("/").pop();
             if (!albumId) return <p className="text-destructive">Неверный URL Spotify.</p>;
@@ -45,7 +44,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
                 ></iframe>
             );
         }
-        case "soundcloud":
+        case "Soundcloud":
             return (
                 <iframe
                     width="100%"
@@ -60,7 +59,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
                 ></iframe>
             );
 
-        case "vk": {
+        case "VK": {
             const urlParts = stream.url.split("/");
             const playlistWithKey = urlParts[urlParts.length - 1];
             const parts = playlistWithKey.split("_");

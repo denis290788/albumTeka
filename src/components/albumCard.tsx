@@ -38,9 +38,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
             className={cn(
                 "p-4 relative",
                 "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
-                // "transition-all duration-200 ease-in-out",
                 "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]"
-                // "hover:bg-[linear-gradient(calc(var(--angle)+45deg),#4ac77c,#dfe6e9)]"
             )}
             style={
                 {
@@ -51,7 +49,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
             <div className="absolute top-2 right-2">
                 <AlbumCardMenu albumId={album.id} />
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 min-h-[96px]">
                 {album.coverUrl && (
                     <div className="w-24 h-24 relative shrink-0">
                         {/* eslint-disable-next-line */}
@@ -79,18 +77,16 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                     variant="outline"
                     size="icon"
                     onClick={handlePlayClick}
-                    className="shrink-0 bg-[#c8d3d6]"
+                    className="shrink-0 bg-muted-foreground/30 text-foreground hover:text-accent-foreground"
                 >
                     {isPlaying ? (
                         <Square className="h-5 w-5 text-destructive" />
                     ) : (
-                        <PlayIcon className="h-5 w-5 text-accent-foreground" />
+                        <PlayIcon className="h-5 w-5" />
                     )}
                 </Button>
                 <FolderSelector album={album} />
             </div>
-            {/* {isPlaying && <StreamingPlayer album={album} activeStream={activeStream} />} */}
-
             <AnimatePresence initial={false}>
                 {isPlaying && (
                     <motion.div

@@ -26,7 +26,9 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.8 : 1,
+        zIndex: isDragging ? 1 : "auto",
+        transformOrigin: "0 0",
     };
 
     const handleDelete = async (e: React.MouseEvent) => {
@@ -44,7 +46,7 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
         <div ref={setNodeRef} style={style} className={cn(className, "group")}>
             <Card
                 className={cn(
-                    "p-1 bg-[#c8d3d6] transition min-w-25 max-w-50 lg:min-w-25 lg:max-w-50 shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
+                    "p-1 bg-muted-foreground/30 transition min-w-25 max-w-40 lg:max-w-50 shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
                     "flex flex-row gap-0 items-center"
                 )}
             >

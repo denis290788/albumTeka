@@ -1,17 +1,10 @@
 "use client";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useAddFolderForm } from "../hooks/useAddFolderForm";
-import { useMemo } from "react";
 
 interface AddFolderFormProps {
     open: boolean;
@@ -28,8 +21,6 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
         formState: { errors, isSubmitting },
     } = form;
 
-    const gradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
-
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -40,27 +31,30 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
                 )}
                 style={
                     {
-                        "--angle": `${gradientAngle}deg`,
+                        "--angle": `${Math.floor(Math.random() * 360)}deg`,
                     } as React.CSSProperties
                 }
-                // aria-describedby={undefined} если не нужен DialogDescription
+                aria-describedby={undefined}
             >
                 <DialogHeader>
-                    <DialogTitle>Добавить папку</DialogTitle>
-                    <DialogDescription>
-                        Введите название новой папки, чтобы упорядочить ваши альбомы.
-                    </DialogDescription>
+                    <DialogTitle>Новая папка</DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <Input placeholder="Название папки" {...register("name")} />
-                    {errors.name && (
-                        <p className="text-sm text-destructive">{errors.name.message}</p>
-                    )}
+                    <Input
+                        placeholder="Название папки"
+                        {...register("name")}
+                        className="border-0"
+                    />
 
-                    <Button type="submit" disabled={isSubmitting}>
-                        Сохранить
-                    </Button>
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
+                        <Button type="submit" disabled={isSubmitting}>
+                            Создать
+                        </Button>
+                        {errors.name && (
+                            <p className="text-sm text-destructive">{errors.name.message}</p>
+                        )}
+                    </div>
                 </form>
             </DialogContent>
         </Dialog>

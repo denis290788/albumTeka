@@ -8,7 +8,6 @@ import {
     addDoc,
     writeBatch,
     getDoc,
-    updateDoc,
     orderBy,
 } from "firebase/firestore";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
@@ -18,7 +17,7 @@ export type Folder = {
     id: string;
     name: string;
     userId: string;
-    order?: number; 
+    order?: number;
 };
 
 export const foldersApi = createApi({
@@ -30,14 +29,14 @@ export const foldersApi = createApi({
             async queryFn(userId) {
                 try {
                     if (!userId) {
-                        console.warn("User ID is missing. Cannot fetch albums.");
+                        console.warn("Отсутствует User ID. Невозможно загрузить альбомы.");
                         return { data: [] };
                     }
 
                     const q = query(
                         collection(db, "folders"),
                         where("userId", "==", userId),
-                        orderBy("order", "asc") // Сортируем по порядку
+                        orderBy("order", "asc")
                     );
 
                     const snapshot = await getDocs(q);
@@ -47,7 +46,7 @@ export const foldersApi = createApi({
                     }));
                     return { data: folders };
                 } catch (error) {
-                    console.error("Error fetching folders:", error);
+                    console.error("Ошибка при получении папок:", error);
                     return { error: { message: (error as Error).message } };
                 }
             },
@@ -69,7 +68,7 @@ export const foldersApi = createApi({
                 try {
                     if (!userId || !folderId) {
                         console.warn(
-                            "User ID or Folder ID is missing. Cannot fetch a specific folder."
+                            "Отсутствует User ID или Folder ID. Невозможно загрузить папку."
                         );
                         return { data: null };
                     }
@@ -85,10 +84,10 @@ export const foldersApi = createApi({
                             },
                         };
                     } else {
-                        return { data: null }; // Папка не найдена или не принадлежит пользователю
+                        return { data: null };
                     }
                 } catch (error) {
-                    console.error("Error fetching folder by ID:", error);
+                    console.error("Ошибка при получении папки по ID:", error);
                     return { error: error as Error };
                 }
             },
@@ -100,7 +99,7 @@ export const foldersApi = createApi({
                 try {
                     const userId = auth.currentUser?.uid;
                     if (!userId) {
-                        throw new Error("No user logged in. Cannot add folder.");
+                        throw new Error("Отсутствует User ID. Невозможно добавить папку.");
                     }
 
                     const docRef = await addDoc(collection(db, "folders"), {
@@ -110,7 +109,7 @@ export const foldersApi = createApi({
                     });
                     return { data: { id: docRef.id, name, userId } };
                 } catch (error) {
-                    console.error("Error adding folder:", error);
+                    console.error("Ошибка придобавлении папки:", error);
                     return { error: error as Error };
                 }
             },
@@ -122,14 +121,14 @@ export const foldersApi = createApi({
                 try {
                     const userId = auth.currentUser?.uid;
                     if (!userId) {
-                        throw new Error("No user logged in. Cannot delete folder.");
+                        throw new Error("Отсутствует User ID. Невозможно удалить папку.");
                     }
 
                     const folderDocRef = doc(db, "folders", id);
                     const folderDoc = await getDoc(folderDocRef);
 
                     if (!folderDoc.exists() || folderDoc.data()?.userId !== userId) {
-                        throw new Error("Folder not found or not authorized to delete.");
+                        throw new Error("Папка не найдена или нет прав на удаление.");
                     }
 
                     const albumsRef = collection(db, "albums");
@@ -149,7 +148,7 @@ export const foldersApi = createApi({
 
                     return { data: true };
                 } catch (error) {
-                    console.error("Error deleting folder:", error);
+                    console.error("Ошибка удаления папки:", error);
                     return { error: error as Error };
                 }
             },
@@ -160,18 +159,25 @@ export const foldersApi = createApi({
             ],
         }),
 
-        updateFolderOrder: builder.mutation<null, { folderId: string; order: number }>({
-            async queryFn({ folderId, order }) {
+        updateFoldersOrder: builder.mutation<null, { folders: Folder[] }>({
+            async queryFn({ folders }) {
                 try {
-                    const folderRef = doc(db, "folders", folderId);
-                    await updateDoc(folderRef, { order });
-                    return { data: null }; // ✅ <-- фикс
+                    const batch = writeBatch(db);
+                    folders.forEach((folder, index) => {
+                        const folderRef = doc(db, "folders", folder.id);
+                        batch.update(folderRef, { order: index });
+                    });
+                    await batch.commit();
+                    return { data: null };
                 } catch (error) {
-                    console.error("Error updating folder order:", error);
+                    console.error("Ошибка обновления порядка папок:", error);
                     return { error: error as Error };
                 }
             },
-            invalidatesTags: (result, error, { folderId }) => [{ type: "Folder", id: folderId }],
+            invalidatesTags: (result, error, { folders }) => [
+                { type: "Folder", id: "LIST" },
+                ...folders.map((f) => ({ type: "Folder" as const, id: f.id })),
+            ],
         }),
     }),
 });
@@ -181,5 +187,5 @@ export const {
     useGetFolderByIdQuery,
     useAddFolderMutation,
     useDeleteFolderMutation,
-    useUpdateFolderOrderMutation,
+    useUpdateFoldersOrderMutation,
 } = foldersApi;

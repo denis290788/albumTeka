@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 import { useAddStreamForm } from "../hooks/useAddStreamForm";
 import { StreamFormData } from "../model/addStreamTypes";
 import { Album } from "@/services/albumsApi";
-import { useMemo } from "react";
 
 interface AddStreamModalProps {
     album: Album;
@@ -25,7 +24,7 @@ interface AddStreamModalProps {
 }
 
 export function AddStreamModal({ album, open, onOpenChange, className }: AddStreamModalProps) {
-    const { form, onSubmit, isSubmitting, submissionError } = useAddStreamForm(album);
+    const { form, onSubmit, isSubmitting } = useAddStreamForm(album);
 
     const {
         register,
@@ -35,17 +34,14 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
     } = form;
 
     const handleFormSubmit = async (data: StreamFormData) => {
+        form.clearErrors();
+
         const success = await onSubmit(data);
 
         if (success) {
             onOpenChange(false);
         }
-        if (submissionError) {
-            console.error("Ошибка при отправке формы:", submissionError);
-        }
     };
-
-    const gradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -57,7 +53,7 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                 )}
                 style={
                     {
-                        "--angle": `${gradientAngle}deg`,
+                        "--angle": `${Math.floor(Math.random() * 360)}deg`,
                     } as React.CSSProperties
                 }
                 aria-describedby={undefined}
@@ -67,47 +63,44 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
-                    <div className="flex flex-col md:flex-row gap-4 mb-4">
-                        <div>
-                            <Label className="mb-2">Стримминг</Label>
+                    <div className="flex flex-col md:flex-row gap-4 mb-4 md:gap-4 md:mb-4">
+                        <div className="flex flex-row md:flex-col gap-2">
+                            <Label className="mb-0">Стримминг</Label>
                             <Select
                                 onValueChange={(val) =>
                                     setValue("streamType", val as StreamFormData["streamType"])
                                 }
-                                defaultValue="bandcamp"
+                                defaultValue="Bandcamp"
                             >
-                                <SelectTrigger className="bg-background">
+                                <SelectTrigger className="bg-background w-full md:w-[130px]">
                                     <SelectValue placeholder="Выберите сервис" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="bandcamp">Bandcamp</SelectItem>
-                                    <SelectItem value="spotify">Spotify</SelectItem>
-                                    <SelectItem value="soundcloud">SoundCloud</SelectItem>
-                                    <SelectItem value="vk">VK</SelectItem>
+                                    <SelectItem value="Bandcamp">Bandcamp</SelectItem>
+                                    <SelectItem value="Spotify">Spotify</SelectItem>
+                                    <SelectItem value="Soundcloud">Soundcloud</SelectItem>
+                                    <SelectItem value="VK">VK</SelectItem>
                                 </SelectContent>
                             </Select>
-                            {errors.streamType && (
-                                <p className="text-sm text-destructive">
-                                    {errors.streamType.message}
-                                </p>
-                            )}
                         </div>
-                        <div className="flex-1">
-                            <Label htmlFor="streamUrl" className="mb-2">
+                        <div className="flex-1 flex flex-row md:flex-col gap-2">
+                            <Label htmlFor="streamUrl" className="mb-0">
                                 Ссылка
                             </Label>
-                            <Input id="streamUrl" {...register("streamUrl")} />
-                            {errors.streamUrl && (
-                                <p className="text-sm text-destructive">
-                                    {errors.streamUrl.message}
-                                </p>
-                            )}
+                            <Input id="streamUrl" {...register("streamUrl")} className="border-0" />
                         </div>
                     </div>
-
-                    <Button type="submit" disabled={isSubmitting}>
-                        Добавить
-                    </Button>
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
+                        <Button type="submit" disabled={isSubmitting} className="w-[130px]">
+                            Добавить
+                        </Button>
+                        {errors.streamType && (
+                            <p className="text-sm text-destructive">{errors.streamType.message}</p>
+                        )}
+                        {errors.streamUrl && (
+                            <p className="text-sm text-destructive">{errors.streamUrl.message}</p>
+                        )}
+                    </div>
                 </form>
             </DialogContent>
         </Dialog>

@@ -63,39 +63,44 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
             </div>
             <div className="flex gap-2">
                 <div>
-                    <Label>Cтриминг</Label>
+                    <Label>
+                        Cтриминг<span className="text-destructive">*</span>
+                    </Label>
                     <Select
                         onValueChange={(val) =>
                             setValue("streamType", val as AlbumFormData["streamType"])
                         }
-                        defaultValue="bandcamp"
+                        defaultValue="Bandcamp"
                     >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-muted-foreground/30">
                             <SelectValue placeholder="Выберите сервис" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="bandcamp">Bandcamp</SelectItem>
-                            <SelectItem value="spotify">Spotify</SelectItem>
-                            <SelectItem value="soundcloud">SoundCloud</SelectItem>
-                            <SelectItem value="vk">VK</SelectItem>
+                            <SelectItem value="Bandcamp">Bandcamp</SelectItem>
+                            <SelectItem value="Spotify">Spotify</SelectItem>
+                            <SelectItem value="Soundcloud">Soundcloud</SelectItem>
+                            <SelectItem value="VK">VK</SelectItem>
                         </SelectContent>
                     </Select>
-                    {errors.streamType && (
-                        <p className="text-sm text-destructive">{errors.streamType.message}</p>
-                    )}
                 </div>
                 <div className="flex-1">
-                    <Label htmlFor="streamUrl">Ссылка</Label>
+                    <Label htmlFor="streamUrl">
+                        Ссылка<span className="text-destructive">*</span>
+                    </Label>
                     <Input id="streamUrl" {...register("streamUrl")} />
-                    {errors.streamUrl && (
-                        <p className="text-sm text-destructive">{errors.streamUrl.message}</p>
-                    )}
                 </div>
             </div>
-
-            <Button type="submit" disabled={loading || !isValid}>
-                {loading ? "Сохраняем..." : "Добавить альбом"}
-            </Button>
+            <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
+                <Button type="submit" disabled={loading || !isValid}>
+                    {loading ? "Сохраняем..." : "Добавить альбом"}
+                </Button>
+                {errors.streamType && (
+                    <p className="text-sm text-destructive">{errors.streamType.message}</p>
+                )}
+                {errors.streamUrl && (
+                    <p className="text-sm text-destructive">{errors.streamUrl.message}</p>
+                )}
+            </div>
         </form>
     );
 };

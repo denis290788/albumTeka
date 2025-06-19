@@ -61,7 +61,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                 }}
                 value={activeStream}
             >
-                <SelectTrigger className="w-full max-w-xs bg-[#c8d3d6]">
+                <SelectTrigger className="w-full max-w-xs">
                     <SelectValue placeholder="Выберите стриминг" />
                 </SelectTrigger>
 
@@ -114,7 +114,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                             );
                         })}
 
-                    <SelectItem value="add" className="text-muted-foreground cursor-pointer">
+                    <SelectItem value="add" className="pl-9 text-muted-foreground cursor-pointer">
                         + Добавить стриминг
                     </SelectItem>
                 </SelectContent>
