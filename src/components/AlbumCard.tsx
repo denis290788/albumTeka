@@ -36,7 +36,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
     return (
         <Card
             className={cn(
-                "p-4 relative",
+                "p-2 md:p-4 relative gap-2 md:gap-6",
                 "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
                 "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]"
             )}
@@ -49,21 +49,23 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
             <div className="absolute top-2 right-2">
                 <AlbumCardMenu albumId={album.id} />
             </div>
-            <div className="flex gap-4 min-h-[96px]">
+            <div className="flex gap-2 md:gap-4 min-h-[96px]">
                 {album.coverUrl && (
-                    <div className="w-24 h-24 relative shrink-0">
+                    <div className="w-24 h-24 shrink-0">
                         {/* eslint-disable-next-line */}
                         <img
                             src={album.coverUrl}
                             alt={album.title}
-                            className="object-cover rounded"
+                            className="w-full h-full object-cover object-center rounded"
                             loading="lazy"
                         />
                     </div>
                 )}
                 <div>
-                    <h3 className="font-semibold text-lg text-foreground">{album.title}</h3>
-                    <p className="text-sm text-muted-foreground">{album.artist}</p>
+                    <h3 className="pr-8 font-semibold text-sm md:text-lg text-foreground line-clamp-2 break-words">
+                        {album.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground truncate">{album.artist}</p>
                     {album.year && <p className="text-sm text-muted-foreground">{album.year}</p>}
                 </div>
             </div>
@@ -72,6 +74,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                     album={album}
                     activeStream={activeStream}
                     setActiveStream={setActiveStream}
+                    className="w-full"
                 />
                 <Button
                     variant="outline"

@@ -11,18 +11,30 @@ import { Check, Trash } from "lucide-react";
 import { Album, Stream, StreamType, useUpdateAlbumMutation } from "@/services/albumsApi";
 import { useState } from "react";
 import { AddStreamModal } from "../features/addStreamModal";
+import { useAuth } from "@/features/auth";
+import { cn } from "@/lib/utils";
 
 interface StreamSelectorProps {
     album: Album;
     activeStream: StreamType;
     setActiveStream: (type: StreamType) => void;
+    className?: string;
 }
 
-export function StreamSelector({ album, activeStream, setActiveStream }: StreamSelectorProps) {
+export function StreamSelector({
+    album,
+    activeStream,
+    setActiveStream,
+    className,
+}: StreamSelectorProps) {
+    const { user } = useAuth();
+    const isOwner = user?.uid === album.userId;
+
     const [updateAlbum] = useUpdateAlbumMutation();
     const [addModalOpen, setAddModalOpen] = useState(false);
 
     const setDefaultStream = async (type: StreamType) => {
+        if (!isOwner) return;
         try {
             await updateAlbum({ ...album, defaultStream: type }).unwrap();
             setActiveStream(type);
@@ -32,6 +44,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
     };
 
     const removeStream = async (type: StreamType) => {
+        if (!isOwner) return;
         try {
             const updatedStreams = album.streams.filter((s: Stream) => s.type !== type);
 
@@ -50,11 +63,13 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
     };
 
     return (
-        <>
+        <div className={cn(className)}>
             <Select
                 onValueChange={(val) => {
                     if (val === "add") {
-                        setAddModalOpen(true);
+                        if (isOwner) {
+                            setAddModalOpen(true);
+                        }
                         return;
                     }
                     setActiveStream(val as StreamType);
@@ -80,15 +95,17 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                                         {isDefault ? (
                                             <Check className="text-accent-foreground w-4 h-4" />
                                         ) : (
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setDefaultStream(stream.type);
-                                                }}
-                                                className="focus:outline-none cursor-pointer"
-                                            >
-                                                <Check className="text-gray-400 hover:text-accent-foreground w-4 h-4" />
-                                            </button>
+                                            isOwner && (
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setDefaultStream(stream.type);
+                                                    }}
+                                                    className="focus:outline-none cursor-pointer"
+                                                >
+                                                    <Check className="text-gray-400 hover:text-accent-foreground w-4 h-4" />
+                                                </button>
+                                            )
                                         )}
                                         <SelectItem
                                             value={stream.type}
@@ -99,7 +116,7 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                                         </SelectItem>
                                     </div>
 
-                                    {!isDefault && (
+                                    {!isDefault && isOwner && (
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -114,13 +131,20 @@ export function StreamSelector({ album, activeStream, setActiveStream }: StreamS
                             );
                         })}
 
-                    <SelectItem value="add" className="pl-9 text-muted-foreground cursor-pointer">
-                        + Добавить стриминг
-                    </SelectItem>
+                    {isOwner && (
+                        <SelectItem
+                            value="add"
+                            className="pl-9 text-muted-foreground cursor-pointer"
+                        >
+                            + Добавить стриминг
+                        </SelectItem>
+                    )}
                 </SelectContent>
             </Select>
 
-            <AddStreamModal open={addModalOpen} onOpenChange={setAddModalOpen} album={album} />
-        </>
+            {isOwner && (
+                <AddStreamModal open={addModalOpen} onOpenChange={setAddModalOpen} album={album} />
+            )}
+        </div>
     );
 }

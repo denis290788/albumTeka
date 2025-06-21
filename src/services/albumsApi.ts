@@ -104,6 +104,35 @@ export const albumsApi = createApi({
                     : [{ type: "Album", id: `LIST-FOLDER-${folderId}` }],
         }),
 
+        getAlbumById: builder.query<Album | null, { albumId: string }>({
+            async queryFn({ albumId }) {
+                try {
+                    if (!albumId) {
+                        console.warn("Отсутствует Album ID. Невозможно загрузить альбом.");
+                        return { data: null };
+                    }
+
+                    const albumDocRef = doc(db, "albums", albumId);
+                    const albumDocSnap = await getDoc(albumDocRef);
+
+                    if (albumDocSnap.exists()) {
+                        return {
+                            data: {
+                                id: albumDocSnap.id,
+                                ...(albumDocSnap.data() as Omit<Album, "id">),
+                            },
+                        };
+                    } else {
+                        return { data: null };
+                    }
+                } catch (error) {
+                    console.error("Ошибка при получении альбома по ID:", error);
+                    return { error: error as Error };
+                }
+            },
+            providesTags: (result, error, { albumId }) => [{ type: "Album", id: albumId }],
+        }),
+
         addAlbum: builder.mutation<Album, Omit<Album, "id" | "userId">>({
             async queryFn(newAlbumData) {
                 try {
@@ -198,6 +227,7 @@ export const albumsApi = createApi({
 export const {
     useGetAlbumsQuery,
     useGetAlbumsByFolderQuery,
+    useGetAlbumByIdQuery,
     useAddAlbumMutation,
     useDeleteAlbumMutation,
     useUpdateAlbumMutation,
