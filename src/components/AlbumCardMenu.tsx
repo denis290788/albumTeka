@@ -9,16 +9,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash, MoreHorizontal, Info, Share2 } from "lucide-react";
 import { useDeleteAlbumMutation } from "@/services/albumsApi";
-import Link from "next/link";
 import { toast } from "sonner";
 import { useState } from "react";
 import { ConfirmModal } from "./ConfirmModal";
+import { useRouter } from "next/navigation";
 
 interface AlbumCardMenuProps {
     albumId: string;
 }
 
 export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
+    const router = useRouter();
     const [deleteAlbum] = useDeleteAlbumMutation();
 
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -60,11 +61,12 @@ export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="text-foreground focus:bg-muted-foreground/30 cursor-pointer">
-                        <Link href={`album/${albumId}`} className="flex items-center gap-2">
-                            <Info className="w-4 h-4 mr-2" />
-                            Детали
-                        </Link>
+                    <DropdownMenuItem
+                        className="text-foreground focus:bg-muted-foreground/30 cursor-pointer"
+                        onClick={() => router.push(`/album/${albumId}`)}
+                    >
+                        <Info className="w-4 h-4 mr-2" />
+                        Детали
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className="text-foreground focus:bg-muted-foreground/30 cursor-pointer"

@@ -16,6 +16,7 @@ import { FolderList } from "./FolderList";
 import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
+import { SearchInput } from "./SearchInput";
 
 interface MobileMenuSheetProps {
     isMobileMenuOpen: boolean;
@@ -46,40 +47,39 @@ export function MobileMenuSheet({
                     <SheetTitle>Навигация</SheetTitle>
                     <SheetDescription>Навигация по сайту / Раздел с папками</SheetDescription>
                 </SheetHeader>
-                <div className="flex flex-col gap-4 pt-10">
-                    {user && (
-                        <div>
-                            <div className="flex gap-2 md:gap-4 mb-4">
+                {user && (
+                    <div className="flex flex-col gap-4 pt-10">
+                        <div className="flex gap-2 md:gap-4">
+                            <Button
+                                variant="outline"
+                                className="flex-1 text-foreground"
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    router.push("/add");
+                                }}
+                            >
+                                <Disc3 className="h-4 w-4" />
+                            </Button>
+                            <div className="flex-1 flex gap-2 md:gap-4">
                                 <Button
                                     variant="outline"
-                                    className="flex-1 text-foreground"
                                     onClick={() => {
+                                        setIsAddFolderModalOpen(true);
                                         setIsMobileMenuOpen(false);
-                                        router.push("/add");
                                     }}
+                                    className="flex-1 text-foreground"
                                 >
-                                    <Disc3 className="h-4 w-4" />
+                                    <Folder className="h-4 w-4" />
                                 </Button>
-                                <div className="flex-1 flex gap-2 md:gap-4">
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => {
-                                            setIsAddFolderModalOpen(true);
-                                            setIsMobileMenuOpen(false);
-                                        }}
-                                        className="flex-1 text-foreground"
-                                    >
-                                        <Folder className="h-4 w-4" />
-                                    </Button>
-                                    <ThemeToggle />
-                                </div>
-                            </div>
-                            <div className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden max-h-[calc(100vh-150px)] px-[6px]">
-                                <FolderList />
+                                <ThemeToggle />
                             </div>
                         </div>
-                    )}
-                </div>
+                        <SearchInput />
+                        <div className="flex flex-col gap-2 flex-1 overflow-y-auto overflow-x-hidden max-h-[calc(100vh-150px)] px-[6px]">
+                            <FolderList />
+                        </div>
+                    </div>
+                )}
                 <div className="mt-auto">
                     {user ? (
                         <Button variant="destructive" onClick={handleLogout} className="w-full">
