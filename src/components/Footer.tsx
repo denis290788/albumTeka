@@ -4,7 +4,7 @@ export function Footer() {
     const year = new Date().getFullYear();
     return (
         <footer
-            className="h-[65px] lg:h-[90px] flex items-center-safe justify-end px-4 bg-[linear-gradient(0deg,#4ac77c,#dfe6e9)] overflow-hidden text-[12px] lg:text-[20px]"
+            className="h-[65px] lg:h-[90px] flex items-center-safe justify-end px-4 bg-[linear-gradient(0deg,#4ac77c,#dfe6e9)] dark:bg-[linear-gradient(0deg,#4ac77c,#34495e)] overflow-hidden text-[12px] lg:text-[20px] dark:text-background"
             style={{ fontFamily: "Syncopate, sans-serif" }}
         >
             © {year}

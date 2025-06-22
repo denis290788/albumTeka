@@ -70,7 +70,11 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="outline" className="text-foreground">
+                <Button
+                    size="icon"
+                    variant="outline"
+                    className="text-foreground dark:text-[#bedaca]"
+                >
                     <MoreHorizontal className="w-5 h-5" />
                 </Button>
             </DropdownMenuTrigger>

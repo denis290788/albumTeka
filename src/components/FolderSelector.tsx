@@ -29,7 +29,7 @@ export function FolderSelector({ album }: FolderSelectorProps) {
     return (
         <Select onValueChange={handleChange} value={selectedValue}>
             <SelectTrigger className="max-w-xs group transition-all">
-                <Folder className="h-4 w-4 text-foreground transition-colors group-hover:text-accent-foreground" />
+                <Folder className="h-4 w-4 text-foreground transition-colors group-hover:text-accent-foreground dark:text-[#bedaca] dark:group-hover:text-background" />
             </SelectTrigger>
             <SelectContent className="bg-background">
                 <SelectItem value="null">Без папки</SelectItem>

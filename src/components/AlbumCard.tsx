@@ -38,7 +38,8 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
             className={cn(
                 "p-2 md:p-4 relative gap-2 md:gap-6",
                 "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
-                "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]"
+                "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]",
+                "dark:bg-[linear-gradient(var(--angle),#4ac77c,#34495e)]"
             )}
             style={
                 {
@@ -62,11 +63,17 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                     </div>
                 )}
                 <div>
-                    <h3 className="pr-8 font-semibold text-sm md:text-lg text-foreground line-clamp-2 break-words">
+                    <h3 className="pr-8 font-semibold text-sm md:text-lg text-foreground dark:text-[#bedaca] line-clamp-2 break-words">
                         {album.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground truncate">{album.artist}</p>
-                    {album.year && <p className="text-sm text-muted-foreground">{album.year}</p>}
+                    <p className="text-sm text-muted-foreground dark:text-[#bedaca] truncate">
+                        {album.artist}
+                    </p>
+                    {album.year && (
+                        <p className="text-sm text-muted-foreground dark:text-[#bedaca]">
+                            {album.year}
+                        </p>
+                    )}
                 </div>
             </div>
             <div className="flex gap-2 items-center">
@@ -80,7 +87,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                     variant="outline"
                     size="icon"
                     onClick={handlePlayClick}
-                    className="shrink-0 bg-muted-foreground/30 text-foreground hover:text-accent-foreground"
+                    className="shrink-0 bg-muted-foreground/30 text-foreground hover:text-accent-foreground dark:text-[#bedaca] dark:hover:text-background"
                 >
                     {isPlaying ? (
                         <Square className="h-5 w-5 text-destructive" />

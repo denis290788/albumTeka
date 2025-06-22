@@ -7,6 +7,9 @@ import { useGetAlbumsQuery } from "@/services/albumsApi";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { X, GripVertical } from "lucide-react";
+import { ConfirmModal } from "./ConfirmModal";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface FolderCardProps {
     id: string;
@@ -18,6 +21,8 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
     const { user } = useAuth();
     const [deleteFolder] = useDeleteFolderMutation();
     const { refetch: refetchAlbums } = useGetAlbumsQuery(user?.uid);
+
+    const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id,
@@ -31,14 +36,16 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
         transformOrigin: "0 0",
     };
 
-    const handleDelete = async (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
+    const handleConfirmDelete = async () => {
         try {
             await deleteFolder({ id }).unwrap();
             refetchAlbums();
+            toast.success("Папка успешно удалена");
         } catch (err) {
             console.error("Ошибка при удалении папки:", err);
+            toast.error("Не удалось удалить папку");
+        } finally {
+            setConfirmModalOpen(false);
         }
     };
 
@@ -67,7 +74,7 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                 </div>
 
                 <button
-                    onClick={handleDelete}
+                    onClick={() => setConfirmModalOpen(true)}
                     className={cn(
                         "text-muted-foreground hover:text-destructive transition",
                         "p-[2px] opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
@@ -76,6 +83,14 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                     <X className="w-4 h-4" />
                 </button>
             </Card>
+
+            <ConfirmModal
+                open={confirmModalOpen}
+                headText="Подтвердите удаление"
+                description="Вы уверены, что хотите удалить папку? Это действие нельзя отменить."
+                onConfirm={handleConfirmDelete}
+                onCancel={() => setConfirmModalOpen(false)}
+            />
         </div>
     );
 }

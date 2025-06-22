@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useGetFolderByIdQuery } from "@/services/foldersApi";
 import Masonry from "react-masonry-css";
 import { Loader } from "./ui/loader";
+import { useSearch } from "./SearchContext";
 
 interface AlbumListProps {
     folderId?: string;
@@ -15,6 +16,8 @@ interface AlbumListProps {
 export function AlbumList({ folderId }: AlbumListProps) {
     const { user } = useAuth();
     const userId = user?.uid as string;
+
+    const { searchMode, searchQuery } = useSearch();
 
     const {
         data: allUserAlbums = [],
@@ -59,6 +62,18 @@ export function AlbumList({ folderId }: AlbumListProps) {
         albumsToDisplay = allUserAlbums.filter((album) => album.folderId === null);
     }
 
+    // Фильтрация с учетом режима поиска
+    const filteredAlbums = albumsToDisplay.filter((album) => {
+        if (!searchQuery) return true;
+
+        const query = searchQuery.toLowerCase();
+        if (searchMode === "album") {
+            return album.title.toLowerCase().includes(query);
+        } else {
+            return album.artist?.toLowerCase().includes(query);
+        }
+    });
+
     if (isLoading) return <Loader />;
     if (isError)
         return <p className="text-destructive text-2xl">Упс... ошибка загрузки альбомов:/</p>;
@@ -80,7 +95,13 @@ export function AlbumList({ folderId }: AlbumListProps) {
                 className="masonry-grid"
                 columnClassName="masonry-grid-column"
             >
-                {albumsToDisplay.map((album) => (
+                {/* {albumsToDisplay.map((album) => (
+                    <div key={album.id} className="mb-6">
+                        <AlbumCard {...{ album, activeAlbumId, setActiveAlbumId }} />
+                    </div>
+                ))} */}
+
+                {filteredAlbums.map((album) => (
                     <div key={album.id} className="mb-6">
                         <AlbumCard {...{ album, activeAlbumId, setActiveAlbumId }} />
                     </div>

@@ -27,7 +27,8 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
                 className={cn(
                     className,
                     "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
-                    "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]"
+                    "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]",
+                    "dark:bg-[linear-gradient(var(--angle),#34495e,#34495e)]"
                 )}
                 style={
                     {
@@ -37,7 +38,7 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
                 aria-describedby={undefined}
             >
                 <DialogHeader>
-                    <DialogTitle>Новая папка</DialogTitle>
+                    <DialogTitle className="dark:text-[#bedaca]">Новая папка</DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -48,7 +49,7 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
                     />
 
                     <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button type="submit" variant="outline" disabled={isSubmitting}>
                             Создать
                         </Button>
                         {errors.name && (

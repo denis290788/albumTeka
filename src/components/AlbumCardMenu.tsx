@@ -7,9 +7,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Trash, MoreHorizontal, Info } from "lucide-react";
+import { Trash, MoreHorizontal, Info, Share2 } from "lucide-react";
 import { useDeleteAlbumMutation } from "@/services/albumsApi";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useState } from "react";
+import { ConfirmModal } from "./ConfirmModal";
 
 interface AlbumCardMenuProps {
     albumId: string;
@@ -18,38 +21,75 @@ interface AlbumCardMenuProps {
 export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
     const [deleteAlbum] = useDeleteAlbumMutation();
 
-    const handleDeleteAlbum = async (e: React.MouseEvent) => {
-        e.preventDefault();
+    const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
+    const handleShareAlbum = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        try {
+            const albumUrl = `${window.location.origin}/album/${albumId}`;
+            await navigator.clipboard.writeText(albumUrl);
+            toast.success("Ссылка скопирована в буфер обмена");
+        } catch (err) {
+            console.error("Ошибка при копировании ссылки:", err);
+            toast.error("Не удалось скопировать ссылку");
+        }
+    };
+
+    const handleConfirmDelete = async () => {
         try {
             await deleteAlbum(albumId).unwrap();
+            toast.success("Альбом успешно удален");
         } catch (err) {
             console.error("Ошибка при удалении альбома:", err);
+            toast.error("Не удалось удалить альбом");
+        } finally {
+            setConfirmModalOpen(false);
         }
     };
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="outline" className="text-foreground">
-                    <MoreHorizontal className="w-5 h-5" />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem className="text-foreground focus:bg-muted-foreground/30 cursor-pointer">
-                    <Link href={`album/${albumId}`} className="flex items-center gap-2">
-                        <Info className="w-4 h-4 mr-2" />
-                        Детали
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                    className="text-destructive focus:bg-muted-foreground/30 cursor-pointer"
-                    onClick={handleDeleteAlbum}
-                >
-                    <Trash className="w-4 h-4 mr-2 text-destructive" />
-                    Удалить
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        size="icon"
+                        variant="outline"
+                        className="text-foreground dark:text-[#bedaca] dark:hover:text-background"
+                    >
+                        <MoreHorizontal className="w-5 h-5" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem className="text-foreground focus:bg-muted-foreground/30 cursor-pointer">
+                        <Link href={`album/${albumId}`} className="flex items-center gap-2">
+                            <Info className="w-4 h-4 mr-2" />
+                            Детали
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="text-foreground focus:bg-muted-foreground/30 cursor-pointer"
+                        onClick={handleShareAlbum}
+                    >
+                        <Share2 className="w-4 h-4 mr-2" />
+                        Поделиться
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="text-destructive focus:bg-muted-foreground/30 cursor-pointer"
+                        onClick={() => setConfirmModalOpen(true)}
+                    >
+                        <Trash className="w-4 h-4 mr-2 text-destructive" />
+                        Удалить
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+
+            <ConfirmModal
+                open={confirmModalOpen}
+                headText="Подтвердите удаление"
+                description="Вы уверены, что хотите удалить этот альбом? Это действие нельзя отменить."
+                onConfirm={handleConfirmDelete}
+                onCancel={() => setConfirmModalOpen(false)}
+            />
+        </>
     );
 }

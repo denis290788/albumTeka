@@ -49,7 +49,8 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                 className={cn(
                     className,
                     "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
-                    "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]"
+                    "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]",
+                    "dark:bg-[linear-gradient(var(--angle),#34495e,#34495e)]"
                 )}
                 style={
                     {
@@ -59,13 +60,13 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                 aria-describedby={undefined}
             >
                 <DialogHeader>
-                    <DialogTitle>Добавить стриминг</DialogTitle>
+                    <DialogTitle className="dark:text-[#bedaca]">Добавить стриминг</DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
                     <div className="flex flex-col md:flex-row gap-4 mb-4 md:gap-4 md:mb-4">
                         <div className="flex flex-row md:flex-col gap-2">
-                            <Label className="mb-0">Стримминг</Label>
+                            <Label className="mb-0 dark:text-[#bedaca]">Стримминг</Label>
                             <Select
                                 onValueChange={(val) =>
                                     setValue("streamType", val as StreamFormData["streamType"])
@@ -84,14 +85,19 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                             </Select>
                         </div>
                         <div className="flex-1 flex flex-row md:flex-col gap-2">
-                            <Label htmlFor="streamUrl" className="mb-0">
+                            <Label htmlFor="streamUrl" className="mb-0 dark:text-[#bedaca]">
                                 Ссылка
                             </Label>
                             <Input id="streamUrl" {...register("streamUrl")} className="border-0" />
                         </div>
                     </div>
                     <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
-                        <Button type="submit" disabled={isSubmitting} className="w-[130px]">
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            disabled={isSubmitting}
+                            className="w-[130px]"
+                        >
                             Добавить
                         </Button>
                         {errors.streamType && (
