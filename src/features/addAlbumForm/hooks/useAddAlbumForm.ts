@@ -21,17 +21,26 @@ export const useAddAlbumForm = () => {
         let processedUrl = data.streamUrl;
 
         if (data.streamType === "Bandcamp") {
-            const albumMatch = data.streamUrl.match(/album=(\d+)/);
-            const trackMatch = data.streamUrl.match(/track=(\d+)/);
+            form.clearErrors("streamUrl");
+            try {
+                const res = await fetch("/api/bandcamp/resolve", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url: data.streamUrl }),
+                });
 
-            if (albumMatch) {
-                processedUrl = `https://bandcamp.com/EmbeddedPlayer/album=${albumMatch[1]}`;
-            } else if (trackMatch) {
-                processedUrl = `https://bandcamp.com/EmbeddedPlayer/track=${trackMatch[1]}`;
-            } else {
+                const json = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(json.error || "Не удалось обработать ссылку Bandcamp");
+                }
+
+                processedUrl = json.embedUrl;
+            } catch (err) {
+                console.error("Ошибка при запросе к Bandcamp API:", err);
                 form.setError("streamUrl", {
                     type: "manual",
-                    message: "Для Bandcamp необходимо добавить Embed-ссылку",
+                    message: "Не удалось извлечь плеер из ссылки Bandcamp. Проверьте URL.",
                 });
                 return false;
             }
@@ -51,7 +60,6 @@ export const useAddAlbumForm = () => {
             defaultStream: data.streamType,
             folderId: null,
         };
-
         try {
             await addAlbum(albumToAdd).unwrap();
             form.reset();

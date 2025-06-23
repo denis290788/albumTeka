@@ -13,6 +13,7 @@ import { useState } from "react";
 import { AddStreamModal } from "../features/addStreamModal";
 import { useAuth } from "@/features/auth";
 import { cn } from "@/lib/utils";
+import { STREAM_ICONS } from "@/lib/stream-icons";
 
 interface StreamSelectorProps {
     album: Album;
@@ -112,6 +113,7 @@ export function StreamSelector({
                                             className="flex-1 cursor-pointer"
                                             showIndicatorIcon={false}
                                         >
+                                            {STREAM_ICONS[stream.type]}
                                             {stream.type}
                                         </SelectItem>
                                     </div>

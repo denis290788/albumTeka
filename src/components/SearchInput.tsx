@@ -28,7 +28,12 @@ export function SearchInput() {
 
     return (
         <div className="flex items-center gap-2 relative">
-            <Button onClick={toggleSearchMode} variant="ghost" size="icon" className="shrink-0">
+            <Button
+                onClick={toggleSearchMode}
+                variant="ghost"
+                size="icon"
+                className="shrink-0 hover:dark:bg-muted-foreground/30"
+            >
                 {searchMode === "album" ? (
                     <Disc3 className="h-5 w-5" />
                 ) : (

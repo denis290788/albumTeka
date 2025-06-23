@@ -69,7 +69,9 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                 </button>
                 <div className="flex-1 min-w-0">
                     <Link href={`/folder/${id}`}>
-                        <h3 className="text-[16px] lg:text-lg text-foreground truncate">{name}</h3>
+                        <h3 className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate">
+                            {name}
+                        </h3>
                     </Link>
                 </div>
 

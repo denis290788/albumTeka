@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAddAlbumForm } from "../hooks/useAddAlbumForm";
 import { AlbumFormData } from "../model/addAlbumTypes";
+import { STREAM_ICONS } from "@/lib/stream-icons";
 
 interface AlbumFormProps {
     className?: string;
@@ -76,10 +77,22 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
                             <SelectValue placeholder="Выберите сервис" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="Bandcamp">Bandcamp</SelectItem>
-                            <SelectItem value="Spotify">Spotify</SelectItem>
-                            <SelectItem value="Soundcloud">Soundcloud</SelectItem>
-                            <SelectItem value="VK">VK</SelectItem>
+                            <SelectItem value="Bandcamp">
+                                {STREAM_ICONS["Bandcamp"]}
+                                Bandcamp
+                            </SelectItem>
+                            <SelectItem value="Spotify">
+                                {STREAM_ICONS["Spotify"]}
+                                Spotify
+                            </SelectItem>
+                            <SelectItem value="Soundcloud">
+                                {STREAM_ICONS["Soundcloud"]}
+                                Soundcloud
+                            </SelectItem>
+                            <SelectItem value="VK">
+                                {STREAM_ICONS["VK"]}
+                                VK
+                            </SelectItem>
                         </SelectContent>
                     </Select>
                 </div>

@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useAddStreamForm } from "../hooks/useAddStreamForm";
 import { StreamFormData } from "../model/addStreamTypes";
 import { Album } from "@/services/albumsApi";
+import { STREAM_ICONS } from "@/lib/stream-icons";
 
 interface AddStreamModalProps {
     album: Album;
@@ -73,14 +74,26 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                                 }
                                 defaultValue="Bandcamp"
                             >
-                                <SelectTrigger className="bg-background w-full md:w-[130px]">
+                                <SelectTrigger className="bg-background w-full md:w-[145px]">
                                     <SelectValue placeholder="Выберите сервис" />
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Bandcamp">Bandcamp</SelectItem>
-                                    <SelectItem value="Spotify">Spotify</SelectItem>
-                                    <SelectItem value="Soundcloud">Soundcloud</SelectItem>
-                                    <SelectItem value="VK">VK</SelectItem>
+                                <SelectContent className="">
+                                    <SelectItem value="Bandcamp">
+                                        {STREAM_ICONS["Bandcamp"]}
+                                        Bandcamp
+                                    </SelectItem>
+                                    <SelectItem value="Spotify">
+                                        {STREAM_ICONS["Spotify"]}
+                                        Spotify
+                                    </SelectItem>
+                                    <SelectItem value="Soundcloud">
+                                        {STREAM_ICONS["Soundcloud"]}
+                                        Soundcloud
+                                    </SelectItem>
+                                    <SelectItem value="VK">
+                                        {STREAM_ICONS["VK"]}
+                                        VK
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -96,7 +109,7 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                             type="submit"
                             variant="outline"
                             disabled={isSubmitting}
-                            className="w-[130px]"
+                            className="w-[145px]"
                         >
                             Добавить
                         </Button>

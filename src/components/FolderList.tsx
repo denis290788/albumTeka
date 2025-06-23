@@ -62,8 +62,8 @@ export function FolderList({ className }: FolderListProps) {
     if (!localFolders.length && !folders.length) return null;
 
     return (
-        <div className={cn("mb-8 flex gap-4", className)}>
-            <h2 className="text-[18px] lg:text-xl dark:text-[#bedaca]">Мои папки</h2>
+        <div className={cn("mb-8 flex flex-col lg:flex-row gap-4", className)}>
+            <h2 className="text-[18px] lg:text-xl ">Мои папки</h2>
 
             <DndContext
                 sensors={sensors}

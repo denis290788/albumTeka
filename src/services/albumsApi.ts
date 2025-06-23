@@ -9,6 +9,7 @@ import {
     query,
     where,
     getDoc,
+    orderBy,
 } from "firebase/firestore";
 import { db, auth } from "@/lib/firebase";
 
@@ -29,6 +30,7 @@ export type Album = {
     streams: Stream[];
     folderId?: string | null;
     userId: string;
+    createdAt: string;
 };
 
 export const albumsApi = createApi({
@@ -44,12 +46,21 @@ export const albumsApi = createApi({
                         return { data: [] };
                     }
 
-                    const q = query(collection(db, "albums"), where("userId", "==", userId));
+                    const q = query(
+                        collection(db, "albums"),
+                        where("userId", "==", userId),
+                        orderBy("createdAt", "desc")
+                    );
                     const snapshot = await getDocs(q);
-                    const albums: Album[] = snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        ...(doc.data() as Omit<Album, "id">),
-                    }));
+                    const albums: Album[] = snapshot.docs.map((doc) => {
+                        const data = doc.data();
+                        return {
+                            id: doc.id,
+                            ...(data as Omit<Album, "id" | "createdAt">),
+                            createdAt: data.createdAt.toDate().toISOString(),
+                        } as Album;
+                    });
+
                     return { data: albums };
                 } catch (error) {
                     console.error("Ошибка при получении альбомов:", error);
@@ -82,13 +93,19 @@ export const albumsApi = createApi({
                     const q = query(
                         collection(db, "albums"),
                         where("userId", "==", userId),
-                        where("folderId", "==", folderId)
+                        where("folderId", "==", folderId),
+                        orderBy("createdAt", "desc")
                     );
                     const snapshot = await getDocs(q);
-                    const albums: Album[] = snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        ...(doc.data() as Omit<Album, "id">),
-                    }));
+                    const albums: Album[] = snapshot.docs.map((doc) => {
+                        const data = doc.data();
+                        return {
+                            id: doc.id,
+                            ...(data as Omit<Album, "id" | "createdAt">),
+                            createdAt: data.createdAt.toDate().toISOString(),
+                        } as Album;
+                    });
+
                     return { data: albums };
                 } catch (error) {
                     console.error("Ошибка при получении альбомов для папки:", error);
@@ -116,11 +133,13 @@ export const albumsApi = createApi({
                     const albumDocSnap = await getDoc(albumDocRef);
 
                     if (albumDocSnap.exists()) {
+                        const data = albumDocSnap.data(); // добавили переменную
                         return {
                             data: {
                                 id: albumDocSnap.id,
-                                ...(albumDocSnap.data() as Omit<Album, "id">),
-                            },
+                                ...(data as Omit<Album, "id" | "createdAt">),
+                                createdAt: data.createdAt.toDate().toISOString(),
+                            } as Album,
                         };
                     } else {
                         return { data: null };
@@ -133,16 +152,28 @@ export const albumsApi = createApi({
             providesTags: (result, error, { albumId }) => [{ type: "Album", id: albumId }],
         }),
 
-        addAlbum: builder.mutation<Album, Omit<Album, "id" | "userId">>({
+        addAlbum: builder.mutation<Album, Omit<Album, "id" | "userId" | "createdAt">>({
             async queryFn(newAlbumData) {
                 try {
                     const userId = auth.currentUser?.uid;
                     if (!userId) {
                         throw new Error("Отсутствует User ID. Невозможно добавить альбом.");
                     }
-                    const albumToSave = { ...newAlbumData, userId };
-                    const docRef = await addDoc(collection(db, "albums"), albumToSave);
-                    const albumWithId: Album = { id: docRef.id, ...albumToSave };
+
+                    const albumDataForFirestore = {
+                        ...newAlbumData,
+                        userId,
+                        createdAt: new Date(),
+                    };
+
+                    const docRef = await addDoc(collection(db, "albums"), albumDataForFirestore);
+
+                    const albumWithId: Album = {
+                        id: docRef.id,
+                        ...newAlbumData,
+                        userId: userId,
+                        createdAt: albumDataForFirestore.createdAt.toISOString(),
+                    };
                     return { data: albumWithId };
                 } catch (error) {
                     console.error("Ошибка при добавлении альбома:", error);

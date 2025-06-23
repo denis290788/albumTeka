@@ -62,18 +62,12 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                         />
                     </div>
                 )}
-                <div>
-                    <h3 className="pr-8 font-semibold text-sm md:text-lg text-foreground dark:text-[#bedaca] line-clamp-2 break-words">
+                <div className="text-foreground dark:text-[#bedaca]">
+                    <h3 className="pr-8 font-semibold text-sm md:text-lg line-clamp-2 break-words">
                         {album.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground dark:text-[#bedaca] truncate">
-                        {album.artist}
-                    </p>
-                    {album.year && (
-                        <p className="text-sm text-muted-foreground dark:text-[#bedaca]">
-                            {album.year}
-                        </p>
-                    )}
+                    <p className="text-sm truncate">{album.artist}</p>
+                    {album.year && <p className="text-sm">{album.year}</p>}
                 </div>
             </div>
             <div className="flex gap-2 items-center">

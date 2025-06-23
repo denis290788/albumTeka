@@ -10,6 +10,7 @@ import { Loader } from "./ui/loader";
 import { useSearch } from "./SearchContext";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface AlbumListProps {
     folderId?: string;
@@ -104,16 +105,22 @@ export function AlbumList({ folderId }: AlbumListProps) {
     return (
         <>
             {folderId && folder && <h1 className="text-2xl font-bold mb-6">{folder!.name}</h1>}
-
             <Masonry
                 breakpointCols={breakpointColumnsObj}
                 className="masonry-grid"
                 columnClassName="masonry-grid-column"
             >
                 {paginatedAlbums.map((album) => (
-                    <div key={album.id} className="mb-6">
+                    <motion.div
+                        key={album.id}
+                        className="will-change-transform transform-gpu mb-6"
+                        initial={{ opacity: 0, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, filter: "blur(10px)" }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                    >
                         <AlbumCard {...{ album, activeAlbumId, setActiveAlbumId }} />
-                    </div>
+                    </motion.div>
                 ))}
             </Masonry>
 
