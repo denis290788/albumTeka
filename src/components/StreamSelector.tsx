@@ -77,7 +77,7 @@ export function StreamSelector({
                 }}
                 value={activeStream}
             >
-                <SelectTrigger className="w-full max-w-xs">
+                <SelectTrigger className="w-full">
                     <SelectValue placeholder="Выберите стриминг" />
                 </SelectTrigger>
 

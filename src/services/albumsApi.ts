@@ -52,14 +52,10 @@ export const albumsApi = createApi({
                         orderBy("createdAt", "desc")
                     );
                     const snapshot = await getDocs(q);
-                    const albums: Album[] = snapshot.docs.map((doc) => {
-                        const data = doc.data();
-                        return {
-                            id: doc.id,
-                            ...(data as Omit<Album, "id" | "createdAt">),
-                            createdAt: data.createdAt.toDate().toISOString(),
-                        } as Album;
-                    });
+                    const albums: Album[] = snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...(doc.data() as Omit<Album, "id">),
+                    }));
 
                     return { data: albums };
                 } catch (error) {
@@ -97,14 +93,10 @@ export const albumsApi = createApi({
                         orderBy("createdAt", "desc")
                     );
                     const snapshot = await getDocs(q);
-                    const albums: Album[] = snapshot.docs.map((doc) => {
-                        const data = doc.data();
-                        return {
-                            id: doc.id,
-                            ...(data as Omit<Album, "id" | "createdAt">),
-                            createdAt: data.createdAt.toDate().toISOString(),
-                        } as Album;
-                    });
+                    const albums: Album[] = snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...(doc.data() as Omit<Album, "id">),
+                    }));
 
                     return { data: albums };
                 } catch (error) {
@@ -133,13 +125,11 @@ export const albumsApi = createApi({
                     const albumDocSnap = await getDoc(albumDocRef);
 
                     if (albumDocSnap.exists()) {
-                        const data = albumDocSnap.data(); // добавили переменную
                         return {
                             data: {
                                 id: albumDocSnap.id,
-                                ...(data as Omit<Album, "id" | "createdAt">),
-                                createdAt: data.createdAt.toDate().toISOString(),
-                            } as Album,
+                                ...(albumDocSnap.data() as Omit<Album, "id">),
+                            },
                         };
                     } else {
                         return { data: null };
@@ -160,10 +150,11 @@ export const albumsApi = createApi({
                         throw new Error("Отсутствует User ID. Невозможно добавить альбом.");
                     }
 
+                    const currentISODate = new Date().toISOString();
                     const albumDataForFirestore = {
                         ...newAlbumData,
                         userId,
-                        createdAt: new Date(),
+                        createdAt: currentISODate,
                     };
 
                     const docRef = await addDoc(collection(db, "albums"), albumDataForFirestore);
@@ -172,7 +163,7 @@ export const albumsApi = createApi({
                         id: docRef.id,
                         ...newAlbumData,
                         userId: userId,
-                        createdAt: albumDataForFirestore.createdAt.toISOString(),
+                        createdAt: currentISODate,
                     };
                     return { data: albumWithId };
                 } catch (error) {

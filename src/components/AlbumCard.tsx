@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { FolderSelector } from "./FolderSelector";
 import { Album, StreamType } from "@/services/albumsApi";
@@ -9,7 +9,7 @@ import { AlbumCardMenu } from "./AlbumCardMenu";
 import { StreamingPlayer } from "./StreamingPlayer";
 
 import { Button } from "@/components/ui/button";
-import { PlayIcon, Square } from "lucide-react";
+import { Disc3, PlayIcon, Square } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,6 +22,13 @@ interface AlbumCardProps {
 export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardProps) {
     const [activeStream, setActiveStream] = useState<StreamType>(album.defaultStream);
     const isPlaying = activeAlbumId === album.id;
+
+    const [coverLoadError, setCoverLoadError] = useState(false);
+    const imgRef = useRef<HTMLImageElement>(null);
+
+    useEffect(() => {
+        setCoverLoadError(false);
+    }, [album.coverUrl]);
 
     const gradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
 
@@ -51,17 +58,23 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                 <AlbumCardMenu albumId={album.id} />
             </div>
             <div className="flex gap-2 md:gap-4 min-h-[96px]">
-                {album.coverUrl && (
-                    <div className="w-24 h-24 shrink-0">
-                        {/* eslint-disable-next-line */}
+                <div className="w-24 h-24 shrink-0">
+                    {album.coverUrl && !coverLoadError ? (
+                        // eslint-disable-next-line
                         <img
+                            ref={imgRef}
                             src={album.coverUrl}
                             alt={album.title}
                             className="w-full h-full object-cover object-center rounded"
                             loading="lazy"
+                            onError={() => setCoverLoadError(true)}
                         />
-                    </div>
-                )}
+                    ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#4ac77c]/10 to-muted/20 flex flex-col items-center justify-center rounded">
+                            <Disc3 className="w-16 h-16 text-muted-foreground" />
+                        </div>
+                    )}
+                </div>
                 <div className="text-foreground dark:text-[#bedaca]">
                     <h3 className="pr-8 font-semibold text-sm md:text-lg line-clamp-2 break-words">
                         {album.title}

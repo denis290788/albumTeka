@@ -21,10 +21,15 @@ const openSans = Open_Sans({
 
 export const metadata = {
     title: "AlbumTeka",
-    description: "Твоя коллекция альбомов",
+    description: "Твоя музыкальная коллекция",
     icons: {
-        icon: "/favicon.ico",
+        icon: [
+            { url: "/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+            { url: "/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        ],
+        apple: "/icons/apple-touch-icon.png",
     },
+    manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
