@@ -68,17 +68,23 @@ export function AuthForm() {
                 {isRegistering ? "Регистрация" : "Вход"}
             </h2>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Почта</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="ваша@почта.ком" {...field} />
-                                </FormControl>
-                                <FormMessage />
+                            <FormItem className="mb-4">
+                                <div className="flex gap-2 items-baseline">
+                                    <FormLabel className="w-[70px]">Почта</FormLabel>
+                                    <div className="w-full">
+                                        <FormControl>
+                                            <Input placeholder="ваша@почта.ком" {...field} />
+                                        </FormControl>
+                                        <div className="min-h-[16px]">
+                                            <FormMessage />
+                                        </div>
+                                    </div>
+                                </div>
                             </FormItem>
                         )}
                     />
@@ -87,15 +93,21 @@ export function AuthForm() {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Пароль</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        placeholder="минимум 6 символов"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
+                                <div className="flex gap-2 items-baseline">
+                                    <FormLabel className="w-[70px]">Пароль</FormLabel>
+                                    <div className="w-full">
+                                        <FormControl>
+                                            <Input
+                                                type="password"
+                                                placeholder="минимум 6 символов"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <div className="min-h-[16px]">
+                                            <FormMessage />
+                                        </div>
+                                    </div>
+                                </div>
                             </FormItem>
                         )}
                     />
@@ -106,7 +118,7 @@ export function AuthForm() {
                     )}
                     <Button
                         type="submit"
-                        className="w-full"
+                        className="w-full mt-4"
                         disabled={!form.formState.isValid || form.formState.isSubmitting || loading}
                     >
                         {form.formState.isSubmitting

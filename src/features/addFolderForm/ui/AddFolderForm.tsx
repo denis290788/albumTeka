@@ -53,7 +53,7 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
                             Создать
                         </Button>
                         {errors.name && (
-                            <p className="text-sm text-destructive">{errors.name.message}</p>
+                            <p className="text-[10px] text-destructive">{errors.name.message}</p>
                         )}
                     </div>
                 </form>
