@@ -2,6 +2,7 @@
 
 import { Album, StreamType } from "@/services/albumsApi";
 import { VKPlayer } from "./VKPlayer";
+import { useTheme } from "next-themes";
 
 interface StreamingPlayerProps {
     album: Album;
@@ -9,8 +10,11 @@ interface StreamingPlayerProps {
 }
 
 export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
-    const stream = album.streams.find((s) => s.type === activeStream);
+    const { theme, systemTheme } = useTheme();
+    const currentTheme = theme === "system" ? systemTheme : theme;
+    const isDarkMode = currentTheme === "dark";
 
+    const stream = album.streams.find((s) => s.type === activeStream);
     if (!stream) {
         return <p className="text-muted-foreground">Стримы не найдены для выбранного типа.</p>;
     }
@@ -19,8 +23,13 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
         case "Bandcamp":
             return (
                 <iframe
-                    style={{ border: 0, width: "100%", height: 402.4 }}
-                    src={`${stream.url}/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=true/artwork=small/transparent=true/`}
+                    key={`bandcamp-${currentTheme}`}
+                    style={{ border: 0, width: "100%", height: 402.4, borderRadius: "12px" }}
+                    src={`${stream.url}/size=large/bgcol=${
+                        isDarkMode ? "34495e" : "ffffff"
+                    }/linkcol=${isDarkMode ? "dfe6e9" : "0687f5"}/theme=${
+                        isDarkMode ? "dark" : "light"
+                    }/tracklist=true/artwork=none/t=1`}
                     seamless
                     title={`Bandcamp player for ${album.title}`}
                 />
@@ -37,7 +46,6 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
                     src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`}
                     width="100%"
                     height="402.4"
-                    frameBorder="0"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"
                     title={`Spotify player for ${album.title}`}
@@ -47,14 +55,14 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
         case "Soundcloud":
             return (
                 <iframe
+                    key={`soundcloud-${currentTheme}`}
+                    style={{ borderRadius: "12px" }}
                     width="100%"
                     height="402.4"
-                    scrolling="no"
-                    frameBorder="no"
                     allow="autoplay"
                     src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(
                         stream.url
-                    )}&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`}
+                    )}&color=%2334495e&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&show_artwork=false&visual=false&sharing=false&buying=false&liking=false&download=false`}
                     title={`SoundCloud player for ${album.title}`}
                 ></iframe>
             );

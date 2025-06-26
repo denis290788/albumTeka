@@ -19,7 +19,7 @@ export function VKPlayer({ playlistId, accessKey }: Props) {
         if (!document.getElementById(scriptId)) {
             const script = document.createElement("script");
             script.id = scriptId;
-            script.src = "https://vk.com/js/api/openapi.js?173";
+            script.src = "https://vk.com/js/api/openapi.js?176";
             script.async = true;
             script.onload = () => {
                 setVkApiLoaded(true);
@@ -99,15 +99,13 @@ export function VKPlayer({ playlistId, accessKey }: Props) {
                         );
                         return;
                     }
+
                     // @ts-expect-error: Property 'VK' does not exist on type 'Window & typeof globalThis'.
                     widgetInstance.current = window.VK.Widgets.Playlist(
                         uniqueId.current,
                         numOwnerId,
                         numPlaylistId,
-                        accessKey,
-                        {
-                            height: 300,
-                        }
+                        accessKey
                     );
                     console.log("VK widget initialized for:", playlistId);
                 } else {
@@ -126,5 +124,11 @@ export function VKPlayer({ playlistId, accessKey }: Props) {
         }
     }, [vkApiLoaded, playlistId, accessKey]);
 
-    return <div id={uniqueId.current} />;
+    return (
+        <div
+            id={uniqueId.current}
+            className="vk-player-container w-full"
+            style={{ borderRadius: "12px", overflow: "hidden" }}
+        />
+    );
 }

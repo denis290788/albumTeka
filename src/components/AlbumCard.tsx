@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Disc3, PlayIcon, Square } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface AlbumCardProps {
     album: Album;
@@ -20,6 +21,8 @@ interface AlbumCardProps {
 }
 
 export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardProps) {
+    const router = useRouter();
+
     const [activeStream, setActiveStream] = useState<StreamType>(album.defaultStream);
     const isPlaying = activeAlbumId === album.id;
 
@@ -59,21 +62,26 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
             </div>
             <div className="flex gap-2 md:gap-4 min-h-[96px]">
                 <div className="w-24 h-24 shrink-0">
-                    {album.coverUrl && !coverLoadError ? (
-                        // eslint-disable-next-line
-                        <img
-                            ref={imgRef}
-                            src={album.coverUrl}
-                            alt={album.title}
-                            className="w-full h-full object-cover object-center rounded"
-                            loading="lazy"
-                            onError={() => setCoverLoadError(true)}
-                        />
-                    ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#4ac77c]/10 to-muted/20 flex flex-col items-center justify-center rounded">
-                            <Disc3 className="w-16 h-16 text-muted-foreground" />
-                        </div>
-                    )}
+                    <div
+                        onClick={() => router.push(`/album/${album.id}`)}
+                        className="w-full h-full transition-opacity duration-200 hover:opacity-70  active:opacity-70 cursor-pointer"
+                    >
+                        {album.coverUrl && !coverLoadError ? (
+                            // eslint-disable-next-line
+                            <img
+                                ref={imgRef}
+                                src={album.coverUrl}
+                                alt={album.title}
+                                className="object-cover object-center rounded"
+                                loading="lazy"
+                                onError={() => setCoverLoadError(true)}
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-[#4ac77c]/10 to-muted/20 flex flex-col items-center justify-center rounded">
+                                <Disc3 className="w-16 h-16 text-muted-foreground rounded" />
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className="text-foreground dark:text-[#bedaca]">
                     <h3 className="pr-8 font-semibold text-sm md:text-lg line-clamp-2 break-words">
