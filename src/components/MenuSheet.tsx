@@ -42,7 +42,15 @@ export function MobileMenuSheet({
                     <MenuIcon className="h-6 w-6" />
                 </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="flex flex-col bg-background p-2">
+            <SheetContent
+                side="right"
+                className="flex flex-col 
+                    bg-[linear-gradient(315deg,rgba(74,199,124,0.8),rgba(223,230,233,0.8))]
+                    overflow-hidden
+                    dark:bg-[linear-gradient(315deg,rgba(74,199,124,0.8),rgba(52,73,94,0.8))]
+                    dark:text-background
+                    p-2"
+            >
                 <SheetHeader className="sr-only">
                     <SheetTitle>Навигация</SheetTitle>
                     <SheetDescription>Навигация по сайту / Раздел с папками</SheetDescription>

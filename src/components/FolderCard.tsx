@@ -67,11 +67,14 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                 >
                     <GripVertical className="w-4 h-4" />
                 </button>
-                <div className="flex-1 min-w-0">
-                    <Link href={`/folder/${id}`}>
-                        <h3 className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate">
+                <div className="flex-1 min-w-0 flex justify-center">
+                    <Link
+                        href={`/folder/${id}`}
+                        className="flex items-center justify-center h-full w-full"
+                    >
+                        <span className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate text-center">
                             {name}
-                        </h3>
+                        </span>
                     </Link>
                 </div>
 

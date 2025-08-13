@@ -72,7 +72,8 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                                 ref={imgRef}
                                 src={album.coverUrl}
                                 alt={album.title}
-                                className="object-cover object-center rounded"
+                                // className="object-cover object-center rounded"
+                                className="object-contain object-center rounded w-full h-full bg-black/10"
                                 loading="lazy"
                                 onError={() => setCoverLoadError(true)}
                             />

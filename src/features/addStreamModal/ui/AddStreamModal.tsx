@@ -69,9 +69,6 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                                 }
                                 defaultValue="Bandcamp"
                             >
-                                {/* <SelectTrigger className="bg-background w-full md:w-[145px]">
-                                    <SelectValue placeholder="Выберите сервис" />
-                                </SelectTrigger> */}
                                 <SelectTrigger className="bg-muted-foreground/30 w-full">
                                     {STREAM_ICONS[form.watch("streamType") || "Bandcamp"]}
                                     <span className="hidden md:block">

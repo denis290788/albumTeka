@@ -27,7 +27,7 @@ export function Header() {
     };
 
     return (
-        <header className="fixed top-0 left-0 w-full z-50 h-[65px] lg:h-[90px] flex items-center justify-between px-4 bg-[linear-gradient(180deg,#4ac77c,#dfe6e9)] overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.15)] dark:bg-[linear-gradient(180deg,#4ac77c,#34495e)] dark:text-background">
+        <header className="fixed top-0 left-0 w-full z-50 h-[65px] lg:h-[90px] flex items-center justify-between px-4 bg-[linear-gradient(180deg,rgba(74,199,124,0.8),rgba(223,230,233,0.8))] backdrop-blur-sm overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.15)] dark:bg-[linear-gradient(180deg,rgba(74,199,124,0.8),rgba(52,73,94,0.8))] dark:text-background">
             <Link
                 href="/"
                 className="text-2xl lg:text-4xl"

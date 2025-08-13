@@ -16,6 +16,7 @@ import {
 import { SortableContext, arrayMove, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { restrictToFirstScrollableAncestor, restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { useEffect, useState } from "react";
+import { Folder as FolderIcon } from "lucide-react";
 
 interface FolderListProps {
     className?: string;
@@ -63,7 +64,10 @@ export function FolderList({ className }: FolderListProps) {
 
     return (
         <div className={cn("mb-8 flex flex-col lg:flex-row gap-4", className)}>
-            <h2 className="text-[18px] lg:text-xl ">Мои папки</h2>
+            <div className="flex gap-2 items-center">
+                <FolderIcon className="h-6 w-6" />
+                <h2 className="text-[18px] lg:text-xl">Мои папки:</h2>
+            </div>
 
             <DndContext
                 sensors={sensors}

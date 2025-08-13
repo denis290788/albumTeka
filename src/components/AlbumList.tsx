@@ -11,6 +11,7 @@ import { useSearch } from "./SearchContext";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
+import { Folder as FolderIcon } from "lucide-react";
 
 interface AlbumListProps {
     folderId?: string;
@@ -66,14 +67,16 @@ export function AlbumList({ folderId }: AlbumListProps) {
         ? folderAlbums
         : allUserAlbums.filter((album) => album.folderId === null);
 
-    const filteredAlbums = albumsToDisplay.filter((album) => {
-        if (!searchQuery) return true;
+    const albumsToSearch = folderId ? folderAlbums : allUserAlbums;
+
+    const filteredAlbums = albumsToSearch.filter((album) => {
+        if (!searchQuery) return albumsToDisplay.includes(album);
         const query = searchQuery.toLowerCase();
-        if (searchMode === "album") {
-            return album.title.toLowerCase().includes(query);
-        } else {
-            return album.artist?.toLowerCase().includes(query);
-        }
+        const match =
+            searchMode === "album"
+                ? album.title.toLowerCase().includes(query)
+                : album.artist.toLowerCase().includes(query);
+        return match && (folderId || album.folderId === null || searchQuery);
     });
 
     const paginatedAlbums = filteredAlbums.slice(0, page * PAGE_SIZE);
@@ -104,7 +107,12 @@ export function AlbumList({ folderId }: AlbumListProps) {
 
     return (
         <>
-            {folderId && folder && <h1 className="text-2xl font-bold mb-6">{folder!.name}</h1>}
+            {folderId && folder && (
+                <div className="flex gap-2 items-center mb-6">
+                    <FolderIcon className="h-6 w-6" />
+                    <h2 className="text-[18px] lg:text-2xl">{folder.name}</h2>
+                </div>
+            )}
             <Masonry
                 breakpointCols={breakpointColumnsObj}
                 className="masonry-grid"
