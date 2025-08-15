@@ -74,6 +74,7 @@ export function FolderList({ className }: FolderListProps) {
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
                 modifiers={[restrictToFirstScrollableAncestor, restrictToWindowEdges]}
+                // data-testid="dnd-context"
             >
                 <SortableContext
                     items={localFolders.map((f) => f.id)}

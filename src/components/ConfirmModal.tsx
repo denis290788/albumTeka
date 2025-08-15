@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface ConfirmModalProps {
+export interface ConfirmModalProps {
     open: boolean;
     headText: string;
     description?: string;

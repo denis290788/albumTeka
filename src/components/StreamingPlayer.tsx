@@ -24,7 +24,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
             return (
                 <iframe
                     key={`bandcamp-${currentTheme}`}
-                    style={{ border: 0, width: "100%", height: 402.4, borderRadius: "12px" }}
+                    style={{ border: 0, width: "100%", height: 392, borderRadius: "12px" }}
                     src={`${stream.url}/size=large/bgcol=${
                         isDarkMode ? "34495e" : "ffffff"
                     }/linkcol=${isDarkMode ? "dfe6e9" : "0687f5"}/theme=${
@@ -45,7 +45,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
                     style={{ borderRadius: "12px" }}
                     src={`https://open.spotify.com/embed/album/${albumId}?utm_source=generator`}
                     width="100%"
-                    height="402.4"
+                    height="392"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"
                     title={`Spotify player for ${album.title}`}
@@ -58,7 +58,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
                     key={`soundcloud-${currentTheme}`}
                     style={{ borderRadius: "12px" }}
                     width="100%"
-                    height="402.4"
+                    height="392"
                     allow="autoplay"
                     src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(
                         stream.url
@@ -79,7 +79,7 @@ export function StreamingPlayer({ album, activeStream }: StreamingPlayerProps) {
             const accessKey = parts[2];
 
             return (
-                <div className="vk-player-container w-full">
+                <div className="vk-player-container w-full h-[392px]">
                     <VKPlayer playlistId={playlistId} accessKey={accessKey} />
                 </div>
             );

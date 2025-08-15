@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-interface AlbumCardProps {
+export interface AlbumCardProps {
     album: Album;
     activeAlbumId: string | null;
     setActiveAlbumId: (id: string | null) => void;
@@ -46,7 +46,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
     return (
         <Card
             className={cn(
-                "p-2 md:p-4 relative gap-2 md:gap-6",
+                "p-2 md:p-4 relative gap-2 md:gap-4",
                 "shadow-[0_4px_10px_rgba(0,0,0,0.15)]",
                 "bg-[linear-gradient(var(--angle),#4ac77c,#dfe6e9)]",
                 "dark:bg-[linear-gradient(var(--angle),#4ac77c,#34495e)]"
@@ -84,12 +84,12 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                         )}
                     </div>
                 </div>
-                <div className="text-foreground dark:text-[#bedaca]">
+                <div className="flex flex-col justify-around text-foreground dark:text-[#bedaca]">
                     <h3 className="pr-8 font-semibold text-sm md:text-lg line-clamp-2 break-words">
                         {album.title}
                     </h3>
-                    <p className="text-sm truncate">{album.artist}</p>
                     {album.year && <p className="text-sm">{album.year}</p>}
+                    <p className="text-sm truncate">{album.artist}</p>
                 </div>
             </div>
             <div className="flex gap-2 items-center">
@@ -104,6 +104,7 @@ export function AlbumCard({ album, activeAlbumId, setActiveAlbumId }: AlbumCardP
                     size="icon"
                     onClick={handlePlayClick}
                     className="shrink-0 bg-muted-foreground/30 text-foreground hover:text-accent-foreground dark:text-[#bedaca] dark:hover:text-background"
+                    aria-label={isPlaying ? "Stop" : "Play"}
                 >
                     {isPlaying ? (
                         <Square className="h-5 w-5 text-destructive" />

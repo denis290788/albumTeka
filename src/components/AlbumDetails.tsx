@@ -4,7 +4,7 @@ import { useAuth } from "@/features/auth";
 import { StreamType, useGetAlbumByIdQuery } from "@/services/albumsApi";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { StreamSelector } from "./StreamSelector";
 import { FolderSelector } from "./FolderSelector";
 import { StreamingPlayer } from "./StreamingPlayer";
@@ -29,17 +29,10 @@ export function AlbumDetails({ albumId, className }: AlbumDetailsProps) {
 
     const [activeStream, setActiveStream] = useState<StreamType | undefined>();
 
-    const [coverLoadError, setCoverLoadError] = useState(false);
-    const imgRef = useRef<HTMLImageElement>(null);
-
     useEffect(() => {
         if (album) {
             setActiveStream(album.defaultStream);
         }
-    }, [album]);
-
-    useEffect(() => {
-        setCoverLoadError(false);
     }, [album]);
 
     const gradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
@@ -74,14 +67,12 @@ export function AlbumDetails({ albumId, className }: AlbumDetailsProps) {
                 </div>
                 <div className="flex  flex-col md:flex-row gap-4">
                     <div className="w-full md:w-[447px] relative shrink-0 aspect-square bg-black/10 rounded-2xl">
-                        {album.coverUrl && !coverLoadError ? (
+                        {album.coverUrl ? (
                             // eslint-disable-next-line
                             <img
-                                ref={imgRef}
                                 src={album.coverUrl}
                                 alt={album.title}
                                 className="absolute inset-0 w-full h-full object-contain rounded-2xl"
-                                onError={() => setCoverLoadError(true)}
                             />
                         ) : (
                             <div className="w-full aspect-square bg-gradient-to-br from-[#4ac77c]/30 to-muted/25 flex flex-col items-center justify-center rounded-2xl">

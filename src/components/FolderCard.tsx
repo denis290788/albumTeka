@@ -72,7 +72,7 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                         href={`/folder/${id}`}
                         className="flex items-center justify-center h-full w-full"
                     >
-                        <span className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate text-center">
+                        <span className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate align-text-top text-center">
                             {name}
                         </span>
                     </Link>

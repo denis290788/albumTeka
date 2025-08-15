@@ -9,9 +9,8 @@ on:
             - main
 
 jobs:
-    build:
+    test:
         runs-on: ubuntu-latest
-
         steps:
             - name: Checkout code
               uses: actions/checkout@v2
@@ -20,8 +19,29 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: "18"
+                  cache: "yarn"
 
-            # Устанавливаем переменные окружения из GitHub Secrets
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: Run tests
+              run: yarn test:ci
+              env:
+                  CI: true
+
+    build:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "18"
+                  cache: "yarn"
+
             - name: Set up Firebase environment variables
               run: |
                   echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> $GITHUB_ENV
@@ -33,16 +53,13 @@ jobs:
                   echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}" >> $GITHUB_ENV
 
             - name: Install dependencies
-              run: yarn install
+              run: yarn install --frozen-lockfile
 
             - name: Run lint
               run: yarn lint
 
-            - name: Run build
-              run: yarn build
-
-            # - name: Run tests
-            #   run: yarn test
-
             - name: Type check
               run: yarn type-check
+
+            - name: Run build
+              run: yarn build
