@@ -12,14 +12,13 @@ jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+            - uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v2
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
               with:
                   node-version: "18"
-                  cache: "yarn"
+                  cache: yarn
 
             - name: Install dependencies
               run: yarn install --frozen-lockfile
@@ -33,16 +32,18 @@ jobs:
         needs: test
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+            - uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v2
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
               with:
                   node-version: "18"
-                  cache: "yarn"
+                  cache: yarn
 
-            - name: Set up Firebase environment variables
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: Setup Firebase env
               run: |
                   echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> $GITHUB_ENV
                   echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}" >> $GITHUB_ENV
@@ -52,14 +53,11 @@ jobs:
                   echo "NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}" >> $GITHUB_ENV
                   echo "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}" >> $GITHUB_ENV
 
-            - name: Install dependencies
-              run: yarn install --frozen-lockfile
-
             - name: Run lint
               run: yarn lint
 
             - name: Type check
               run: yarn type-check
 
-            - name: Run build
+            - name: Build project
               run: yarn build
