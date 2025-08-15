@@ -3,6 +3,7 @@
 [![Статус сборки](https://github.com/denis290788/albumTeka/actions/workflows/ci.yml/badge.svg)](https://github.com/denis290788/albumTeka/actions/workflows/main.yml)
 [![Развернуто на Vercel](https://vercelbadge.vercel.app/api/denis290788/albumTeka)](https://album-teka.vercel.app/)
 [![Лицензия MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Testing Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=flat&logo=testing-library&logoColor=white)](https://testing-library.com/)
 [![Технологии: React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![Технологии: Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![Технологии: TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -30,6 +31,16 @@ albumTeka – это веб-приложение, разработанное д�
 -   🔐 Персональная библиотека для авторизованных пользователей
 -   📱 **PWA-режим**: можно установить как PWA приложение
 
+## 🛠️ Стек технологий
+
+-   **Фреймворк:** [Next.js 15](https://nextjs.org/)
+-   **UI:** [React](https://reactjs.org/), [Tailwind CSS](https://tailwindcss.com/)
+-   **State Management:** [Redux Toolkit + RTK Query](https://redux-toolkit.js.org/)
+-   **Бэкенд:** [Firebase Auth](https://firebase.google.com/products/auth), [Firestore](https://firebase.google.com/products/firestore)
+-   **Тестирование:** [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/)
+-   **CI:** GitHub Actions (с автоматическим прогоном тестов перед сборкой)
+-   **CD:** [Vercel](https://vercel.com/)
+
 ## 🚀 Демо
 
 Живая версия доступна по адресу: [album-teka.vercel.app](http://album-teka.vercel.app/)
@@ -45,15 +56,6 @@ albumTeka – это веб-приложение, разработанное д�
 
 **Пагинация списка / шаринг альбома между пользователями** <details><summary>📹 Показать видео (нажмите чтобы развернуть)</summary>
 <video src="https://github.com/user-attachments/assets/65029231-0599-40d1-965f-9db0ad4c8fe2" width="800" controls></video></details>
-
-## 🛠️ Стек технологий
-
--   **Фреймворк:** [Next.js 15](https://nextjs.org/)
--   **UI:** [React](https://reactjs.org/), [Tailwind CSS](https://tailwindcss.com/)
--   **State Management:** [Redux Toolkit + RTK Query](https://redux-toolkit.js.org/)
--   **Бэкенд:** [Firebase Auth](https://firebase.google.com/products/auth), [Firestore](https://firebase.google.com/products/firestore)
--   **CI:** GitHub Actions
--   **CD:** [Vercel](https://vercel.com/)
 
 ## 🛠️ Установка и запуск
 
@@ -83,6 +85,27 @@ npm run dev
 ```
 
 5. Откройте http://localhost:3000
+
+## 🧪 Тестирование
+
+Проект покрыт юнит-тестами с использованием современных инструментов тестирования:
+
+-   **Тест-раннер:** [Jest](https://jestjs.io/)
+-   **Тестирование компонентов:** [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+-   **Тестирование запросов:** [MSW (Mock Service Worker)](https://mswjs.io/)
+
+**Покрытие тестами:**
+
+-   Компоненты React
+-   Бизнес-логика приложения
+-   Работа с API
+
+Запуск тестов:
+
+```bash
+yarn test  # Для разработки (watch mode)
+yarn test:ci  # Для CI (с покрытием)
+```
 
 ## 🤝 Как внести вклад
 
