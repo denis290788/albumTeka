@@ -63,7 +63,7 @@ export function AuthForm() {
     };
 
     return (
-        <div className="max-w-md mx-auto p-6 mt-10 border rounded-lg shadow-lg">
+        <div className="max-w-md mx-auto p-6 border rounded-lg shadow-lg">
             <h2 className="text-3xl font-bold mb-6 text-center">
                 {isRegistering ? "Регистрация" : "Вход"}
             </h2>
@@ -78,7 +78,11 @@ export function AuthForm() {
                                     <FormLabel className="w-[70px]">Почта</FormLabel>
                                     <div className="w-full">
                                         <FormControl>
-                                            <Input placeholder="ваша@почта.ком" {...field} />
+                                            <Input
+                                                type="email"
+                                                placeholder="ваша@почта.ком"
+                                                {...field}
+                                            />
                                         </FormControl>
                                         <div className="min-h-[16px]">
                                             <FormMessage />

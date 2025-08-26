@@ -32,15 +32,20 @@ export function FolderList({ className }: FolderListProps) {
     const sensors = useSensors(useSensor(PointerSensor));
 
     useEffect(() => {
-        if (
+        const changed =
             folders.length !== localFolders.length ||
             folders.some(
-                (f, i) => f.id !== localFolders[i]?.id || f.order !== localFolders[i]?.order
-            )
-        ) {
+                (f, i) =>
+                    f.id !== localFolders[i]?.id ||
+                    f.name !== localFolders[i]?.name ||
+                    f.order !== localFolders[i]?.order
+            );
+
+        if (changed) {
             setLocalFolders(folders);
         }
-    }, [folders, localFolders]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [folders]);
 
     const handleDragEnd = async (event: DragEndEvent) => {
         const { active, over } = event;

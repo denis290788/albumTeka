@@ -9,6 +9,7 @@ import {
     writeBatch,
     getDoc,
     orderBy,
+    updateDoc,
 } from "firebase/firestore";
 import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { db, auth } from "@/lib/firebase";
@@ -179,6 +180,39 @@ export const foldersApi = createApi({
                 ...folders.map((f) => ({ type: "Folder" as const, id: f.id })),
             ],
         }),
+
+        updateFolderName: builder.mutation<Folder, { id: string; name: string }>({
+            async queryFn({ id, name }) {
+                try {
+                    const userId = auth.currentUser?.uid;
+                    if (!userId) {
+                        throw new Error("Отсутствует User ID. Невозможно обновить папку.");
+                    }
+                    const folderDocRef = doc(db, "folders", id);
+                    const folderDocSnap = await getDoc(folderDocRef);
+
+                    if (!folderDocSnap.exists() || folderDocSnap.data()?.userId !== userId) {
+                        throw new Error("Папка не найдена или нет прав на изменение.");
+                    }
+                    await updateDoc(folderDocRef, { name });
+                    const updatedSnap = await getDoc(folderDocRef);
+
+                    return {
+                        data: {
+                            id,
+                            ...(updatedSnap.data() as Omit<Folder, "id">),
+                        },
+                    };
+                } catch (error) {
+                    console.error("Ошибка при обновлении имени папки:", error);
+                    return { error: error as Error };
+                }
+            },
+            invalidatesTags: (result, error, { id }) => [
+                { type: "Folder", id },
+                { type: "Folder", id: "LIST" },
+            ],
+        }),
     }),
 });
 
@@ -188,4 +222,5 @@ export const {
     useAddFolderMutation,
     useDeleteFolderMutation,
     useUpdateFoldersOrderMutation,
+    useUpdateFolderNameMutation,
 } = foldersApi;

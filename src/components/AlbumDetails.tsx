@@ -66,7 +66,7 @@ export function AlbumDetails({ albumId, className }: AlbumDetailsProps) {
                     <p>{album.artist}</p>
                 </div>
                 <div className="flex  flex-col md:flex-row gap-4">
-                    <div className="w-full md:w-[447px] relative shrink-0 aspect-square bg-black/10 rounded-2xl">
+                    <div className="w-full md:w-[436px] relative shrink-0 aspect-square bg-black/10 rounded-2xl">
                         {album.coverUrl ? (
                             // eslint-disable-next-line
                             <img

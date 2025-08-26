@@ -47,7 +47,7 @@ export function MobileMenuSheet({
                 className="flex flex-col 
                     bg-[linear-gradient(315deg,rgba(74,199,124,0.8),rgba(223,230,233,0.8))]
                     overflow-hidden
-                    dark:bg-[linear-gradient(315deg,rgba(74,199,124,0.8),rgba(52,73,94,0.8))]
+                    dark:bg-[linear-gradient(300deg,rgba(52,73,94,0.8),rgba(74,199,124,0.8))]
                     dark:text-background
                     p-2"
             >
@@ -55,8 +55,9 @@ export function MobileMenuSheet({
                     <SheetTitle>Навигация</SheetTitle>
                     <SheetDescription>Навигация по сайту / Раздел с папками</SheetDescription>
                 </SheetHeader>
+                <ThemeToggle />
                 {user && (
-                    <div className="flex flex-col gap-4 pt-10">
+                    <div className="flex flex-col gap-4">
                         <div className="flex gap-2 md:gap-4">
                             <Button
                                 variant="outline"
@@ -79,7 +80,6 @@ export function MobileMenuSheet({
                                 >
                                     <Folder className="h-4 w-4" />
                                 </Button>
-                                <ThemeToggle />
                             </div>
                         </div>
                         <SearchInput />
@@ -88,7 +88,7 @@ export function MobileMenuSheet({
                         </div>
                     </div>
                 )}
-                <div className="mt-auto">
+                <div className="mt-auto pb-2">
                     {user ? (
                         <Button variant="destructive" onClick={handleLogout} className="w-full">
                             Выйти

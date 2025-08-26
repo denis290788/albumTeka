@@ -1,15 +1,10 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/features/auth";
-import { useDeleteFolderMutation } from "@/services/foldersApi";
-import { useGetAlbumsQuery } from "@/services/albumsApi";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { X, GripVertical } from "lucide-react";
-import { ConfirmModal } from "./ConfirmModal";
-import { useState } from "react";
-import { toast } from "sonner";
+import { GripVertical } from "lucide-react";
+import { FolderCardMenu } from "./FolderCardMenu";
 
 interface FolderCardProps {
     id: string;
@@ -18,12 +13,6 @@ interface FolderCardProps {
 }
 
 export function FolderCard({ id, name, className }: FolderCardProps) {
-    const { user } = useAuth();
-    const [deleteFolder] = useDeleteFolderMutation();
-    const { refetch: refetchAlbums } = useGetAlbumsQuery(user?.uid);
-
-    const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
         id,
     });
@@ -34,19 +23,6 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
         opacity: isDragging ? 0.8 : 1,
         zIndex: isDragging ? 1 : "auto",
         transformOrigin: "0 0",
-    };
-
-    const handleConfirmDelete = async () => {
-        try {
-            await deleteFolder({ id }).unwrap();
-            refetchAlbums();
-            toast.success("Папка успешно удалена");
-        } catch (err) {
-            console.error("Ошибка при удалении папки:", err);
-            toast.error("Не удалось удалить папку");
-        } finally {
-            setConfirmModalOpen(false);
-        }
     };
 
     return (
@@ -72,30 +48,20 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                         href={`/folder/${id}`}
                         className="flex items-center justify-center h-full w-full"
                     >
-                        <span className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate align-text-top text-center">
+                        <span className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate align-text-top text-center ">
                             {name}
                         </span>
                     </Link>
                 </div>
-
-                <button
-                    onClick={() => setConfirmModalOpen(true)}
+                <div
                     className={cn(
-                        "text-muted-foreground hover:text-destructive transition",
+                        "text-muted-foreground hover:text-foreground transition",
                         "p-[2px] opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
                     )}
                 >
-                    <X className="w-4 h-4" />
-                </button>
+                    <FolderCardMenu id={id} name={name} />
+                </div>
             </Card>
-
-            <ConfirmModal
-                open={confirmModalOpen}
-                headText="Подтвердите удаление"
-                description="Вы уверены, что хотите удалить папку? Это действие нельзя отменить."
-                onConfirm={handleConfirmDelete}
-                onCancel={() => setConfirmModalOpen(false)}
-            />
         </div>
     );
 }

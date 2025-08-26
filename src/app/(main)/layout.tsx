@@ -7,7 +7,7 @@ export default function MainLayout({ children }: Readonly<{ children: React.Reac
         <SearchProvider>
             <div className="flex flex-col min-h-full">
                 <Header />
-                <main className="flex-1 px-4 xl:px-16">{children}</main>
+                <main className="flex-1">{children}</main>
                 <Footer />
             </div>
         </SearchProvider>

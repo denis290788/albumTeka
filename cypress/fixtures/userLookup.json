@@ -1,0 +1,19 @@
+{
+    "kind": "identitytoolkit#GetAccountInfoResponse",
+    "users": [
+        {
+            "localId": "fake-user-id",
+            "email": "test@albumteka.com",
+            "emailVerified": true,
+            "displayName": "Test User",
+            "providerUserInfo": [
+                {
+                    "providerId": "password",
+                    "federatedId": "test@albumteka.com",
+                    "email": "test@albumteka.com",
+                    "rawId": "test@albumteka.com"
+                }
+            ]
+        }
+    ]
+}

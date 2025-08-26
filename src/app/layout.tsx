@@ -5,6 +5,7 @@ import { AuthProvider } from "@/features/auth/hooks/useAuth";
 import { Syncopate, Open_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
+import { ServiceWorkerRegister } from "@/lib/ServiceWorkerRegister";
 
 const syncopate = Syncopate({
     subsets: ["latin"],
@@ -43,7 +44,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 className="antialiased h-full font-open-sans bg-background text-foreground"
                 style={{ fontFamily: "var(--font-open-sans), sans-serif" }}
             >
-                <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
                     <AppStore>
                         <AuthProvider>
                             {children}
@@ -52,15 +53,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                                 duration={3000}
                                 toastOptions={{
                                     classNames: {
-                                        toast: "!bg-background/30 !text-foreground !border-0 !mb-[40px]",
+                                        toast: "!bg-background/30 !text-foreground !border-0 !mb-[40px] backdrop-blur-sm",
                                         title: "!font-bold !font-open-sans",
                                         description: "!opacity-90",
+                                        error: "!bg-red-500/20 backdrop-blur-sm",
                                     },
                                 }}
                             />
                         </AuthProvider>
                     </AppStore>
                 </ThemeProvider>
+                <ServiceWorkerRegister />
             </body>
         </html>
     );

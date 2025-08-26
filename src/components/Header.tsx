@@ -20,7 +20,7 @@ export function Header() {
     const handleLogout = async () => {
         try {
             await logout();
-            router.push("/auth");
+            router.push("/");
         } catch (error) {
             console.error("Ошибка выхода:", error);
         }
