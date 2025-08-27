@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AlbumCard } from "../AlbumCard";
 import { mockAlbum } from "../__mocks__/albumsApi";

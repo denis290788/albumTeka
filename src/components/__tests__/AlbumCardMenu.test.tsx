@@ -44,6 +44,9 @@ describe("AlbumCardMenu", () => {
         (useRouter as jest.Mock).mockReturnValue({
             push: mockRouterPush,
         });
+        (useRouter as jest.Mock).mockReturnValue({
+            push: mockRouterPush,
+        });
 
         (useDeleteAlbumMutation as jest.Mock).mockReturnValue([mockDeleteAlbum]);
 
