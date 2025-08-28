@@ -44,7 +44,7 @@ export default function VideoCarousel() {
 
     return (
         <section className="relative max-w-7xl px-4 mx-auto h-screen flex flex-col bg-background overflow-hidden py-12">
-            <div className="w-full max-w-3xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-xl mt-4">
+            <div className="w-full max-w-3xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-xl">
                 <Plyr
                     source={{
                         type: "video",
@@ -65,20 +65,20 @@ export default function VideoCarousel() {
                 />
             </div>
 
-            <div className="flex-1 flex items-center justify-center px-4">
+            <div className="flex-1 flex items-center justify-center p-4 md:p-0">
                 <motion.p
                     key={current}
                     initial={{ opacity: 0, filter: "blur(8px)" }}
                     animate={{ opacity: 1, filter: "blur(0px)" }}
                     exit={{ opacity: 0, filter: "blur(8px)" }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="text-lg md:text-xl text-muted-foreground font-extralight text-center"
+                    className="text-md md:text-xl text-muted-foreground font-extralight text-center"
                 >
                     {videos[current].caption}
                 </motion.p>
             </div>
 
-            <div className="flex justify-center gap-8 pb-6">
+            <div className="flex justify-center gap-8 pb-4 md:pb-8">
                 {videos.map((_, idx) => (
                     <button
                         key={idx}

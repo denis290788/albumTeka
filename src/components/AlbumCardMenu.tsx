@@ -88,7 +88,7 @@ export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
             <ConfirmModal
                 open={confirmModalOpen}
                 headText="Подтвердите удаление"
-                description="Вы уверены, что хотите удалить этот альбом? Это действие нельзя отменить."
+                description="Вы уверены, что хотите удалить альбом? Это действие нельзя отменить."
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setConfirmModalOpen(false)}
             />

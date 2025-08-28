@@ -3,6 +3,7 @@ import { StreamSelector } from "../StreamSelector";
 import { useAuth } from "@/features/auth";
 import { useUpdateAlbumMutation } from "@/services/albumsApi";
 import { mockAlbum, mockUpdateAlbum } from "../__mocks__/albumsApi";
+import { ConfirmModalProps } from "../ConfirmModal";
 
 let selectOnValueChange: (value: string) => void;
 jest.mock("@/components/ui/select", () => ({
@@ -27,6 +28,23 @@ jest.mock("@/components/ui/select", () => ({
     ),
     SelectValue: ({ children }: { children: React.ReactNode }) => (
         <div data-testid="select-value">{children}</div>
+    ),
+}));
+
+jest.mock("../ConfirmModal", () => ({
+    ConfirmModal: ({ open, onConfirm, onCancel }: ConfirmModalProps) => (
+        <div data-testid="confirm-modal">
+            {open && (
+                <>
+                    <button onClick={onConfirm} data-testid="confirm-delete-button">
+                        Confirm Delete
+                    </button>
+                    <button onClick={onCancel} data-testid="confirm-cancel-button">
+                        Cancel Delete
+                    </button>
+                </>
+            )}
+        </div>
     ),
 }));
 
@@ -98,6 +116,9 @@ describe("StreamSelector", () => {
         fireEvent.click(screen.getByTestId("select-trigger"));
         const spotifyTrash = screen.getAllByTestId("trash-icon")[0];
         fireEvent.click(spotifyTrash);
+
+        expect(screen.getByTestId("confirm-modal")).toBeInTheDocument();
+        fireEvent.click(screen.getByTestId("confirm-delete-button"));
 
         expect(mockUpdateAlbum).toHaveBeenCalledWith({
             ...mockAlbum,

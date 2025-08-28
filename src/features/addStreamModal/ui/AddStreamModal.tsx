@@ -10,6 +10,7 @@ import { useAddStreamForm } from "../hooks/useAddStreamForm";
 import { StreamFormData } from "../model/addStreamTypes";
 import { Album } from "@/services/albumsApi";
 import { STREAM_ICONS } from "@/lib/stream-icons";
+import { useEffect } from "react";
 
 interface AddStreamModalProps {
     album: Album;
@@ -26,7 +27,14 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
         handleSubmit,
         setValue,
         formState: { errors },
+        reset,
     } = form;
+
+    useEffect(() => {
+        if (!open) {
+            reset();
+        }
+    }, [open, reset]);
 
     const handleFormSubmit = async (data: StreamFormData) => {
         form.clearErrors();

@@ -14,6 +14,7 @@ import { AddStreamModal } from "../features/addStreamModal";
 import { useAuth } from "@/features/auth";
 import { cn } from "@/lib/utils";
 import { STREAM_ICONS } from "@/lib/stream-icons";
+import { ConfirmModal } from "./ConfirmModal";
 
 interface StreamSelectorProps {
     album: Album;
@@ -33,6 +34,9 @@ export function StreamSelector({
 
     const [updateAlbum] = useUpdateAlbumMutation();
     const [addModalOpen, setAddModalOpen] = useState(false);
+
+    const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+    const [streamToRemove, setStreamToRemove] = useState<StreamType | null>(null);
 
     const setDefaultStream = async (type: StreamType) => {
         if (!isOwner) return;
@@ -122,7 +126,8 @@ export function StreamSelector({
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                removeStream(stream.type);
+                                                setStreamToRemove(stream.type);
+                                                setConfirmModalOpen(true);
                                             }}
                                             className="focus:outline-none cursor-pointer pl-2"
                                         >
@@ -147,6 +152,23 @@ export function StreamSelector({
             {isOwner && (
                 <AddStreamModal open={addModalOpen} onOpenChange={setAddModalOpen} album={album} />
             )}
+
+            <ConfirmModal
+                open={confirmModalOpen}
+                headText="Подтвердите удаление"
+                description={`Вы уверены, что хотите удалить стримминг ${streamToRemove}? Это действие нельзя отменить.`}
+                onConfirm={() => {
+                    if (streamToRemove) {
+                        removeStream(streamToRemove);
+                        setConfirmModalOpen(false);
+                        setStreamToRemove(null);
+                    }
+                }}
+                onCancel={() => {
+                    setConfirmModalOpen(false);
+                    setStreamToRemove(null);
+                }}
+            />
         </div>
     );
 }

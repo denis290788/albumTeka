@@ -188,14 +188,23 @@ export const albumsApi = createApi({
                     if (!albumDoc.exists() || albumDoc.data()?.userId !== userId) {
                         throw new Error("Альбом не найден или нет прав на удаление.");
                     }
+
+                    const folderId = albumDoc.data()?.folderId as string | undefined;
+
                     await deleteDoc(albumRef);
-                    return { data: true };
+                    return { data: true, meta: { folderId } };
                 } catch (error) {
                     console.error("Ошибка при удалении альбома:", error);
                     return { error: error as Error };
                 }
             },
-            invalidatesTags: () => [{ type: "Album", id: "LIST" }],
+            invalidatesTags: (result, error, albumId, meta: { folderId?: string } | undefined) => {
+                const tags: Array<{ type: "Album"; id: string }> = [{ type: "Album", id: "LIST" }];
+                if (meta?.folderId) {
+                    tags.push({ type: "Album", id: `LIST-FOLDER-${meta.folderId}` });
+                }
+                return tags;
+            },
         }),
 
         updateAlbum: builder.mutation<Album, Album>({

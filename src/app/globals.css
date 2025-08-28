@@ -142,3 +142,16 @@ body {
 .masonry-grid-column > div {
     margin-bottom: 1.5rem;
 }
+
+.plyr {
+    --plyr-color-main: #4ac77c;
+    --plyr-video-background: hsl(#dfe6e9);
+}
+
+.plyr__video-wrapper video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: scale(1.005);
+    transform-origin: center center;
+}

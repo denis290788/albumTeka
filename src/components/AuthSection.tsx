@@ -35,7 +35,7 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                             href="https://github.com/denis290788/albumTeka"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex flex-col items-center justify-center"
+                            className="flex flex-col items-center justify-center gap-2 p-2"
                         >
                             <Github
                                 style={{ width: "2rem", height: "2rem" }}
@@ -44,28 +44,13 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                             <span className="text-xs md:text-sm text-center">GitHub</span>
                         </Link>
                     </Button>
-
-                    {isVisible && (
-                        <Button
-                            onClick={handleAddToHomeScreen}
-                            variant="heroAlt"
-                            className="h-24 md:h-30 flex flex-col items-center justify-center gap-2 p-2"
-                        >
-                            <MonitorSmartphone
-                                style={{ width: "2rem", height: "2rem" }}
-                                className="md:w-10 md:h-10"
-                            />
-                            <span className="text-xs md:text-sm text-center">На главный экран</span>
-                        </Button>
-                    )}
-
                     <Button
                         variant="heroAlt"
                         className="h-24 md:h-30 flex flex-col items-center justify-center gap-2 p-2"
                     >
                         <Link
                             href="mailto:denis290788@gmail.com"
-                            className="flex flex-col items-center justify-center"
+                            className="flex flex-col items-center justify-center gap-2 p-2"
                         >
                             <Mail
                                 style={{ width: "2rem", height: "2rem" }}
@@ -74,7 +59,6 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                             <span className="text-xs md:text-sm text-center">Email</span>
                         </Link>
                     </Button>
-
                     <Button
                         onClick={() => login("demo@demo.ru", "123456")}
                         variant="heroAlt"
@@ -85,6 +69,18 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                             className="md:w-10 md:h-10"
                         />
                         <span className="text-xs md:text-sm text-center">Демо-режим</span>
+                    </Button>
+                    <Button
+                        onClick={handleAddToHomeScreen}
+                        variant="heroAlt"
+                        className="h-24 md:h-30 flex flex-col items-center justify-center gap-2 p-2"
+                        disabled={!isVisible}
+                    >
+                        <MonitorSmartphone
+                            style={{ width: "2rem", height: "2rem" }}
+                            className="md:w-10 md:h-10"
+                        />
+                        <span className="text-xs md:text-sm text-center">На главный экран</span>
                     </Button>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useAddFolderForm } from "../hooks/useAddFolderForm";
+import { useEffect } from "react";
 
 interface AddFolderFormProps {
     open: boolean;
@@ -19,7 +20,14 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
+        reset,
     } = form;
+
+    useEffect(() => {
+        if (!open) {
+            reset(); // сбрасываем форму при закрытии
+        }
+    }, [open, reset]);
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>

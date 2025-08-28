@@ -68,7 +68,7 @@ export function FolderCardMenu({ id, name }: FolderCardMenuProps) {
             <ConfirmModal
                 open={confirmModalOpen}
                 headText="Подтвердите удаление"
-                description="Вы уверены, что хотите удалить папку? Это действие нельзя отменить."
+                description={`Вы уверены, что хотите удалить папку "${name}"? Это действие нельзя отменить.`}
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setConfirmModalOpen(false)}
             />
