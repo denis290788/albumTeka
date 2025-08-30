@@ -1,0 +1,126 @@
+{
+    "addAlbum": "Добавить альбом",
+    "addFolder": "Добавить папку",
+
+    "login": "Войти",
+    "logout": "Выйти",
+
+    "notFound_message": "Кажется ты заблудился:/",
+    "notFound_backHome": "на главную?",
+
+    "albumMenu_details": "Детали",
+    "albumMenu_share": "Поделиться",
+    "albumMenu_delete": "Удалить",
+    "albumMenu_copySuccess": "Ссылка скопирована в буфер обмена",
+    "albumMenu_copyError": "Не удалось скопировать ссылку",
+    "albumMenu_deleteSuccess": "Альбом успешно удален",
+    "albumMenu_deleteError": "Не удалось удалить альбом",
+    "albumMenu_confirmTitle": "Подтвердите удаление",
+    "albumMenu_confirmDescription": "Вы уверены, что хотите удалить альбом? Это действие нельзя отменить.",
+    "album_error": "Упс... ошибка загрузки альбома:/",
+
+    "albumDetails_addSuccess": "Альбом добавлен в вашу библиотеку",
+    "albumDetails_addError": "Не удалось добавить альбом",
+    "albumDetails_add": "Добавить",
+
+    "albumList_error": "Упс... ошибка загрузки альбомов:/",
+    "albumList_empty": "Ты пока не добавил альбомы:/",
+    "albumList_notFound": "Ничего не найдено:/",
+    "albumList_showMore": "Показать еще",
+
+    "authSection_title": "Дополнительно",
+    "authSection_demo": "Демо-режим",
+    "authSection_install": "На главный экран",
+
+    "confirmModal_cancel": "Отмена",
+    "confirmModal_delete": "Удалить",
+
+    "folder_edit": "Редактировать",
+    "folder_delete": "Удалить",
+    "folder_confirmDeleteTitle": "Подтвердите удаление",
+    "folder_confirmDeleteDescription": "Вы уверены, что хотите удалить папку \"{{name}}\"? Это действие нельзя отменить.",
+    "folder_deleteSuccess": "Папка успешно удалена",
+    "folder_deleteError": "Не удалось удалить папку",
+
+    "folder_list_error": "Ошибка загрузки папок.",
+    "folder_list_title": "Мои папки:",
+
+    "folder_selector_none": "Без папки",
+
+    "hero_section_description": "Собирай свою медиатеку из любимых альбомов, слушай в один клик",
+    "hero_section_start": "Начать",
+
+    "mobile_menu_title": "Навигация",
+    "mobile_menu_description": "Навигация по сайту / Раздел с папками",
+    "mobile_menu_logout": "Выйти",
+    "mobile_menu_login": "Войти",
+
+    "search_placeholder_album": "по альбомам...",
+    "search_placeholder_artist": "по исполнителям...",
+
+    "stream_select_placeholder": "Выберите стриминг",
+    "stream_add": "Добавить стриминг",
+    "stream_confirm_delete_title": "Подтвердите удаление",
+    "stream_confirm_delete_desc": "Вы уверены, что хотите удалить стримминг {{stream}}? Это действие нельзя отменить.",
+
+    "theme_toggle": "Переключить тему",
+
+    "video_caption_1": "Для создания альбома нужно заполнить обязательные поля формы, выбрать стриминговый сервис и добавить ссылку на альбом. После этого карточка альбома появится на главной странице",
+    "video_caption_2": "Чтобы создать папку, нужно указать название. Затем новая папка появится в списке папок. В карточке альбома также отображается список папок. Там можно выбрать в какую папку добавить альбом. После добавления альбом исчезнет с главной страницы и появится в вашей новой папке",
+    "video_caption_3": "В приложении реализован поиск по названию альбома или исполнителю. На главной странице осуществляется поиск по всем вашим добавленным альбомам. Поиск в папке ограничен только альбомами, которые туда добавлены.",
+    "video_caption_4": "Сортировка папок реализована через drag-n-drop. А при удалении папки, все альбомы в ней перемещаются на главную страницу.",
+    "video_caption_5": "На главной странице или в папке можно прослушивать выбранный альбом. Также в карточке альбома можно выбрать стриминговый плеер, назначить плеер по умолчанию для данного альбома или удалить, если это не плеер по умолчанию.",
+    "video_caption_6": "Через меню альбома можно перейти на его страницу (или по клику на обложку), удалить и поделиться ссылкой на альбом. По ссылке открывается страница альбома. Другой авторизованный пользователь сможет скопировать альбом в свою библиотеку. Для неавторизованного пользователя доступно прослушивание альбома.",
+
+    "albumForm_title": "Добавить альбом",
+    "albumForm_label_title": "Название альбома",
+    "albumForm_label_artist": "Исполнитель",
+    "albumForm_label_year": "Год выпуска",
+    "albumForm_label_coverUrl": "Ссылка на обложку",
+    "albumForm_label_streamType": "Стриминг",
+    "albumForm_label_streamUrl": "Ссылка",
+    "albumForm_submit": "Добавить альбом",
+    "albumForm_saving": "Сохраняем...",
+
+    "albumForm_bandcamp_error": "Не удалось извлечь плеер из ссылки Bandcamp. Проверьте URL.",
+
+    "albumForm_error_title": "Введите название альбома",
+    "albumForm_error_artist": "Введите исполнителя",
+    "albumForm_error_year": "Введите корректный год (4 цифры)",
+    "albumForm_error_coverUrl": "Неверная ссылка на обложку",
+    "albumForm_error_bandcamp": "Не удалось извлечь плеер из ссылки Bandcamp. Проверьте URL.",
+
+    "addFolderForm_title": "Новая папка",
+    "addFolderForm_placeholder": "Название папки",
+    "addFolderForm_button_create": "Создать",
+    "addFolderForm_error_name": "Введите название папки",
+
+    "addStreamForm_title": "Добавить стриминг",
+    "addStreamForm_label_streamType": "Стримминг",
+    "addStreamForm_label_streamUrl": "Ссылка",
+    "addStreamForm_button_add": "Добавить",
+    "addStreamForm_error_streamType": "Выберите стримминг",
+    "addStreamForm_error_streamUrl_required": "Введите ссылку",
+    "addStreamForm_error_streamUrl_pattern": "Ссылка не соответствует выбранному типу стриминга",
+    "addStreamForm_error_streamType_duplicate": "Стриминг \"{{stream}}\" уже добавлен.",
+
+    "editFolderForm_title": "Новое название папки",
+    "editFolderForm_placeholder_name": "Название папки",
+    "editFolderForm_submit": "Изменить",
+    "editFolderForm_error_name_required": "Введите название папки",
+
+    "authForm_title_register": "Регистрация",
+    "authForm_title_login": "Вход",
+    "authForm_email": "Почта",
+    "authForm_email_placeholder": "ваша@почта.ком",
+    "authForm_password": "Пароль",
+    "authForm_password_placeholder": "минимум 6 символов",
+    "authForm_submit_register": "Зарегистрироваться",
+    "authForm_submit_login": "Войти",
+    "authForm_switch_to_login": "Уже есть аккаунт? Войти",
+    "authForm_switch_to_register": "Нет аккаунта? Зарегистрироваться",
+    "authForm_error_invalid_email": "Неверный формат почты.",
+    "authForm_error_short_password": "Пароль должен быть не менее 6 символов.",
+    "authForm_error_server": "Произошла неизвестная ошибка. Попробуйте еще раз.",
+    "authForm_loading": "Загрузка..."
+}

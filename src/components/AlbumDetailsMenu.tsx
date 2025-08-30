@@ -11,6 +11,7 @@ import { MoreHorizontal, Trash, Share2, Disc3 } from "lucide-react";
 import { toast } from "sonner";
 import { ConfirmModal } from "./ConfirmModal";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface AlbumDetailsMenuProps {
     album: Album;
@@ -19,6 +20,7 @@ interface AlbumDetailsMenuProps {
 
 export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
     const router = useRouter();
+    const { t } = useTranslation();
 
     const [addAlbum] = useAddAlbumMutation();
     const [deleteAlbum] = useDeleteAlbumMutation();
@@ -30,10 +32,10 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
         try {
             const currentUrl = window.location.href;
             await navigator.clipboard.writeText(currentUrl);
-            toast.success("Ссылка скопирована в буфер обмена");
+            toast.success(t("albumMenu_copySuccess"));
         } catch (err) {
             console.error("Ошибка при копировании ссылки:", err);
-            toast.error("Не удалось скопировать ссылку");
+            toast.error(t("albumMenu_copyError"));
         }
     };
 
@@ -52,11 +54,11 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
 
         try {
             await addAlbum(albumToAdd).unwrap();
-            toast.success("Альбом добавлен в вашу библиотеку");
+            toast.success(t("albumDetails_addSuccess"));
             return true;
         } catch (err) {
             console.error("Ошибка при добавлении альбома:", err);
-            toast.error("Не удалось добавить альбом");
+            toast.error(t("albumDetails_addError"));
             return false;
         }
     };
@@ -64,10 +66,11 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
     const handleConfirmDelete = async () => {
         try {
             await deleteAlbum(album.id).unwrap();
+            toast.success(t("albumMenu_deleteSuccess"));
             router.push("/");
         } catch (err) {
             console.error("Ошибка при удалении альбома:", err);
-            toast.error("Не удалось удалить альбом");
+            toast.error(t("albumMenu_deleteError"));
         } finally {
             setConfirmModalOpen(false);
         }
@@ -92,7 +95,7 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
                             onClick={handleShareAlbum}
                         >
                             <Share2 className="w-4 h-4 mr-2" />
-                            Поделиться
+                            {t("albumMenu_share")}
                         </DropdownMenuItem>
                     ) : (
                         <DropdownMenuItem
@@ -100,7 +103,7 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
                             onClick={handleAddAlbum}
                         >
                             <Disc3 className="h-4 w-4 mr-2" />
-                            Добавить
+                            {t("albumDetails_add")}
                         </DropdownMenuItem>
                     )}
                     {isOwner && (
@@ -109,7 +112,7 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
                             onClick={() => setConfirmModalOpen(true)}
                         >
                             <Trash className="w-4 h-4 mr-2 text-destructive" />
-                            Удалить
+                            {t("albumMenu_delete")}
                         </DropdownMenuItem>
                     )}
                 </DropdownMenuContent>
@@ -117,8 +120,8 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
 
             <ConfirmModal
                 open={confirmModalOpen}
-                headText="Подтвердите удаление"
-                description="Вы уверены, что хотите удалить альбом? Это действие нельзя отменить."
+                headText={t("albumMenu_confirmTitle")}
+                description={t("albumMenu_confirmDescription")}
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setConfirmModalOpen(false)}
             />

@@ -9,8 +9,12 @@ import { useRouter } from "next/navigation";
 import { MobileMenuSheet } from "./MenuSheet";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchInput } from "./SearchInput";
+import { useTranslation } from "react-i18next";
+import { LanguageToggle } from "./LanguageToggle";
 
 export function Header() {
+    const { t } = useTranslation();
+
     const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -41,21 +45,22 @@ export function Header() {
                     <>
                         <SearchInput />
                         <Link href="/add">
-                            <Button variant="outline">Добавить альбом</Button>
+                            <Button variant="outline">{t("addAlbum")}</Button>
                         </Link>
                         <Button variant="outline" onClick={() => setIsAddFolderModalOpen(true)}>
-                            Добавить папку
+                            {t("addFolder")}
                         </Button>
                     </>
                 )}
                 <ThemeToggle />
+                <LanguageToggle />
                 {user ? (
                     <Button variant="destructive" onClick={handleLogout}>
-                        Выйти
+                        {t("logout")}
                     </Button>
                 ) : (
                     <Link href="/auth">
-                        <Button variant="default">Войти</Button>
+                        <Button variant="default">{t("login")}</Button>
                     </Link>
                 )}
             </div>

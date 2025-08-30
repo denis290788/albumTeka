@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useAddFolderForm } from "../hooks/useAddFolderForm";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 interface AddFolderFormProps {
     open: boolean;
@@ -14,6 +15,7 @@ interface AddFolderFormProps {
 }
 
 export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormProps) {
+    const { t } = useTranslation();
     const { form, onSubmit } = useAddFolderForm(() => onOpenChange(false));
 
     const {
@@ -25,7 +27,7 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
 
     useEffect(() => {
         if (!open) {
-            reset(); // сбрасываем форму при закрытии
+            reset();
         }
     }, [open, reset]);
 
@@ -46,19 +48,21 @@ export function AddFolderForm({ open, onOpenChange, className }: AddFolderFormPr
                 aria-describedby={undefined}
             >
                 <DialogHeader>
-                    <DialogTitle className="dark:text-[#bedaca]">Новая папка</DialogTitle>
+                    <DialogTitle className="dark:text-[#bedaca]">
+                        {t("addFolderForm_title")}
+                    </DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <Input
-                        placeholder="Название папки"
+                        placeholder={t("addFolderForm_placeholder")}
                         {...register("name")}
                         className="border-0"
                     />
 
                     <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
                         <Button type="submit" variant="outline" disabled={isSubmitting}>
-                            Создать
+                            {t("addFolderForm_button_create")}
                         </Button>
                         {errors.name && (
                             <p className="text-[10px] text-destructive">{errors.name.message}</p>

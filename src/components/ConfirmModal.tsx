@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Dialog,
     DialogContent,
@@ -7,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export interface ConfirmModalProps {
     open: boolean;
@@ -25,6 +28,8 @@ export function ConfirmModal({
     onCancel,
     className,
 }: ConfirmModalProps) {
+    const { t } = useTranslation();
+
     return (
         <Dialog open={open} onOpenChange={(open) => !open && onCancel()}>
             <DialogContent
@@ -49,10 +54,10 @@ export function ConfirmModal({
 
                 <div className="flex justify-end gap-4 mt-6">
                     <Button variant="outline" onClick={onCancel} className="w-[100px]">
-                        Отмена
+                        {t("confirmModal_cancel")}
                     </Button>
                     <Button variant="destructive" onClick={onConfirm} className="w-[100px]">
-                        Удалить
+                        {t("confirmModal_delete")}
                     </Button>
                 </div>
             </DialogContent>

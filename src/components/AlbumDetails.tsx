@@ -12,6 +12,7 @@ import { Loader } from "./ui/loader";
 import { AlbumDetailsMenu } from "./AlbumDetailsMenu";
 import { motion } from "framer-motion";
 import { Disc3 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface AlbumDetailsProps {
     albumId: string;
@@ -20,6 +21,7 @@ interface AlbumDetailsProps {
 
 export function AlbumDetails({ albumId, className }: AlbumDetailsProps) {
     const { user } = useAuth();
+    const { t } = useTranslation();
 
     const {
         data: album,
@@ -38,8 +40,7 @@ export function AlbumDetails({ albumId, className }: AlbumDetailsProps) {
     const gradientAngle = useMemo(() => Math.floor(Math.random() * 360), []);
 
     if (isLoading) return <Loader />;
-    if (isError)
-        return <p className="text-destructive text-2xl">Упс... ошибка загрузки альбома:/</p>;
+    if (isError) return <p className="text-destructive text-2xl">{t("album_error")}</p>;
 
     if (!album || !activeStream) return null;
 

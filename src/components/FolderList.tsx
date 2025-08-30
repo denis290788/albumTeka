@@ -17,6 +17,7 @@ import { SortableContext, arrayMove, horizontalListSortingStrategy } from "@dnd-
 import { restrictToFirstScrollableAncestor, restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { useEffect, useState } from "react";
 import { Folder as FolderIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface FolderListProps {
     className?: string;
@@ -24,6 +25,8 @@ interface FolderListProps {
 
 export function FolderList({ className }: FolderListProps) {
     const { user } = useAuth();
+    const { t } = useTranslation();
+
     const { data: folders = [], isError } = useGetFoldersQuery(user?.uid);
     const [updateFoldersOrder] = useUpdateFoldersOrderMutation();
 
@@ -64,14 +67,14 @@ export function FolderList({ className }: FolderListProps) {
         }
     };
 
-    if (isError) return <p className="text-destructive">Ошибка загрузки папок.</p>;
+    if (isError) return <p className="text-destructive">{t("folder_list_error")}</p>;
     if (!localFolders.length && !folders.length) return null;
 
     return (
         <div className={cn("mb-8 flex flex-col lg:flex-row gap-4", className)}>
             <div className="flex gap-2 items-center">
                 <FolderIcon className="h-6 w-6" />
-                <h2 className="text-[18px] lg:text-xl">Мои папки:</h2>
+                <h2 className="text-[18px] lg:text-xl">{t("folder_list_title")}</h2>
             </div>
 
             <DndContext

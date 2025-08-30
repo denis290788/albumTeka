@@ -6,6 +6,7 @@ import { Syncopate, Open_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
 import { ServiceWorkerRegister } from "@/lib/ServiceWorkerRegister";
+import { I18nProvider } from "./_providers/I18nProvider";
 
 const syncopate = Syncopate({
     subsets: ["latin"],
@@ -22,7 +23,7 @@ const openSans = Open_Sans({
 
 export const metadata = {
     title: "AlbumTeka",
-    description: "Твоя музыкальная коллекция",
+    description: "Your music collection",
     icons: {
         icon: [
             { url: "/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -47,19 +48,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
                     <AppStore>
                         <AuthProvider>
-                            {children}
-                            <Toaster
-                                position="bottom-right"
-                                duration={3000}
-                                toastOptions={{
-                                    classNames: {
-                                        toast: "!bg-background/30 !text-foreground !border-0 !mb-[40px] backdrop-blur-sm",
-                                        title: "!font-bold !font-open-sans",
-                                        description: "!opacity-90",
-                                        error: "!bg-red-500/20 backdrop-blur-sm",
-                                    },
-                                }}
-                            />
+                            <I18nProvider>
+                                {children}
+                                <Toaster
+                                    position="bottom-right"
+                                    duration={3000}
+                                    toastOptions={{
+                                        classNames: {
+                                            toast: "!bg-background/30 !text-foreground !border-0 !mb-[40px] backdrop-blur-sm",
+                                            title: "!font-bold !font-open-sans",
+                                            description: "!opacity-90",
+                                            error: "!bg-red-500/20 backdrop-blur-sm",
+                                        },
+                                    }}
+                                />
+                            </I18nProvider>
                         </AuthProvider>
                     </AppStore>
                 </ThemeProvider>

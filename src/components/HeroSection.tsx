@@ -3,6 +3,7 @@
 import { NeatConfig, NeatGradient } from "@firecms/neat";
 import { useEffect, useRef } from "react";
 import { Button } from "./ui/button";
+import { useTranslation } from "react-i18next";
 
 const neatConfig: NeatConfig = {
     colors: [
@@ -35,6 +36,7 @@ const neatConfig: NeatConfig = {
 };
 
 export default function HeroSection({ onStartClick }: { onStartClick: () => void }) {
+    const { t } = useTranslation();
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
@@ -59,7 +61,7 @@ export default function HeroSection({ onStartClick }: { onStartClick: () => void
                     album<span className="font-bold">TEKA</span>
                 </h1>
                 <p className="text-lg md:text-3xl mb-6 font-extralight text-muted-foreground/70">
-                    Собирай свою медиатеку из любимых альбомов, слушай в один клик
+                    {t("hero_section_description")}
                 </p>
                 <div className="flex justify-center gap-4">
                     <Button
@@ -67,7 +69,7 @@ export default function HeroSection({ onStartClick }: { onStartClick: () => void
                         variant="hero"
                         className="hover:dark:bg-muted-foreground/30 font-extralight text-2xl p-4 md:text-4xl md:p-8"
                     >
-                        Начать
+                        {t("hero_section_start")}
                     </Button>
                 </div>
             </div>

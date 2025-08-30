@@ -8,12 +8,14 @@ import { cn } from "@/lib/utils";
 import { useAddAlbumForm } from "../hooks/useAddAlbumForm";
 import { AlbumFormData } from "../model/addAlbumTypes";
 import { STREAM_ICONS } from "@/lib/stream-icons";
+import { useTranslation } from "react-i18next";
 
 interface AlbumFormProps {
     className?: string;
 }
 
 export const AlbumForm = ({ className }: AlbumFormProps) => {
+    const { t } = useTranslation();
     const { form, loading, onSubmit } = useAddAlbumForm();
 
     const {
@@ -24,12 +26,15 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
     } = form;
 
     return (
-        <div className="p-4 mb-6 bg-transparent shadow-[0_4px_10px_rgba(0,0,0,0.15)] rounded-2xl">
-            <h1 className="text-2xl font-semibold mb-4 dark:text-[#bedaca]">Добавить альбом</h1>
+        <div className="p-4 mb-4 bg-transparent shadow-[0_4px_10px_rgba(0,0,0,0.15)] rounded-2xl">
+            <h1 className="text-2xl font-semibold mb-4 dark:text-[#bedaca]">
+                {t("albumForm_title")}
+            </h1>
             <form onSubmit={handleSubmit(onSubmit)} className={cn(className)}>
                 <div>
                     <Label htmlFor="title">
-                        Название альбома<span className="text-destructive">*</span>
+                        {t("albumForm_label_title")}
+                        <span className="text-destructive">*</span>
                     </Label>
                     <Input id="title" {...register("title")} />
                     <div className="min-h-[18px]">
@@ -41,7 +46,8 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
 
                 <div>
                     <Label htmlFor="artist">
-                        Исполнитель<span className="text-destructive">*</span>
+                        {t("albumForm_label_artist")}
+                        <span className="text-destructive">*</span>
                     </Label>
                     <Input id="artist" {...register("artist")} />
                     <div className="min-h-[18px]">
@@ -52,7 +58,7 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
                 </div>
 
                 <div>
-                    <Label htmlFor="year">Год выпуска</Label>
+                    <Label htmlFor="year">{t("albumForm_label_year")}</Label>
                     <Input id="year" {...register("year")} />
                     <div className="min-h-[18px]">
                         {errors.year && (
@@ -62,7 +68,7 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
                 </div>
 
                 <div>
-                    <Label htmlFor="coverUrl">Ссылка на обложку</Label>
+                    <Label htmlFor="coverUrl">{t("albumForm_label_coverUrl")}</Label>
                     <Input id="coverUrl" {...register("coverUrl")} />
                     <div className="min-h-[18px]">
                         {errors.coverUrl && (
@@ -75,7 +81,8 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
                 <div className="flex gap-2 mb-2">
                     <div>
                         <Label>
-                            Cтриминг<span className="text-destructive">*</span>
+                            {t("albumForm_label_streamType")}
+                            <span className="text-destructive">*</span>
                         </Label>
                         <Select
                             onValueChange={(val) =>
@@ -110,7 +117,8 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
                     </div>
                     <div className="flex-1">
                         <Label htmlFor="streamUrl">
-                            Ссылка<span className="text-destructive">*</span>
+                            {t("albumForm_label_streamUrl")}
+                            <span className="text-destructive">*</span>
                         </Label>
                         <Input id="streamUrl" {...register("streamUrl")} />
                         <div className="min-h-[18px]">
@@ -129,7 +137,7 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
                 </div>
 
                 <Button type="submit" disabled={loading || !isValid} className="w-full">
-                    {loading ? "Сохраняем..." : "Добавить альбом"}
+                    {loading ? t("albumForm_saving") : t("albumForm_submit")}
                 </Button>
             </form>
         </div>

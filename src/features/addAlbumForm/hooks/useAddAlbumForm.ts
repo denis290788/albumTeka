@@ -1,14 +1,16 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { AlbumFormData, albumSchema } from "../model/addAlbumTypes";
+import { AlbumFormData, createAlbumSchema } from "../model/addAlbumTypes";
 import { useAddAlbumMutation } from "@/services/albumsApi";
+import { useTranslation } from "react-i18next";
 
 export const useAddAlbumForm = () => {
     const router = useRouter();
+    const { t } = useTranslation();
 
     const form = useForm<AlbumFormData>({
-        resolver: zodResolver(albumSchema),
+        resolver: zodResolver(createAlbumSchema(t)),
         mode: "onChange",
         defaultValues: {
             streamType: "Bandcamp",
@@ -40,7 +42,7 @@ export const useAddAlbumForm = () => {
                 console.error("Ошибка при запросе к Bandcamp API:", err);
                 form.setError("streamUrl", {
                     type: "manual",
-                    message: "Не удалось извлечь плеер из ссылки Bandcamp. Проверьте URL.",
+                    message: t("albumForm_bandcamp_error"),
                 });
                 return false;
             }

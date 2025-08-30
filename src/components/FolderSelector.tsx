@@ -3,6 +3,7 @@ import { useGetFoldersQuery } from "@/services/foldersApi";
 import { Album, useUpdateAlbumMutation } from "@/services/albumsApi";
 import { useAuth } from "@/features/auth";
 import { Folder } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface FolderSelectorProps {
     album: Album;
@@ -10,6 +11,7 @@ interface FolderSelectorProps {
 
 export function FolderSelector({ album }: FolderSelectorProps) {
     const { user } = useAuth();
+    const { t } = useTranslation();
 
     const { data: folders } = useGetFoldersQuery(user?.uid);
     const [updateAlbum] = useUpdateAlbumMutation();
@@ -32,7 +34,7 @@ export function FolderSelector({ album }: FolderSelectorProps) {
                 <Folder className="h-4 w-4 text-foreground transition-colors group-hover:text-accent-foreground dark:text-[#bedaca] dark:group-hover:text-background" />
             </SelectTrigger>
             <SelectContent className="bg-background">
-                <SelectItem value="null">Без папки</SelectItem>
+                <SelectItem value="null">{t("folder_selector_none")}</SelectItem>
                 {folders &&
                     folders.map((folder) => (
                         <SelectItem key={folder.id} value={folder.id}>

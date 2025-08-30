@@ -1,19 +1,20 @@
-import { streamSchema } from "@/features/addStreamModal/model/addStreamTypes";
 import { z } from "zod";
+import { getStreamSchema } from "@/features/addStreamModal/model/addStreamTypes";
 
-export const albumSchema = z
-    .object({
-        title: z.string().min(1, "Введите название альбома"),
-        artist: z.string().min(1, "Введите исполнителя"),
-        year: z
-            .string()
-            .optional()
-            .refine((val) => !val || /^\d{4}$/.test(val), {
-                message: "Введите корректный год (4 цифры)",
-            }),
-        coverUrl: z.string().url("Неверная ссылка на обложку").optional().or(z.literal("")),
-        streamType: z.enum(["Bandcamp", "Spotify", "Soundcloud", "VK"]),
-    })
-    .and(streamSchema);
+export const createAlbumSchema = (t: (key: string) => string) =>
+    z
+        .object({
+            title: z.string().min(1, t("albumForm_error_title")),
+            artist: z.string().min(1, t("albumForm_error_artist")),
+            year: z
+                .string()
+                .optional()
+                .refine((val) => !val || /^\d{4}$/.test(val), {
+                    message: t("albumForm_error_year"),
+                }),
+            coverUrl: z.string().url(t("albumForm_error_coverUrl")).optional().or(z.literal("")),
+            streamType: z.enum(["Bandcamp", "Spotify", "Soundcloud", "VK"]),
+        })
+        .and(getStreamSchema(t));
 
-export type AlbumFormData = z.infer<typeof albumSchema>;
+export type AlbumFormData = z.infer<ReturnType<typeof createAlbumSchema>>;

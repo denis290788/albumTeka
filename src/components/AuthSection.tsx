@@ -6,9 +6,11 @@ import { AuthForm, useAuth } from "@/features/auth";
 import { Github, Mail, MonitorSmartphone, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { forwardRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
     const { login } = useAuth();
+    const { t } = useTranslation();
     const { isVisible, handleAddToHomeScreen } = useAddToHomeScreen();
 
     return (
@@ -24,7 +26,7 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
 
             <div className="flex-1 min-h-[calc(100vh-90px)] md:pt-4 md:min-h-0 flex flex-col items-center md:items-start justify-center gap-6">
                 <div className="w-full max-w-md flex justify-center">
-                    <h2 className="text-3xl font-bold">Дополнительно</h2>
+                    <h2 className="text-3xl font-bold">{t("authSection_title")}</h2>
                 </div>
                 <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                     <Button
@@ -68,7 +70,9 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                             style={{ width: "2rem", height: "2rem" }}
                             className="md:w-10 md:h-10"
                         />
-                        <span className="text-xs md:text-sm text-center">Демо-режим</span>
+                        <span className="text-xs md:text-sm text-center">
+                            {t("authSection_demo")}
+                        </span>
                     </Button>
                     <Button
                         onClick={handleAddToHomeScreen}
@@ -80,7 +84,9 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                             style={{ width: "2rem", height: "2rem" }}
                             className="md:w-10 md:h-10"
                         />
-                        <span className="text-xs md:text-sm text-center">На главный экран</span>
+                        <span className="text-xs md:text-sm text-center">
+                            {t("authSection_install")}
+                        </span>
                     </Button>
                 </div>
             </div>

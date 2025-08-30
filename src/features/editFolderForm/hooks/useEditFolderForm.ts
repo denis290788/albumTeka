@@ -1,13 +1,15 @@
 import { useUpdateFolderNameMutation } from "@/services/foldersApi";
 import { useForm } from "react-hook-form";
-import { FolderFormData, folderSchema } from "../model/editFolderTypes";
+import { FolderFormData, getFolderSchema } from "../model/editFolderTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 
 export const useEditFolderNameForm = (id: string, onSuccess?: () => void) => {
+    const { t } = useTranslation();
     const [editFolderName] = useUpdateFolderNameMutation();
 
     const form = useForm<FolderFormData>({
-        resolver: zodResolver(folderSchema),
+        resolver: zodResolver(getFolderSchema(t)),
     });
 
     const onSubmit = async (data: FolderFormData) => {

@@ -6,6 +6,20 @@ import { useGetFoldersQuery } from "@/services/foldersApi";
 import { mockFolders } from "../__mocks__/foldersApi";
 import { mockAlbum, mockUpdateAlbum } from "../__mocks__/albumsApi";
 
+jest.mock("react-i18next", () => ({
+    useTranslation: () => ({
+        t: (key: string) => {
+            const translations: Record<string, string> = {
+                folder_selector_none: "Без папки",
+            };
+            return translations[key] || key;
+        },
+        i18n: {
+            changeLanguage: () => new Promise(() => {}),
+        },
+    }),
+}));
+
 let selectOnValueChange: (value: string) => void;
 jest.mock("@/components/ui/select", () => ({
     Select: ({

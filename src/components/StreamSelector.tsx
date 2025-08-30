@@ -15,6 +15,7 @@ import { useAuth } from "@/features/auth";
 import { cn } from "@/lib/utils";
 import { STREAM_ICONS } from "@/lib/stream-icons";
 import { ConfirmModal } from "./ConfirmModal";
+import { useTranslation } from "react-i18next";
 
 interface StreamSelectorProps {
     album: Album;
@@ -31,6 +32,8 @@ export function StreamSelector({
 }: StreamSelectorProps) {
     const { user } = useAuth();
     const isOwner = user?.uid === album.userId;
+
+    const { t } = useTranslation();
 
     const [updateAlbum] = useUpdateAlbumMutation();
     const [addModalOpen, setAddModalOpen] = useState(false);
@@ -82,7 +85,7 @@ export function StreamSelector({
                 value={activeStream}
             >
                 <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Выберите стриминг" />
+                    <SelectValue placeholder={t("stream_select_placeholder")} />
                 </SelectTrigger>
 
                 <SelectContent className="bg-background">
@@ -143,7 +146,7 @@ export function StreamSelector({
                             value="add"
                             className="pl-9 text-muted-foreground cursor-pointer"
                         >
-                            + Добавить стриминг
+                            + {t("stream_add")}
                         </SelectItem>
                     )}
                 </SelectContent>
@@ -155,8 +158,8 @@ export function StreamSelector({
 
             <ConfirmModal
                 open={confirmModalOpen}
-                headText="Подтвердите удаление"
-                description={`Вы уверены, что хотите удалить стримминг ${streamToRemove}? Это действие нельзя отменить.`}
+                headText={t("stream_confirm_delete_title")}
+                description={t("stream_confirm_delete_desc", { stream: streamToRemove })}
                 onConfirm={() => {
                     if (streamToRemove) {
                         removeStream(streamToRemove);

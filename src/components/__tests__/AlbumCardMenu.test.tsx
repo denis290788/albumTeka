@@ -6,6 +6,28 @@ import { useDeleteAlbumMutation } from "@/services/albumsApi";
 import { toast } from "sonner";
 import { ConfirmModalProps } from "../ConfirmModal";
 
+jest.mock("react-i18next", () => ({
+    useTranslation: () => ({
+        t: (key: string) => {
+            const translations: Record<string, string> = {
+                albumMenu_copySuccess: "Ссылка скопирована в буфер обмена",
+                albumMenu_copyError: "Ошибка при копировании",
+                albumMenu_deleteSuccess: "Альбом удален",
+                albumMenu_deleteError: "Ошибка при удалении",
+                albumMenu_details: "Детали",
+                albumMenu_share: "Поделиться",
+                albumMenu_delete: "Удалить",
+                albumMenu_confirmTitle: "Подтверждение удаления",
+                albumMenu_confirmDescription: "Вы уверены, что хотите удалить этот альбом?",
+            };
+            return translations[key] || key;
+        },
+        i18n: {
+            changeLanguage: () => new Promise(() => {}),
+        },
+    }),
+}));
+
 jest.mock("sonner", () => ({
     toast: {
         success: jest.fn(),
@@ -41,9 +63,6 @@ describe("AlbumCardMenu", () => {
     const mockAlbumId = "album-123";
 
     beforeEach(async () => {
-        (useRouter as jest.Mock).mockReturnValue({
-            push: mockRouterPush,
-        });
         (useRouter as jest.Mock).mockReturnValue({
             push: mockRouterPush,
         });

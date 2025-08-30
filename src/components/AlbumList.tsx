@@ -12,6 +12,7 @@ import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { Folder as FolderIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface AlbumListProps {
     folderId?: string;
@@ -22,6 +23,8 @@ const PAGE_SIZE = 9;
 export function AlbumList({ folderId }: AlbumListProps) {
     const { user } = useAuth();
     const userId = user?.uid as string;
+
+    const { t } = useTranslation();
 
     const { searchMode, searchQuery } = useSearch();
     const [page, setPage] = useState(1);
@@ -90,13 +93,12 @@ export function AlbumList({ folderId }: AlbumListProps) {
     const isError = folderId ? isErrorFolderAlbums || isErrorFolder : isErrorAllAlbums;
 
     if (isLoading) return <Loader />;
-    if (isError)
-        return <p className="text-destructive text-2xl">Упс... ошибка загрузки альбомов:/</p>;
+    if (isError) return <p className="text-destructive text-2xl">{t("albumList_error")}</p>;
     if (albumsToDisplay.length === 0) {
-        return <p className="text-muted-foreground text-2xl">Ты пока не добавил альбомы:/</p>;
+        return <p className="text-muted-foreground text-2xl">{t("albumList_empty")}</p>;
     }
     if (filteredAlbums.length === 0) {
-        return <p className="text-muted-foreground text-2xl">Ничего не найдено:/</p>;
+        return <p className="text-muted-foreground text-2xl">{t("albumList_notFound")}</p>;
     }
 
     const breakpointColumnsObj = {
@@ -139,7 +141,7 @@ export function AlbumList({ folderId }: AlbumListProps) {
                         onClick={loadMore}
                         className="flex items-center gap-2"
                     >
-                        Показать еще
+                        {t("albumList_showMore")}
                         <ChevronDown className="w-4 h-4" />
                     </Button>
                 </div>

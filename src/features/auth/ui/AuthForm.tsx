@@ -17,17 +17,19 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { useAuth } from "../hooks/useAuth";
-
-const formSchema = z.object({
-    email: z.string().email({ message: "Неверный формат почты." }),
-    password: z.string().min(6, { message: "Пароль должен быть не менее 6 символов." }),
-});
+import { useTranslation } from "react-i18next";
 
 export function AuthForm() {
+    const { t } = useTranslation();
     const { register: authRegister, login: authLogin, loading, user } = useAuth();
     const router = useRouter();
 
     const [isRegistering, setIsRegistering] = useState(true);
+
+    const formSchema = z.object({
+        email: z.string().email({ message: t("authForm_error_invalid_email") }),
+        password: z.string().min(6, { message: t("authForm_error_short_password") }),
+    });
 
     React.useEffect(() => {
         if (!loading && user) {
@@ -56,7 +58,7 @@ export function AuthForm() {
         } catch (error: any) {
             form.setError("root.serverError", {
                 type: "manual",
-                message: error.message || "Произошла неизвестная ошибка. Попробуйте еще раз.",
+                message: error.message || t("authForm_error_server"),
             });
             console.error("Ошибка аутентификации:", error);
         }
@@ -65,7 +67,7 @@ export function AuthForm() {
     return (
         <div className="max-w-md mx-auto p-6 border rounded-lg shadow-lg">
             <h2 className="text-3xl font-bold mb-6 text-center">
-                {isRegistering ? "Регистрация" : "Вход"}
+                {isRegistering ? t("authForm_title_register") : t("authForm_title_login")}
             </h2>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -75,12 +77,14 @@ export function AuthForm() {
                         render={({ field }) => (
                             <FormItem className="mb-4">
                                 <div className="flex gap-2 items-baseline">
-                                    <FormLabel className="w-[70px]">Почта</FormLabel>
+                                    <FormLabel className="w-[70px]">
+                                        {t("authForm_email")}
+                                    </FormLabel>
                                     <div className="w-full">
                                         <FormControl>
                                             <Input
                                                 type="email"
-                                                placeholder="ваша@почта.ком"
+                                                placeholder={t("authForm_email_placeholder")}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -98,12 +102,14 @@ export function AuthForm() {
                         render={({ field }) => (
                             <FormItem>
                                 <div className="flex gap-2 items-baseline">
-                                    <FormLabel className="w-[70px]">Пароль</FormLabel>
+                                    <FormLabel className="w-[70px]">
+                                        {t("authForm_password")}
+                                    </FormLabel>
                                     <div className="w-full">
                                         <FormControl>
                                             <Input
                                                 type="password"
-                                                placeholder="минимум 6 символов"
+                                                placeholder={t("authForm_password_placeholder")}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -126,10 +132,10 @@ export function AuthForm() {
                         disabled={!form.formState.isValid || form.formState.isSubmitting || loading}
                     >
                         {form.formState.isSubmitting
-                            ? "Загрузка..."
+                            ? t("authForm_loading")
                             : isRegistering
-                            ? "Зарегистрироваться"
-                            : "Войти"}
+                            ? t("authForm_submit_register")
+                            : t("authForm_submit_login")}
                     </Button>
                 </form>
             </Form>
@@ -138,7 +144,7 @@ export function AuthForm() {
                 onClick={() => setIsRegistering(!isRegistering)}
                 className="mt-6 w-full text-blue-600"
             >
-                {isRegistering ? "Уже есть аккаунт? Войти" : "Нет аккаунта? Зарегистрироваться"}
+                {isRegistering ? t("authForm_switch_to_login") : t("authForm_switch_to_register")}
             </Button>
         </div>
     );

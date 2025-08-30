@@ -11,6 +11,7 @@ import { StreamFormData } from "../model/addStreamTypes";
 import { Album } from "@/services/albumsApi";
 import { STREAM_ICONS } from "@/lib/stream-icons";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 interface AddStreamModalProps {
     album: Album;
@@ -20,6 +21,7 @@ interface AddStreamModalProps {
 }
 
 export function AddStreamModal({ album, open, onOpenChange, className }: AddStreamModalProps) {
+    const { t } = useTranslation();
     const { form, onSubmit, isSubmitting } = useAddStreamForm(album);
 
     const {
@@ -64,13 +66,17 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                 aria-describedby={undefined}
             >
                 <DialogHeader>
-                    <DialogTitle className="dark:text-[#bedaca]">Добавить стриминг</DialogTitle>
+                    <DialogTitle className="dark:text-[#bedaca]">
+                        {t("addStreamForm_title")}
+                    </DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
                     <div className="flex flex-row gap-4 md:gap-4">
                         <div className="flex flex-col gap-2 mb-2">
-                            <Label className="mb-0 dark:text-[#bedaca]">Стримминг</Label>
+                            <Label className="mb-0 dark:text-[#bedaca]">
+                                {t("addStreamForm_label_streamType")}
+                            </Label>
                             <Select
                                 onValueChange={(val) =>
                                     setValue("streamType", val as StreamFormData["streamType"])
@@ -105,7 +111,7 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                         </div>
                         <div className="flex-1 flex flex-col gap-2">
                             <Label htmlFor="streamUrl" className="mb-0 dark:text-[#bedaca]">
-                                Ссылка
+                                {t("addStreamForm_label_streamUrl")}
                             </Label>
                             <Input id="streamUrl" {...register("streamUrl")} className="border-0" />
                         </div>
@@ -129,7 +135,7 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                         disabled={isSubmitting}
                         className="w-full"
                     >
-                        Добавить
+                        {t("addStreamForm_button_add")}
                     </Button>
                 </form>
             </DialogContent>

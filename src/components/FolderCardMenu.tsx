@@ -14,6 +14,7 @@ import { useDeleteFolderMutation } from "@/services/foldersApi";
 import { useAuth } from "@/features/auth";
 import { useGetAlbumsQuery } from "@/services/albumsApi";
 import { EditFolderForm } from "@/features/editFolderForm/ui/EditFolderForm";
+import { useTranslation } from "react-i18next";
 
 interface FolderCardMenuProps {
     id: string;
@@ -22,6 +23,8 @@ interface FolderCardMenuProps {
 
 export function FolderCardMenu({ id, name }: FolderCardMenuProps) {
     const { user } = useAuth();
+    const { t } = useTranslation();
+
     const [deleteFolder] = useDeleteFolderMutation();
     const { refetch: refetchAlbums } = useGetAlbumsQuery(user?.uid);
 
@@ -32,10 +35,10 @@ export function FolderCardMenu({ id, name }: FolderCardMenuProps) {
         try {
             await deleteFolder({ id }).unwrap();
             refetchAlbums();
-            toast.success("Папка успешно удалена");
+            toast.success(t("folder_deleteSuccess"));
         } catch (err) {
             console.error("Ошибка при удалении папки:", err);
-            toast.error("Не удалось удалить папку");
+            toast.error(t("folder_deleteError"));
         } finally {
             setConfirmModalOpen(false);
         }
@@ -53,22 +56,22 @@ export function FolderCardMenu({ id, name }: FolderCardMenuProps) {
                         onClick={() => setFolderNameModalOpen(true)}
                     >
                         <Pencil className="w-4 h-4 mr-2" />
-                        Редактировать
+                        {t("folder_edit")}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className="text-destructive focus:bg-muted-foreground/30 cursor-pointer"
                         onClick={() => setConfirmModalOpen(true)}
                     >
                         <Trash className="w-4 h-4 mr-2 text-destructive" />
-                        Удалить
+                        {t("folder_delete")}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
             <ConfirmModal
                 open={confirmModalOpen}
-                headText="Подтвердите удаление"
-                description={`Вы уверены, что хотите удалить папку "${name}"? Это действие нельзя отменить.`}
+                headText={t("folder_confirmDeleteTitle")}
+                description={t("folder_confirmDeleteDescription", { name })}
                 onConfirm={handleConfirmDelete}
                 onCancel={() => setConfirmModalOpen(false)}
             />

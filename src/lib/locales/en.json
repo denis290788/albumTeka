@@ -1,0 +1,124 @@
+{
+    "addAlbum": "Add album",
+    "addFolder": "Add folder",
+    "login": "Login",
+    "logout": "Logout",
+    "notFound_message": "Looks like you're lost :/",
+    "notFound_backHome": "back to home?",
+
+    "albumMenu_details": "Details",
+    "albumMenu_share": "Share",
+    "albumMenu_delete": "Delete",
+    "albumMenu_copySuccess": "Link copied to clipboard",
+    "albumMenu_copyError": "Failed to copy link",
+    "albumMenu_deleteSuccess": "Album deleted successfully",
+    "albumMenu_deleteError": "Failed to delete album",
+    "albumMenu_confirmTitle": "Confirm deletion",
+    "albumMenu_confirmDescription": "Are you sure you want to delete this album? This action cannot be undone.",
+    "album_error": "Oops... failed to load album :/",
+
+    "albumDetails_addSuccess": "Album added to your library",
+    "albumDetails_addError": "Failed to add album",
+    "albumDetails_add": "Add",
+
+    "albumList_error": "Oops... failed to load albums :/",
+    "albumList_empty": "You haven't added any albums yet :/",
+    "albumList_notFound": "Nothing found :/",
+    "albumList_showMore": "Show more",
+
+    "authSection_title": "More",
+    "authSection_demo": "Demo mode",
+    "authSection_install": "Add to Home Screen",
+
+    "confirmModal_cancel": "Cancel",
+    "confirmModal_delete": "Delete",
+
+    "folder_edit": "Edit",
+    "folder_delete": "Delete",
+    "folder_confirmDeleteTitle": "Confirm deletion",
+    "folder_confirmDeleteDescription": "Are you sure you want to delete the folder \"{{name}}\"? This action cannot be undone.",
+    "folder_deleteSuccess": "Folder deleted successfully",
+    "folder_deleteError": "Failed to delete folder",
+
+    "folder_list_error": "Failed to load folders.",
+    "folder_list_title": "My folders:",
+
+    "folder_selector_none": "No folder",
+
+    "hero_section_description": "Build your music library from your favorite albums, listen in one click",
+    "hero_section_start": "Start",
+
+    "mobile_menu_title": "Navigation",
+    "mobile_menu_description": "Site navigation / Folder section",
+    "mobile_menu_logout": "Logout",
+    "mobile_menu_login": "Login",
+
+    "search_placeholder_album": "search albums...",
+    "search_placeholder_artist": "search artists...",
+
+    "stream_select_placeholder": "Select streaming",
+    "stream_add": "Add streaming",
+    "stream_confirm_delete_title": "Confirm deletion",
+    "stream_confirm_delete_desc": "Are you sure you want to delete streaming {{stream}}? This action cannot be undone.",
+
+    "theme_toggle": "Toggle theme",
+
+    "video_caption_1": "To create an album, fill in the required fields of the form, select a streaming service and add a link to the album. Then the album card will appear on the homepage.",
+    "video_caption_2": "To create a folder, enter a name. The new folder will appear in the folder list. In the album card, you can also see the list of folders and choose which folder to add the album to. After adding, the album will disappear from the homepage and appear in your new folder.",
+    "video_caption_3": "The app allows searching by album title or artist. On the homepage, the search is across all your added albums. Searching in a folder is limited to albums added to that folder.",
+    "video_caption_4": "Folders are sorted using drag-and-drop. When a folder is deleted, all albums inside are moved to the homepage.",
+    "video_caption_5": "On the homepage or in a folder, you can play the selected album. In the album card, you can also select a streaming player, set it as the default for this album, or remove it if it is not the default player.",
+    "video_caption_6": "Through the album menu, you can go to its page (or by clicking the cover), delete and share a link to the album. Another authorized user can copy the album to their library. For unauthorized users, playback is available.",
+
+    "albumForm_title": "Add Album",
+    "albumForm_label_title": "Album Title",
+    "albumForm_label_artist": "Artist",
+    "albumForm_label_year": "Release Year",
+    "albumForm_label_coverUrl": "Cover URL",
+    "albumForm_label_streamType": "Streaming",
+    "albumForm_label_streamUrl": "URL",
+    "albumForm_submit": "Add Album",
+    "albumForm_saving": "Saving...",
+
+    "albumForm_bandcamp_error": "Failed to extract the player from the Bandcamp URL. Check the URL.",
+
+    "albumForm_error_title": "Enter album title",
+    "albumForm_error_artist": "Enter artist",
+    "albumForm_error_year": "Enter a valid year (4 digits)",
+    "albumForm_error_coverUrl": "Invalid cover URL",
+    "albumForm_error_bandcamp": "Failed to extract Bandcamp player. Check URL.",
+
+    "addFolderForm_title": "New Folder",
+    "addFolderForm_placeholder": "Folder name",
+    "addFolderForm_button_create": "Create",
+    "addFolderForm_error_name": "Please enter a folder name",
+
+    "addStreamForm_title": "Add Streaming",
+    "addStreamForm_label_streamType": "Streaming",
+    "addStreamForm_label_streamUrl": "URL",
+    "addStreamForm_button_add": "Add",
+    "addStreamForm_error_streamType": "Select a streaming service",
+    "addStreamForm_error_streamUrl_required": "Enter URL",
+    "addStreamForm_error_streamUrl_pattern": "URL does not match selected streaming type",
+    "addStreamForm_error_streamType_duplicate": "Streaming \"{{stream}}\" is already added.",
+
+    "editFolderForm_title": "New folder name",
+    "editFolderForm_placeholder_name": "Folder name",
+    "editFolderForm_submit": "Update",
+    "editFolderForm_error_name_required": "Enter folder name",
+
+    "authForm_title_register": "Register",
+    "authForm_title_login": "Login",
+    "authForm_email": "Email",
+    "authForm_email_placeholder": "your@email.com",
+    "authForm_password": "Password",
+    "authForm_password_placeholder": "at least 6 characters",
+    "authForm_submit_register": "Register",
+    "authForm_submit_login": "Login",
+    "authForm_switch_to_login": "Already have an account? Login",
+    "authForm_switch_to_register": "No account? Register",
+    "authForm_error_invalid_email": "Invalid email format.",
+    "authForm_error_short_password": "Password must be at least 6 characters.",
+    "authForm_error_server": "An unknown error occurred. Please try again.",
+    "authForm_loading": "Loading..."
+}

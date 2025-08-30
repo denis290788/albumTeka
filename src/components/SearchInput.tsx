@@ -4,8 +4,11 @@ import { Button } from "./ui/button";
 import { Disc3, User, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function SearchInput() {
+    const { t } = useTranslation();
+
     const { searchQuery, setSearchQuery, searchMode, setSearchMode } = useSearch();
     const [isInputFocused, setIsInputFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -43,7 +46,11 @@ export function SearchInput() {
             <div className="relative flex-1">
                 <Input
                     ref={inputRef}
-                    placeholder={`по ${searchMode === "album" ? "альбомам" : "исполнителям"}...`}
+                    placeholder={
+                        searchMode === "album"
+                            ? t("search_placeholder_album")
+                            : t("search_placeholder_artist")
+                    }
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setIsInputFocused(true)}

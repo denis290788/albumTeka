@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { StreamFormData, streamSchema } from "../model/addStreamTypes";
+import { getStreamSchema, StreamFormData } from "../model/addStreamTypes";
 import { Album, useUpdateAlbumMutation } from "@/services/albumsApi";
+import { useTranslation } from "react-i18next";
 
 export const useAddStreamForm = (album: Album) => {
+    const { t } = useTranslation();
     const [updateAlbum, { isLoading, error }] = useUpdateAlbumMutation();
 
     const form = useForm<StreamFormData>({
-        resolver: zodResolver(streamSchema),
+        resolver: zodResolver(getStreamSchema(t)),
         defaultValues: {
             streamType: "Bandcamp",
         },
@@ -28,7 +30,7 @@ export const useAddStreamForm = (album: Album) => {
                 const json = await res.json();
 
                 if (!res.ok) {
-                    throw new Error(json.error || "Не удалось обработать ссылку Bandcamp");
+                    throw new Error(json.error || t("addStreamForm_error_streamUrl_pattern"));
                 }
 
                 processedUrl = json.embedUrl;
@@ -36,7 +38,7 @@ export const useAddStreamForm = (album: Album) => {
                 console.error("Ошибка при запросе к Bandcamp API:", err);
                 form.setError("streamUrl", {
                     type: "manual",
-                    message: "Не удалось извлечь плеер из ссылки Bandcamp. Проверьте URL.",
+                    message: t("addStreamForm_error_streamUrl_pattern"),
                 });
                 return false;
             }
@@ -47,7 +49,7 @@ export const useAddStreamForm = (album: Album) => {
         if (isDuplicateStreamType) {
             form.setError("streamType", {
                 type: "manual",
-                message: `Стриминг "${data.streamType}" уже добавлен.`,
+                message: t("addStreamForm_error_streamType_duplicate", { stream: data.streamType }),
             });
             return false;
         }

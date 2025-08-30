@@ -7,6 +7,23 @@ import { useGetFolderByIdQuery } from "@/services/foldersApi";
 import { AlbumCardProps } from "../AlbumCard";
 import { mockAlbums } from "../__mocks__/albumsApi";
 
+jest.mock("react-i18next", () => ({
+    useTranslation: () => ({
+        t: (key: string) => {
+            const translations: Record<string, string> = {
+                albumList_error: "Упс... ошибка загрузки альбомов:/",
+                albumList_empty: "Ты пока не добавил альбомы:/",
+                albumList_notFound: "Альбомы не найдены",
+                albumList_showMore: "Показать еще",
+            };
+            return translations[key] || key;
+        },
+        i18n: {
+            changeLanguage: () => new Promise(() => {}),
+        },
+    }),
+}));
+
 jest.mock("../SearchContext", () => ({
     useSearch: jest.fn(),
 }));

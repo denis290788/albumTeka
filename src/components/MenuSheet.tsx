@@ -17,6 +17,8 @@ import { User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchInput } from "./SearchInput";
+import { useTranslation } from "react-i18next";
+import { LanguageToggle } from "./LanguageToggle";
 
 interface MobileMenuSheetProps {
     isMobileMenuOpen: boolean;
@@ -35,6 +37,8 @@ export function MobileMenuSheet({
     handleLogout,
     router,
 }: MobileMenuSheetProps) {
+    const { t } = useTranslation();
+
     return (
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild className="lg:hidden">
@@ -52,10 +56,14 @@ export function MobileMenuSheet({
                     p-2"
             >
                 <SheetHeader className="sr-only">
-                    <SheetTitle>Навигация</SheetTitle>
-                    <SheetDescription>Навигация по сайту / Раздел с папками</SheetDescription>
+                    <SheetTitle>{t("mobile_menu_title")}</SheetTitle>
+                    <SheetDescription>{t("mobile_menu_description")}</SheetDescription>
                 </SheetHeader>
-                <ThemeToggle />
+                <div className="flex justify-items-start items-center gap-2">
+                    <ThemeToggle />
+                    <LanguageToggle />
+                </div>
+
                 {user && (
                     <div className="flex flex-col gap-4">
                         <div className="flex gap-2 md:gap-4">
@@ -91,12 +99,12 @@ export function MobileMenuSheet({
                 <div className="mt-auto pb-2">
                     {user ? (
                         <Button variant="destructive" onClick={handleLogout} className="w-full">
-                            Выйти
+                            {t("mobile_menu_logout")}
                         </Button>
                     ) : (
                         <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>
                             <Button variant="default" className="w-full">
-                                Войти
+                                {t("mobile_menu_login")}
                             </Button>
                         </Link>
                     )}

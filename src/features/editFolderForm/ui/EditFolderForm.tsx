@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useEditFolderNameForm } from "../hooks/useEditFolderForm";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 interface EditFolderFormProps {
     id: string;
@@ -22,6 +23,7 @@ export function EditFolderForm({
     onOpenChange,
     className,
 }: EditFolderFormProps) {
+    const { t } = useTranslation();
     const { form, onSubmit } = useEditFolderNameForm(id, () => onOpenChange(false));
 
     const {
@@ -54,20 +56,22 @@ export function EditFolderForm({
                 aria-describedby={undefined}
             >
                 <DialogHeader>
-                    <DialogTitle className="dark:text-[#bedaca]">Новое название папки</DialogTitle>
+                    <DialogTitle className="dark:text-[#bedaca]">
+                        {t("editFolderForm_title")}
+                    </DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <Input
                         defaultValue={currentName}
-                        placeholder="Название папки"
+                        placeholder={t("editFolderForm_placeholder_name")}
                         {...register("name")}
                         className="border-0"
                     />
 
                     <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
                         <Button type="submit" variant="outline" disabled={isSubmitting}>
-                            Изменить
+                            {t("editFolderForm_submit")}
                         </Button>
                         {errors.name && (
                             <p className="text-[10px] text-destructive">{errors.name.message}</p>

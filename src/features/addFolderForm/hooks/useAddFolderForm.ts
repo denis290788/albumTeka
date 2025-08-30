@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FolderFormData, folderSchema } from "../model/addFolderTypes";
+import { FolderFormData, getFolderSchema } from "../model/addFolderTypes";
 import { useAddFolderMutation } from "@/services/foldersApi";
+import { useTranslation } from "react-i18next";
 
 export const useAddFolderForm = (onSuccess?: () => void) => {
+    const { t } = useTranslation();
     const [addFolder] = useAddFolderMutation();
 
     const form = useForm<FolderFormData>({
-        resolver: zodResolver(folderSchema),
+        resolver: zodResolver(getFolderSchema(t)),
     });
 
     const onSubmit = async (data: FolderFormData) => {
