@@ -1,5 +1,7 @@
 # albumTeka 🎵
 
+**🇬🇧 [English version available below](#english-version)**
+
 [![Статус сборки](https://github.com/denis290788/albumTeka/actions/workflows/ci.yml/badge.svg)](https://github.com/denis290788/albumTeka/actions/workflows/main.yml)
 [![Развернуто на Vercel](https://vercelbadge.vercel.app/api/denis290788/albumTeka)](https://album-teka.vercel.app/)
 [![Лицензия MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -75,7 +77,7 @@ yarn install
 npm install
 ```
 
-3. Создайте файл .env.local в корневой директории проекта и добавьте переменные окружения для Firebase (вам потребуется создать проект в Firebase и получить соответствующие ключи)
+3. Создайте файл `.env.local` в корневой директории проекта на основе `.env.example` и добавьте переменные окружения для Firebase (вам потребуется создать проект в Firebase)
 
 4. Запустите проект:
 
@@ -111,9 +113,9 @@ yarn test:ci  # Для CI (с покрытием)
 ## 🤝 Как внести вклад
 
 1. Форкните репозиторий
-2. Создайте ветку (git checkout -b feature/AmazingFeature)
-3. Сделайте коммит (git commit -m 'Add some AmazingFeature')
-4. Запушьте (git push origin feature/AmazingFeature)
+2. Создайте ветку `git checkout -b feature/AmazingFeature`
+3. Сделайте коммит `git commit -m 'Add some AmazingFeature'`
+4. Запушьте `git push origin feature/AmazingFeature`
 5. Откройте Pull Request
 
 ## 🗺 Планы на будущее
@@ -130,3 +132,130 @@ yarn test:ci  # Для CI (с покрытием)
 
 💻 Разработчик: [denis290788](https://github.com/denis290788)
 🔧 Версия: 1.0.0
+
+---
+
+<a id="english-version"></a>
+
+# albumTeka 🎵
+
+Your personal music catalog where you can collect favorite albums, organize them into your audio library, and listen to music directly from various streaming services! The app is already available online at: [album-teka.vercel.app](https://album-teka.vercel.app/)
+
+## ✨ About The Project
+
+albumTeka is a web application designed for music lovers who want to have all their favorite albums in one place. You can add album cards, attach players from popular streaming platforms (SoundCloud, Bandcamp, Spotify, VK), and create folders for convenient organization of your collection.
+
+The project is built with scalability in mind, so new features and integrations are planned for the future.
+
+## 🚀 Features
+
+-   ✅ Create music album cards
+-   🔗 Support for players from Spotify, SoundCloud, Bandcamp, VK Music
+-   📂 Organize albums into folders
+-   🎛️ Drag-n-drop folder sorting
+-   🔍 Search through albums and artists
+-   🌙 Dark/light theme
+-   📤 Album sharing for unregistered users
+-   🔒 Authentication via Firebase
+-   🔐 Personal library for authorized users
+-   📱 **PWA mode**: can be installed as a PWA app
+-   🌐 Russian and English interface versions
+
+## 🛠️ Tech Stack
+
+-   **Framework:** [Next.js 15](https://nextjs.org/)
+-   **UI:** [React](https://reactjs.org/), [Tailwind CSS](https://tailwindcss.com/)
+-   **State Management:** [Redux Toolkit + RTK Query](https://redux-toolkit.js.org/)
+-   **Backend:** [Firebase Auth](https://firebase.google.com/products/auth), [Firestore](https://firebase.google.com/products/firestore)
+-   **Testing:** [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/)
+-   **CI:** GitHub Actions (with automatic test runs before build)
+-   **CD:** [Vercel](https://vercel.com/)
+
+## 🚀 Demo
+
+Live version is available at: [album-teka.vercel.app](http://album-teka.vercel.app/)
+
+**Main page interface overview (player switching)** <details><summary>📹 Show video (click to expand)</summary>
+<video src="https://github.com/user-attachments/assets/975db5f5-3f5f-458a-954a-742a4142fae4" width="800" controls></video></details>
+
+**Adding a folder / sorting folders / adding an album to a folder** <details><summary>📹 Show video (click to expand)</summary>
+<video src="https://github.com/user-attachments/assets/2742b6b2-4d71-4b32-b906-358bccd05064" width="800" controls></video></details>
+
+**Album search / adding and removing a player / color theme switching** <details><summary>📹 Show video (click to expand)</summary>
+<video src="https://github.com/user-attachments/assets/e2f990e7-f37c-47e6-9bff-34c433ca1619" width="800" controls></video></details>
+
+**List pagination / album sharing between users** <details><summary>📹 Show video (click to expand)</summary>
+<video src="https://github.com/user-attachments/assets/65029231-0599-40d1-965f-9db0ad4c8fe2" width="800" controls></video></details>
+
+## 🛠️ Installation & Setup
+
+1.  Clone the repository:
+
+```bash
+git clone https://github.com/denis290788/albumTeka.git
+cd albumTeka
+```
+
+1. Install dependencies:
+
+```bash
+yarn install
+or
+npm install
+```
+
+3. Create a `.env.local` file in the project root based on `.env.example` and add your Firebase environment variables (you'll need to create a Firebase project)
+
+4. Run the project:
+
+```bash
+yarn dev
+or
+npm run dev
+```
+
+5. Open http://localhost:3000
+
+## 🧪 Testing
+
+The project is covered with unit tests using modern testing tools:
+
+-   **Test Runner:** [Jest](https://jestjs.io/)
+-   **Component Testing:** [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+-   **API Testing:** [MSW (Mock Service Worker)](https://mswjs.io/)
+
+**Test Coverage:**
+
+-   React Components
+-   Application Business Logic
+-   API Interactions
+
+Run tests:
+
+```bash
+yarn test  # For development (watch mode)
+yarn test:ci  # For CI (with coverage)
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch `git checkout -b feature/AmazingFeature`
+3. Commit your changes `git commit -m 'Add some AmazingFeature'`
+4. Push to the branch `git push origin feature/AmazingFeature`
+5. Open a Pull Request
+
+## 🗺 Future Plans
+
+-   Comments and ratings
+-   Album/folder card editing
+-   Design improvements
+-   Album sorting
+-   User settings
+
+## 📄 License
+
+This project is distributed under the MIT License.
+
+💻 Developer: [denis290788](https://github.com/denis290788)
+🔧 Version: 1.0.0

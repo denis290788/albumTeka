@@ -20,7 +20,7 @@ export default function VideoCarousel() {
     const [current, setCurrent] = useState(0);
 
     return (
-        <section className="relative max-w-7xl px-4 mx-auto h-screen flex flex-col bg-background overflow-hidden py-12">
+        <section className="relative max-w-7xl px-4 mx-auto h-screen flex flex-col bg-background overflow-hidden py-24 md:py-20">
             <div className="w-full max-w-3xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-xl">
                 <Plyr
                     source={{
@@ -55,7 +55,7 @@ export default function VideoCarousel() {
                 </motion.p>
             </div>
 
-            <div className="flex justify-center gap-8 pb-4 md:pb-8">
+            <div className="flex justify-center gap-8">
                 {videoSources.map((_, idx) => (
                     <button
                         key={idx}

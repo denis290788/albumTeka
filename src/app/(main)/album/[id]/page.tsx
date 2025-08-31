@@ -8,7 +8,7 @@ export default async function FolderPage({ params }: AlbumDetailsPageProps) {
     const { id } = await params;
 
     return (
-        <div className="max-w-4xl mx-auto pt-[90px] lg:pt-[100px]">
+        <div className="max-w-4xl mx-auto pt-[90px] lg:pt-[100px] px-4 xl:px-16">
             <AlbumDetails albumId={id} className="mb-10 lg:mb-4" />
         </div>
     );

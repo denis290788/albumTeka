@@ -24,7 +24,7 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                 </div>
             </div>
 
-            <div className="flex-1 min-h-[calc(100vh-90px)] md:pt-4 md:min-h-0 flex flex-col items-center md:items-start justify-center gap-6">
+            <div className="flex-1 min-h-[calc(100vh-90px)] md:pt-3 md:min-h-0 flex flex-col items-center md:items-start justify-center gap-6">
                 <div className="w-full max-w-md flex justify-center">
                     <h2 className="text-3xl font-bold">{t("authSection_title")}</h2>
                 </div>

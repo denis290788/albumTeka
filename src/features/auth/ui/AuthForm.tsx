@@ -66,7 +66,7 @@ export function AuthForm() {
 
     return (
         <div className="max-w-md mx-auto p-6 border rounded-lg shadow-lg">
-            <h2 className="text-3xl font-bold mb-6 text-center">
+            <h2 className="text-3xl font-bold mb-4 text-center">
                 {isRegistering ? t("authForm_title_register") : t("authForm_title_login")}
             </h2>
             <Form {...form}>
@@ -75,9 +75,9 @@ export function AuthForm() {
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                            <FormItem className="mb-4">
-                                <div className="flex gap-2 items-baseline">
-                                    <FormLabel className="w-[70px]">
+                            <FormItem>
+                                <div className="flex flex-col gap-1 items-baseline">
+                                    <FormLabel className="text-sm md:text-[16px]">
                                         {t("authForm_email")}
                                     </FormLabel>
                                     <div className="w-full">
@@ -101,8 +101,8 @@ export function AuthForm() {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <div className="flex gap-2 items-baseline">
-                                    <FormLabel className="w-[70px]">
+                                <div className="flex flex-col gap-1 items-baseline">
+                                    <FormLabel className="text-sm md:text-[16px]">
                                         {t("authForm_password")}
                                     </FormLabel>
                                     <div className="w-full">
@@ -128,7 +128,7 @@ export function AuthForm() {
                     )}
                     <Button
                         type="submit"
-                        className="w-full mt-4"
+                        className="w-full mt-2"
                         disabled={!form.formState.isValid || form.formState.isSubmitting || loading}
                     >
                         {form.formState.isSubmitting
@@ -142,7 +142,7 @@ export function AuthForm() {
             <Button
                 variant="link"
                 onClick={() => setIsRegistering(!isRegistering)}
-                className="mt-6 w-full text-blue-600"
+                className="mt-2 w-full text-blue-600"
             >
                 {isRegistering ? t("authForm_switch_to_login") : t("authForm_switch_to_register")}
             </Button>
