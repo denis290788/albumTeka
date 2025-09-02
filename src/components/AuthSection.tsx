@@ -16,22 +16,22 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
     return (
         <section
             ref={ref}
-            className="md:h-[calc(100vh-90px)] px-4 flex flex-col md:scroll-mt-0 md:flex-row md:gap-20 md:justify-around"
+            className="lg:h-[calc(100vh-90px)] px-4 flex flex-col lg:scroll-mt-0 lg:flex-row lg:gap-20 lg:justify-around"
         >
-            <div className="flex-1 min-h-screen md:min-h-0 flex items-center justify-center md:justify-end">
+            <div className="py-16 lg:py-0 flex-1 min-h-screen lg:min-h-0 flex items-center justify-center lg:justify-end">
                 <div className="w-full max-w-md">
                     <AuthForm />
                 </div>
             </div>
 
-            <div className="flex-1 min-h-[calc(100vh-90px)] md:pt-3 md:min-h-0 flex flex-col items-center md:items-start justify-center gap-6">
+            <div className="pb-8 lg:pb-0 flex-1 min-h-[calc(100vh-90px)] lg:pt-[18px] lg:min-h-0 flex flex-col items-center lg:items-start justify-center gap-6">
                 <div className="w-full max-w-md flex justify-center">
                     <h2 className="text-3xl font-bold">{t("authSection_title")}</h2>
                 </div>
                 <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                     <Button
                         variant="heroAlt"
-                        className="h-24 md:h-30 flex flex-col items-center justify-center gap-2 p-2"
+                        className="h-24 lg:h-30 flex flex-col items-center justify-center gap-2 p-2"
                     >
                         <Link
                             href="https://github.com/denis290788/albumTeka"
@@ -41,14 +41,14 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                         >
                             <Github
                                 style={{ width: "2rem", height: "2rem" }}
-                                className="md:w-10 md:h-10"
+                                className="lg:w-10 lg:h-10"
                             />
-                            <span className="text-xs md:text-sm text-center">GitHub</span>
+                            <span className="text-xs lg:text-sm text-center">GitHub</span>
                         </Link>
                     </Button>
                     <Button
                         variant="heroAlt"
-                        className="h-24 md:h-30 flex flex-col items-center justify-center gap-2 p-2"
+                        className="h-24 lg:h-30 flex flex-col items-center justify-center gap-2 p-2"
                     >
                         <Link
                             href="mailto:denis290788@gmail.com"
@@ -56,35 +56,35 @@ const AuthSection = forwardRef<HTMLDivElement>((props, ref) => {
                         >
                             <Mail
                                 style={{ width: "2rem", height: "2rem" }}
-                                className="md:w-10 md:h-10"
+                                className="lg:w-10 lg:h-10"
                             />
-                            <span className="text-xs md:text-sm text-center">Email</span>
+                            <span className="text-xs lg:text-sm text-center">Email</span>
                         </Link>
                     </Button>
                     <Button
                         onClick={() => login("demo@demo.ru", "123456")}
                         variant="heroAlt"
-                        className="h-24 md:h-30 flex flex-col items-center justify-center gap-2 p-2"
+                        className="h-24 lg:h-30 flex flex-col items-center justify-center gap-2 p-2"
                     >
                         <UserCircle
                             style={{ width: "2rem", height: "2rem" }}
-                            className="md:w-10 md:h-10"
+                            className="lg:w-10 lg:h-10"
                         />
-                        <span className="text-xs md:text-sm text-center">
+                        <span className="text-xs lg:text-sm text-center">
                             {t("authSection_demo")}
                         </span>
                     </Button>
                     <Button
                         onClick={handleAddToHomeScreen}
                         variant="heroAlt"
-                        className="h-24 md:h-30 flex flex-col items-center justify-center gap-2 p-2"
+                        className="h-24 lg:h-30 flex flex-col items-center justify-center gap-2 p-2"
                         disabled={!isVisible}
                     >
                         <MonitorSmartphone
                             style={{ width: "2rem", height: "2rem" }}
-                            className="md:w-10 md:h-10"
+                            className="lg:w-10 lg:h-10"
                         />
-                        <span className="text-xs md:text-sm text-center">
+                        <span className="text-xs lg:text-sm text-center">
                             {t("authSection_install")}
                         </span>
                     </Button>

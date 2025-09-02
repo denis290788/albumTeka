@@ -37,8 +37,8 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                     {...attributes}
                     {...listeners}
                     className={cn(
-                        "cursor-grab text-muted-foreground hover:text-foreground transition",
-                        "p-[2px] opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+                        "cursor-pointer text-muted-foreground hover:text-foreground transition",
+                        "p-[2px] opacity-100 lg:group-hover:opacity-100"
                     )}
                 >
                     <GripVertical className="w-4 h-4" />
@@ -48,7 +48,7 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                         href={`/folder/${id}`}
                         className="flex items-center justify-center h-full w-full"
                     >
-                        <span className="text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate align-text-top text-center ">
+                        <span className="py-1 text-[16px] lg:text-lg text-foreground dark:text-[#bedaca] truncate align-text-top text-center leading-none">
                             {name}
                         </span>
                     </Link>
@@ -56,7 +56,7 @@ export function FolderCard({ id, name, className }: FolderCardProps) {
                 <div
                     className={cn(
                         "text-muted-foreground hover:text-foreground transition",
-                        "p-[2px] opacity-100 lg:opacity-0 lg:group-hover:opacity-100 cursor-pointer"
+                        "p-[2px] opacity-100 lg:group-hover:opacity-100 cursor-pointer"
                     )}
                 >
                     <FolderCardMenu id={id} name={name} />

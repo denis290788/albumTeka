@@ -60,14 +60,14 @@ export default function HeroSection({ onStartClick }: { onStartClick: () => void
                 >
                     album<span className="font-bold">TEKA</span>
                 </h1>
-                <p className="text-lg md:text-3xl mb-6 font-extralight text-muted-foreground/70">
+                <p className="text-lg lg:text-3xl mb-6 font-extralight text-muted-foreground/70">
                     {t("hero_section_description")}
                 </p>
                 <div className="flex justify-center gap-4">
                     <Button
                         onClick={onStartClick}
                         variant="hero"
-                        className="hover:dark:bg-muted-foreground/30 font-extralight text-2xl p-4 md:text-4xl md:p-8"
+                        className="hover:dark:bg-muted-foreground/30 font-extralight text-2xl p-4 lg:text-4xl lg:p-8"
                     >
                         {t("hero_section_start")}
                     </Button>

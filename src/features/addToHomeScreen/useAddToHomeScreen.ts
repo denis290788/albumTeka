@@ -10,6 +10,8 @@ export function useAddToHomeScreen() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+        if (typeof window === "undefined") return;
+
         const handler = (e: Event) => {
             e.preventDefault();
             setPromptEvent(e as BeforeInstallPromptEvent);
@@ -28,13 +30,9 @@ export function useAddToHomeScreen() {
 
         promptEvent.prompt();
         const choiceResult = await promptEvent.userChoice;
-        if (choiceResult.outcome === "accepted") {
-            console.log("User accepted the A2HS prompt");
-        } else {
-            console.log("User dismissed the A2HS prompt");
-        }
         setPromptEvent(null);
         setIsVisible(false);
+        console.log("A2HS choice:", choiceResult.outcome);
     };
 
     return { isVisible, handleAddToHomeScreen };

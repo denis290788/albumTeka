@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
-import { motion } from "framer-motion";
+import { motion, useDragControls } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const videoSources = [
@@ -18,44 +18,70 @@ const videoSources = [
 export default function VideoCarousel() {
     const { t } = useTranslation();
     const [current, setCurrent] = useState(0);
+    const dragControls = useDragControls();
+
+    const handleSwipe = (swipeDirection: string) => {
+        if (swipeDirection === "left") {
+            setCurrent((prev) => (prev === videoSources.length - 1 ? 0 : prev + 1));
+        } else if (swipeDirection === "right") {
+            setCurrent((prev) => (prev === 0 ? videoSources.length - 1 : prev - 1));
+        }
+    };
 
     return (
-        <section className="relative max-w-7xl px-4 mx-auto h-screen flex flex-col bg-background overflow-hidden py-24 md:py-20">
-            <div className="w-full max-w-3xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-xl">
-                <Plyr
-                    source={{
-                        type: "video",
-                        sources: [
-                            {
-                                src: videoSources[current],
-                                type: "video/mp4",
-                            },
-                        ],
-                    }}
-                    options={{
-                        controls: ["play-large", "fullscreen"],
-                        autoplay: false,
-                        muted: true,
-                        loop: { active: true },
-                        ratio: "16:9",
-                    }}
-                />
-            </div>
+        <section className="relative max-w-7xl px-4 mx-auto min-h-[calc(100dvh-65px)] lg:min-h-[calc(100dvh-90px)] flex flex-col bg-background overflow-hidden pt-18">
+            <div className="flex-1 flex flex-col justify-center items-center gap-16 md:gap-8">
+                <div className="w-full max-w-2xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-xl flex-shrink-0">
+                    <Plyr
+                        source={{
+                            type: "video",
+                            sources: [
+                                {
+                                    src: videoSources[current],
+                                    type: "video/mp4",
+                                },
+                            ],
+                        }}
+                        options={{
+                            controls: ["play-large", "fullscreen"],
+                            autoplay: false,
+                            muted: true,
+                            loop: { active: true },
+                            ratio: "16:9",
+                        }}
+                    />
+                </div>
 
-            <div className="flex-1 flex items-center justify-center p-4 md:p-0">
-                <motion.p
-                    key={current}
-                    initial={{ opacity: 0, filter: "blur(8px)" }}
-                    animate={{ opacity: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, filter: "blur(8px)" }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="text-md md:text-xl text-muted-foreground font-extralight text-center"
+                <motion.div
+                    className="h-48 md:h-42 flex items-center justify-center p-0 w-full max-w-5xl mx-auto flex-shrink-0 touch-none"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    dragControls={dragControls}
+                    onDragEnd={(event, info) => {
+                        const swipeThreshold = 50;
+                        if (info.offset.x > swipeThreshold) {
+                            handleSwipe("right");
+                        } else if (info.offset.x < -swipeThreshold) {
+                            handleSwipe("left");
+                        }
+                    }}
+                    style={{ touchAction: "pan-y" }}
                 >
-                    {t(`video_caption_${current + 1}`)}
-                </motion.p>
+                    <motion.p
+                        key={current}
+                        initial={{ opacity: 0, x: 50, filter: "blur(8px)" }}
+                        animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, x: -50, filter: "blur(8px)" }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="text-md md:text-xl text-muted-foreground font-extralight text-center"
+                    >
+                        {t(`video_caption_${current + 1}`)}
+                    </motion.p>
+                </motion.div>
             </div>
 
-            <div className="flex justify-center gap-8">
+            <div className="flex justify-center gap-8 flex-shrink-0">
                 {videoSources.map((_, idx) => (
                     <button
                         key={idx}
