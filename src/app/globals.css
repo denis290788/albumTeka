@@ -155,3 +155,7 @@ body {
     transform: scale(1.005);
     transform-origin: center center;
 }
+
+.plyr--full-ui .plyr__video-wrapper video {
+    object-fit: contain !important;
+}

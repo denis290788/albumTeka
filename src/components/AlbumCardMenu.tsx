@@ -27,8 +27,7 @@ export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
 
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
-    const handleShareAlbum = async (e: React.MouseEvent) => {
-        e.preventDefault();
+    const handleShareAlbum = async () => {
         try {
             const albumUrl = `${window.location.origin}/album/${albumId}`;
             await navigator.clipboard.writeText(albumUrl);
@@ -73,7 +72,7 @@ export function AlbumCardMenu({ albumId }: AlbumCardMenuProps) {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className="text-foreground focus:bg-muted-foreground/30 cursor-pointer"
-                        onClick={handleShareAlbum}
+                        onSelect={handleShareAlbum}
                     >
                         <Share2 className="w-4 h-4 mr-2" />
                         {t("albumMenu_share")}

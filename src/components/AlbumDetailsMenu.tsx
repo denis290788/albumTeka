@@ -27,8 +27,7 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
 
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
-    const handleShareAlbum = async (e: React.MouseEvent) => {
-        e.preventDefault();
+    const handleShareAlbum = async () => {
         try {
             const currentUrl = window.location.href;
             await navigator.clipboard.writeText(currentUrl);
@@ -92,7 +91,7 @@ export function AlbumDetailsMenu({ album, isOwner }: AlbumDetailsMenuProps) {
                     {isOwner ? (
                         <DropdownMenuItem
                             className="text-foreground focus:bg-muted-foreground/30 cursor-pointer"
-                            onClick={handleShareAlbum}
+                            onSelect={handleShareAlbum}
                         >
                             <Share2 className="w-4 h-4 mr-2" />
                             {t("albumMenu_share")}

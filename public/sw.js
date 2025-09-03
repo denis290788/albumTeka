@@ -1,6 +1,6 @@
 const CACHE_NAME = "albumteka-cache-v1";
 const STATIC_ASSETS = [
-    "/", // главная страница
+    "/",
     "/manifest.webmanifest",
     "/icons/android-chrome-192x192.png",
     "/icons/android-chrome-512x512.png",

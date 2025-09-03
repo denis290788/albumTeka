@@ -13,7 +13,7 @@
     "albumMenu_copyError": "Failed to copy link",
     "albumMenu_deleteSuccess": "Album deleted successfully",
     "albumMenu_deleteError": "Failed to delete album",
-    "albumMenu_confirmTitle": "Confirm deletion",
+    "albumMenu_confirmTitle": "Confirm delete",
     "albumMenu_confirmDescription": "Are you sure you want to delete this album? This action cannot be undone.",
     "album_error": "Oops... failed to load album :/",
 
@@ -35,7 +35,7 @@
 
     "folder_edit": "Edit",
     "folder_delete": "Delete",
-    "folder_confirmDeleteTitle": "Confirm deletion",
+    "folder_confirmDeleteTitle": "Confirm delete",
     "folder_confirmDeleteDescription": "Are you sure you want to delete the folder \"{{name}}\"? This action cannot be undone.",
     "folder_deleteSuccess": "Folder deleted successfully",
     "folder_deleteError": "Failed to delete folder",
@@ -58,7 +58,7 @@
 
     "stream_select_placeholder": "Select streaming",
     "stream_add": "Add streaming",
-    "stream_confirm_delete_title": "Confirm deletion",
+    "stream_confirm_delete_title": "Confirm delete",
     "stream_confirm_delete_desc": "Are you sure you want to delete streaming {{stream}}? This action cannot be undone.",
 
     "theme_toggle": "Toggle theme",

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Sheet,
@@ -14,7 +14,7 @@ import {
 import { Folder, MenuIcon, Disc3 } from "lucide-react";
 import { FolderList } from "./FolderList";
 import { User } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { SearchInput } from "./SearchInput";
 import { useTranslation } from "react-i18next";
@@ -38,6 +38,14 @@ export function MobileMenuSheet({
     router,
 }: MobileMenuSheetProps) {
     const { t } = useTranslation();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            setIsMobileMenuOpen(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pathname]);
 
     return (
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>

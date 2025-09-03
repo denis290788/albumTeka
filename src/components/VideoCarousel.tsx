@@ -43,11 +43,15 @@ export default function VideoCarousel() {
                             ],
                         }}
                         options={{
-                            controls: ["play-large", "fullscreen"],
+                            controls: ["play", "fullscreen"],
                             autoplay: false,
                             muted: true,
-                            loop: { active: true },
                             ratio: "16:9",
+                            fullscreen: {
+                                enabled: true,
+                                fallback: true,
+                                iosNative: true,
+                            },
                         }}
                     />
                 </div>
