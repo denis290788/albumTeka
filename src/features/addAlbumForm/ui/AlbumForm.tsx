@@ -26,7 +26,8 @@ export const AlbumForm = ({ className }: AlbumFormProps) => {
     } = form;
 
     return (
-        <div className="p-4 mb-4 bg-transparent shadow-[0_4px_10px_rgba(0,0,0,0.15)] rounded-2xl">
+        //     <div className="p-4 mb-4 bg-transparent shadow-[0_4px_10px_rgba(0,0,0,0.15)] rounded-2xl">
+        <div className="max-w-xl mx-auto p-4 mb-4 bg-transparent shadow-[0_4px_10px_rgba(0,0,0,0.15)] rounded-2xl">
             <h1 className="text-2xl font-semibold mb-4 dark:text-[#bedaca]">
                 {t("albumForm_title")}
             </h1>
