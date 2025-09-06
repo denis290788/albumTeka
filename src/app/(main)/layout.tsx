@@ -1,6 +1,6 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { SearchProvider } from "@/components/SearchContext";
+import { SearchProvider } from "@/app/_providers/SearchContext";
+import { Footer } from "@/widgets/footer";
+import { Header } from "@/widgets/header";
 
 export default function MainLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (

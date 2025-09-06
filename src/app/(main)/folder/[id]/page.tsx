@@ -1,4 +1,4 @@
-import { AlbumList } from "@/components/AlbumList";
+import { AlbumList } from "@/widgets/albumList";
 
 interface FolderPageProps {
     params: Promise<{ id: string }>;

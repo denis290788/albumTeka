@@ -1,17 +1,25 @@
 "use client";
 
 import { useAuth } from "@/features/auth";
-import { AlbumList } from "../../components/AlbumList";
-import { FolderList } from "../../components/FolderList";
-import WelcomePage from "@/components/WelcomePage";
+import { useRef } from "react";
+import HeroSection from "@/widgets/heroSection/HeroSection";
+import VideoCarousel from "@/widgets/videoCarousel/VideoCarousel";
+import AuthSection from "@/widgets/authSection/AuthSection";
+import { AlbumList } from "@/widgets/albumList";
+import { FolderList } from "@/widgets/folderList";
 
 export default function HomePage() {
     const { user } = useAuth();
+    const authRef = useRef<HTMLDivElement | null>(null);
 
     if (!user) {
         return (
             <div className="max-w-full">
-                <WelcomePage />
+                <HeroSection
+                    onStartClick={() => authRef.current?.scrollIntoView({ behavior: "smooth" })}
+                />
+                <VideoCarousel />
+                <AuthSection ref={authRef} />
             </div>
         );
     }

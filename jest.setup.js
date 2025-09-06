@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import "whatwg-fetch";
 
-jest.mock("@/lib/firebase", () => ({
+jest.mock("@/shared/lib/firebase", () => ({
     auth: {
         currentUser: { uid: "test-user" },
         onAuthStateChanged: jest.fn(),

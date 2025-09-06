@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import "@/lib/i18n";
+import "@/shared/lib/i18n/i18n";
 
 export function I18nProvider({ children }: { children: ReactNode }) {
     return <>{children}</>;

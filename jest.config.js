@@ -3,7 +3,7 @@ module.exports = {
     setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/$1",
-        "^.+\\.svg$": "<rootDir>/src/components/__mocks__/svgMock.js",
+        "^.+\\.svg$": "<rootDir>/src/shared/lib/test/__mocks__/svgMock.js",
     },
     transform: {
         "^.+\\.(t|j)sx?$": [

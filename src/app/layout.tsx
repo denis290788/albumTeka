@@ -5,7 +5,7 @@ import { AuthProvider } from "@/features/auth/hooks/useAuth";
 import { Syncopate, Open_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
-import { ServiceWorkerRegister } from "@/lib/ServiceWorkerRegister";
+import { ServiceWorkerRegister } from "@/shared/lib/ServiceWorkerRegister";
 import { I18nProvider } from "./_providers/I18nProvider";
 
 const syncopate = Syncopate({

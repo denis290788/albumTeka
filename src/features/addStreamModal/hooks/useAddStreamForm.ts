@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getStreamSchema, StreamFormData } from "../model/addStreamTypes";
-import { Album, useUpdateAlbumMutation } from "@/services/albumsApi";
+import { getStreamSchema, StreamFormData } from "../model/addStreamSchema";
+import { Album, useUpdateAlbumMutation } from "@/entities/album/model/albumsApi";
 import { useTranslation } from "react-i18next";
+import { resolveStreamUrl } from "@/shared/utils/resolveStreamUrl";
 
 export const useAddStreamForm = (album: Album) => {
     const { t } = useTranslation();
@@ -16,36 +17,17 @@ export const useAddStreamForm = (album: Album) => {
     });
 
     const onSubmit = async (data: StreamFormData) => {
-        let processedUrl = data.streamUrl;
+        const processedUrl = await resolveStreamUrl(
+            data.streamType,
+            data.streamUrl,
+            form.clearErrors,
+            form.setError,
+            t
+        );
 
-        if (data.streamType === "Bandcamp") {
-            form.clearErrors("streamUrl");
-            try {
-                const res = await fetch("/api/bandcamp/resolve", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ url: data.streamUrl }),
-                });
-
-                const json = await res.json();
-
-                if (!res.ok) {
-                    throw new Error(json.error || t("addStreamForm_error_streamUrl_pattern"));
-                }
-
-                processedUrl = json.embedUrl;
-            } catch (err) {
-                console.error("Ошибка при запросе к Bandcamp API:", err);
-                form.setError("streamUrl", {
-                    type: "manual",
-                    message: t("addStreamForm_error_streamUrl_pattern"),
-                });
-                return false;
-            }
-        }
+        if (!processedUrl) return false;
 
         const isDuplicateStreamType = album.streams.some((s) => s.type === data.streamType);
-
         if (isDuplicateStreamType) {
             form.setError("streamType", {
                 type: "manual",
@@ -54,18 +36,10 @@ export const useAddStreamForm = (album: Album) => {
             return false;
         }
 
-        const newStream = {
-            type: data.streamType,
-            url: processedUrl,
-        };
-        const updatedStreams = [...album.streams, newStream];
+        const updatedStreams = [...album.streams, { type: data.streamType, url: processedUrl }];
 
         try {
-            await updateAlbum({
-                ...album,
-                streams: updatedStreams,
-            }).unwrap();
-
+            await updateAlbum({ ...album, streams: updatedStreams }).unwrap();
             form.reset();
             return true;
         } catch (err) {

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { albumsApi } from "@/services/albumsApi";
-import { foldersApi } from "@/services/foldersApi";
+import { albumsApi } from "@/entities/album/model/albumsApi";
+import { foldersApi } from "@/entities/folder/model/foldersApi";
 
 export const storeConfig = () =>
     configureStore({

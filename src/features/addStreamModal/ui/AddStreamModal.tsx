@@ -1,15 +1,12 @@
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui/dialog";
+import { Button } from "@/shared/ui/button";
+import { cn } from "@/shared/utils/cn";
 import { useAddStreamForm } from "../hooks/useAddStreamForm";
-import { StreamFormData } from "../model/addStreamTypes";
-import { Album } from "@/services/albumsApi";
-import { STREAM_ICONS } from "@/lib/stream-icons";
+import { AddStreamForm } from "./AddStreamForm";
+import { StreamFormData } from "../model/addStreamSchema";
+import { Album } from "@/entities/album/model/albumsApi";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -24,13 +21,7 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
     const { t } = useTranslation();
     const { form, onSubmit, isSubmitting } = useAddStreamForm(album);
 
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-        reset,
-    } = form;
+    const { handleSubmit, reset } = form;
 
     useEffect(() => {
         if (!open) {
@@ -72,62 +63,7 @@ export function AddStreamModal({ album, open, onOpenChange, className }: AddStre
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleFormSubmit)}>
-                    <div className="flex flex-row gap-4 md:gap-4">
-                        <div className="flex flex-col gap-2 mb-2">
-                            <Label className="mb-0 dark:text-[#bedaca]">
-                                {t("addStreamForm_label_streamType")}
-                            </Label>
-                            <Select
-                                onValueChange={(val) =>
-                                    setValue("streamType", val as StreamFormData["streamType"])
-                                }
-                                defaultValue="Bandcamp"
-                            >
-                                <SelectTrigger className="bg-muted-foreground/30 w-full">
-                                    {STREAM_ICONS[form.watch("streamType") || "Bandcamp"]}
-                                    <span className="hidden md:block">
-                                        {form.watch("streamType")}
-                                    </span>
-                                </SelectTrigger>
-                                <SelectContent className="">
-                                    <SelectItem value="Bandcamp">
-                                        {STREAM_ICONS["Bandcamp"]}
-                                        Bandcamp
-                                    </SelectItem>
-                                    <SelectItem value="Spotify">
-                                        {STREAM_ICONS["Spotify"]}
-                                        Spotify
-                                    </SelectItem>
-                                    <SelectItem value="Soundcloud">
-                                        {STREAM_ICONS["Soundcloud"]}
-                                        Soundcloud
-                                    </SelectItem>
-                                    <SelectItem value="VK">
-                                        {STREAM_ICONS["VK"]}
-                                        VK
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="flex-1 flex flex-col gap-2">
-                            <Label htmlFor="streamUrl" className="mb-0 dark:text-[#bedaca]">
-                                {t("addStreamForm_label_streamUrl")}
-                            </Label>
-                            <Input id="streamUrl" {...register("streamUrl")} className="border-0" />
-                        </div>
-                    </div>
-                    <div className="min-h-[16px] mb-2">
-                        {errors.streamType && (
-                            <p className="text-[10px] text-destructive">
-                                {errors.streamType.message}
-                            </p>
-                        )}
-                        {errors.streamUrl && (
-                            <p className="text-[10px] text-destructive">
-                                {errors.streamUrl.message}
-                            </p>
-                        )}
-                    </div>
+                    <AddStreamForm form={form} className="border-0" />
 
                     <Button
                         type="submit"
