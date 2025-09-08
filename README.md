@@ -120,8 +120,8 @@ yarn test:ci  # Для CI (с покрытием)
 
 ## 🗺 Планы на будущее
 
--   Комментарии и оценки
--   Редактирование карточки альбома/папки
+-   Комментарии и оценки альбомов
+-   Подписка на папки
 -   Улучшение дизайна
 -   Сортировка альбомов
 -   Настройки пользователя
@@ -247,8 +247,8 @@ yarn test:ci  # For CI (with coverage)
 
 ## 🗺 Future Plans
 
--   Comments and ratings
--   Album/folder card editing
+-   Comments and ratings to albums
+-   Folders subscribes
 -   Design improvements
 -   Album sorting
 -   User settings

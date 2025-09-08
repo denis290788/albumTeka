@@ -9,6 +9,7 @@
     "albumMenu_details": "Details",
     "albumMenu_share": "Share",
     "albumMenu_delete": "Delete",
+    "albumMenu_edit": "Edit",
     "albumMenu_copySuccess": "Link copied to clipboard",
     "albumMenu_copyError": "Failed to copy link",
     "albumMenu_deleteSuccess": "Album deleted successfully",
@@ -77,6 +78,9 @@
     "albumForm_label_streamUrl": "URL",
     "albumForm_submit": "Add Album",
     "albumForm_saving": "Saving...",
+
+    "albumForm_editTitle": "Edit Album",
+    "albumForm_update": "Edit Album",
 
     "albumForm_bandcamp_error": "Failed to extract the player from the Bandcamp URL. Check the URL.",
 

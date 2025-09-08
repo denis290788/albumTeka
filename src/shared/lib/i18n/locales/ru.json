@@ -11,6 +11,7 @@
     "albumMenu_details": "Детали",
     "albumMenu_share": "Поделиться",
     "albumMenu_delete": "Удалить",
+    "albumMenu_edit": "Редактировать",
     "albumMenu_copySuccess": "Ссылка скопирована в буфер обмена",
     "albumMenu_copyError": "Не удалось скопировать ссылку",
     "albumMenu_deleteSuccess": "Альбом успешно удален",
@@ -81,6 +82,9 @@
     "albumForm_label_streamUrl": "Ссылка",
     "albumForm_submit": "Добавить альбом",
     "albumForm_saving": "Сохраняем...",
+
+    "albumForm_editTitle": "Редактировать альбом",
+    "albumForm_update": "Редактировать альбом",
 
     "albumForm_bandcamp_error": "Не удалось извлечь плеер из ссылки Bandcamp. Проверьте URL.",
 

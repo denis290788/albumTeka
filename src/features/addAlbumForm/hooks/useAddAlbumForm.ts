@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { AlbumFormData, createAlbumSchema } from "../model/addAlbumSchema";
+import { AlbumFormData, createAlbumSchema } from "../model/albumFormSchema";
 import { useAddAlbumMutation } from "@/entities/album/model/albumsApi";
 import { useTranslation } from "react-i18next";
 import { resolveStreamUrl } from "@/shared/utils/resolveStreamUrl";

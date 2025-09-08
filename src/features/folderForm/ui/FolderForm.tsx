@@ -53,13 +53,6 @@ export function FolderForm({
         }
     }, [open, currentName, reset]);
 
-    const translations = {
-        title: mode === "create" ? t("folderForm_title_create") : t("folderForm_title_edit"),
-        placeholder: t("folderForm_placeholder"),
-        submit: mode === "create" ? t("folderForm_button_create") : t("folderForm_button_save"),
-        error: t("folderForm_error_name"),
-    };
-
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
@@ -77,22 +70,30 @@ export function FolderForm({
                 aria-describedby={undefined}
             >
                 <DialogHeader>
-                    <DialogTitle className="dark:text-[#bedaca]">{translations.title}</DialogTitle>
+                    <DialogTitle className="dark:text-[#bedaca]">
+                        {mode === "create"
+                            ? t("folderForm_title_create")
+                            : t("folderForm_title_edit")}
+                    </DialogTitle>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <Input
-                        placeholder={translations.placeholder}
+                        placeholder={t("folderForm_placeholder")}
                         {...register("name")}
                         className="border-0"
                     />
 
-                    <div className="flex flex-col md:flex-row gap-2 md:gap-4 justify-self-start md:items-center">
+                    <div className="flex flex-row gap-2 md:gap-4 items-center">
                         <Button type="submit" variant="outline" disabled={isSubmitting}>
-                            {translations.submit}
+                            {mode === "create"
+                                ? t("folderForm_button_create")
+                                : t("folderForm_button_save")}
                         </Button>
                         {errors.name && (
-                            <p className="text-[10px] text-destructive">{translations.error}</p>
+                            <p className="text-[10px] md:text-sm text-destructive">
+                                {t("folderForm_error_name")}
+                            </p>
                         )}
                     </div>
                 </form>

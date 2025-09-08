@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
 } from "@/shared/ui/dropdown-menu";
 import { Button } from "@/shared/ui/button";
-import { MoreHorizontal, Info } from "lucide-react";
+import { MoreHorizontal, Info, Pen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Album } from "@/entities/album/model/albumsApi";
@@ -46,7 +46,16 @@ export function AlbumMenu({ album, isOwner, variant = "card" }: AlbumMenuProps) 
                 )}
                 <ShareAlbumButton albumId={album.id} variant={variant} />
                 {isOwner ? (
-                    <DeleteAlbumButton albumId={album.id} variant={variant} />
+                    <>
+                        <DropdownMenuItem
+                            className="cursor-pointer text-foreground focus:bg-muted-foreground/30"
+                            onSelect={() => router.push(`/edit/${album.id}`)}
+                        >
+                            <Pen className="w-4 h-4 mr-2" />
+                            {t("albumMenu_edit")}
+                        </DropdownMenuItem>
+                        <DeleteAlbumButton albumId={album.id} variant={variant} />
+                    </>
                 ) : (
                     <CopyAlbumButton album={album} />
                 )}
