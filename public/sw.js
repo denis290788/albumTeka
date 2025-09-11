@@ -1,4 +1,7 @@
-const CACHE_NAME = "albumteka-cache-v1";
+const CACHE_VERSION = "v1";
+const STATIC_CACHE = `static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
+
 const STATIC_ASSETS = [
     "/",
     "/manifest.webmanifest",
@@ -6,43 +9,68 @@ const STATIC_ASSETS = [
     "/icons/android-chrome-512x512.png",
 ];
 
-// Установка SW и кеширование только статики
+// Установка: кладём статику
 self.addEventListener("install", (event) => {
-    event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS)));
+    event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(STATIC_ASSETS)));
     self.skipWaiting();
 });
 
-// Активация и очистка старого кеша
+// Активация: чистим старые кэши
 self.addEventListener("activate", (event) => {
     event.waitUntil(
         caches
             .keys()
             .then((keys) =>
-                Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+                Promise.all(
+                    keys
+                        .filter((key) => key !== STATIC_CACHE && key !== DYNAMIC_CACHE)
+                        .map((key) => caches.delete(key))
+                )
             )
     );
     self.clients.claim();
 });
 
-// Стратегия fetch
+// Fetch
 self.addEventListener("fetch", (event) => {
     const url = new URL(event.request.url);
 
-    // Пропускаем все файлы Next.js и API
+    // Пропускаем служебное
     if (url.pathname.startsWith("/_next/") || url.pathname.startsWith("/api/")) {
-        return; // не кешируем и не перехватываем
+        return;
     }
 
-    // Cache-first только для нашей статики
+    // Cache-first для статики
+    if (STATIC_ASSETS.includes(url.pathname)) {
+        event.respondWith(
+            caches.match(event.request).then((cached) => cached || fetch(event.request))
+        );
+        return;
+    }
+
+    // Network-first для HTML (навигация)
+    if (event.request.mode === "navigate") {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    const respClone = response.clone();
+                    caches.open(DYNAMIC_CACHE).then((cache) => cache.put(event.request, respClone));
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // Остальное — cache-first + догрузка
     event.respondWith(
         caches.match(event.request).then((cached) => {
             if (cached) return cached;
 
             return fetch(event.request).then((response) => {
-                // Кешируем только GET-запросы и базовый тип ответа
                 if (response && response.status === 200 && response.type === "basic") {
                     const respClone = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, respClone));
+                    caches.open(DYNAMIC_CACHE).then((cache) => cache.put(event.request, respClone));
                 }
                 return response;
             });

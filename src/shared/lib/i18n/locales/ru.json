@@ -80,11 +80,11 @@
     "albumForm_label_coverUrl": "Ссылка на обложку",
     "albumForm_label_streamType": "Стриминг",
     "albumForm_label_streamUrl": "Ссылка",
-    "albumForm_submit": "Добавить альбом",
+    "albumForm_submit": "Сохранить",
     "albumForm_saving": "Сохраняем...",
 
     "albumForm_editTitle": "Редактировать альбом",
-    "albumForm_update": "Редактировать альбом",
+    "albumForm_update": "Сохранить",
 
     "albumForm_bandcamp_error": "Не удалось извлечь плеер из ссылки Bandcamp. Проверьте URL.",
 

@@ -76,11 +76,11 @@
     "albumForm_label_coverUrl": "Cover URL",
     "albumForm_label_streamType": "Streaming",
     "albumForm_label_streamUrl": "URL",
-    "albumForm_submit": "Add Album",
+    "albumForm_submit": "Save",
     "albumForm_saving": "Saving...",
 
     "albumForm_editTitle": "Edit Album",
-    "albumForm_update": "Edit Album",
+    "albumForm_update": "Save",
 
     "albumForm_bandcamp_error": "Failed to extract the player from the Bandcamp URL. Check the URL.",
 

@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
 import { ServiceWorkerRegister } from "@/shared/lib/ServiceWorkerRegister";
 import { I18nProvider } from "./_providers/I18nProvider";
+import { SearchProvider } from "./_providers/SearchContext";
 
 const syncopate = Syncopate({
     subsets: ["latin"],
@@ -42,14 +43,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             className={`${syncopate.variable} ${openSans.variable} h-full`}
         >
             <body
-                className="antialiased h-full font-open-sans bg-background text-foreground"
+                className="antialiased font-open-sans bg-background text-foreground flex flex-col min-h-full"
                 style={{ fontFamily: "var(--font-open-sans), sans-serif" }}
             >
                 <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
                     <AppStore>
                         <AuthProvider>
                             <I18nProvider>
-                                {children}
+                                <SearchProvider>{children}</SearchProvider>
                                 <Toaster
                                     position="bottom-right"
                                     duration={3000}

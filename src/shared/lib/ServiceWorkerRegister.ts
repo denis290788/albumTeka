@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 
 export function ServiceWorkerRegister() {
@@ -11,8 +12,10 @@ export function ServiceWorkerRegister() {
         if (typeof window === "undefined") return;
 
         if ("serviceWorker" in navigator) {
+            const swUrl = `/sw.js?ts=${Date.now()}`;
+
             navigator.serviceWorker
-                .register("/sw.js")
+                .register(swUrl)
                 .then((reg) => console.log("✅ Service Worker registered", reg))
                 .catch((err) => console.error("❌ SW registration failed", err));
         }
